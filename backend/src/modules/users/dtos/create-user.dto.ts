@@ -5,7 +5,7 @@ import { IsEmail } from 'class-validator';
  */
 export class CreateUserDto {
   @IsEmail()
-  email: number;
+  email: string;
 
   // Similarly add other properties required to create an user account.
 }
