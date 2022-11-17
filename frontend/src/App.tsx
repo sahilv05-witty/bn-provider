@@ -1,25 +1,20 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import InputField from './form-controls/pp-input';
+import {Form} from 'semantic-ui-react';
 function App() {
+  // let a:{disabled:boolean} = {
+  //   disabled:true
+  // };
+  // let a=true;
+  // let label='It disabled';
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+<Form>
+<InputField dis={true}  fieldClass='newName'  placeholder={'Moin ji World'} /> 
+</Form>
+    
+    
   );
 }
 
