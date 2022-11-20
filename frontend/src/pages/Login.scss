@@ -1,0 +1,32 @@
+@import "../vars.scss";
+body{
+    background: url(../assets/img/login-banner.jpg) !important; 
+    background-size: cover !important;
+}
+.Login{
+    min-height: 100%;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+    padding: 20px;
+    .title{
+        text-align: center;
+        color: $white !important;
+        font-size: 32px;
+    }
+    .link{
+        display: block;
+        text-align: center;
+        margin-top: 1em;
+        cursor: pointer;
+    }
+    form{
+        position: relative;
+        margin-top: 4em;
+    }
+    .header.error{
+        font-size: 10px !important;
+        padding: .5em !important;
+        display: flex;
+    }
+    
+}

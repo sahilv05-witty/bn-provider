@@ -27,8 +27,8 @@ const countryOptions = [
   { key: 'bj', value: 'bj', text: 'Benin' },
 ]
 
-const SelectExample = () => (
+const InputSelect = () => (
   <Select placeholder='Select your country' options={countryOptions} />
 )
 
-export default SelectExample
+export default InputSelect

@@ -1,20 +1,19 @@
-import React from 'react'
-import { Input } from 'semantic-ui-react';
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { Form, Input } from 'semantic-ui-react';
+import "../form-controls/FormControl.scss";
 interface InputField{
     dis?:boolean;
     placeholder?:string;
-    tyep?:string;
+    type?:string;
     icon?:string;
     label?:string;
     fieldClass?:string;
 }
 
-const InputField = ({dis,placeholder,label,fieldClass}:InputField) =>{ 
+const InputField = ({dis,placeholder,label,fieldClass, type}:InputField) =>{ 
 return (
       <Form.Field className={fieldClass}>
        {label ? <label>{label}</label>:''}
-      <Input className='' placeholder={placeholder} />
+      <Input type={type} placeholder={placeholder} />
       </Form.Field>
 )
 

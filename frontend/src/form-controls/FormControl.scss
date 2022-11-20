@@ -1,0 +1,16 @@
+@import '../vars.scss';
+
+.ui.massive {
+    font-size: 1rem !important;
+    input, .button {
+        height: 66px;
+    }
+}
+.button{
+    background: $primary-gradient !important;
+    color: $white !important;
+}
+a{
+    color: $white !important;
+}
+

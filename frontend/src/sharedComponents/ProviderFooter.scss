@@ -1,0 +1,19 @@
+@import '../vars.scss';
+.provider-footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    background: $footer-background;
+    justify-content: space-between;
+    color: $white;
+    flex-shrink: 0;
+    a{
+        color: $white;
+        text-decoration: underline;
+        &+a{
+            margin-left: 20px;
+        }
+    }
+  }
+  
