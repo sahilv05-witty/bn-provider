@@ -34,5 +34,5 @@ export class ProviderDto {
 
   @Expose()
   @Field((type) => UserDto, { nullable: true })
-  user: UserDto;
+  user?: UserDto;
 }

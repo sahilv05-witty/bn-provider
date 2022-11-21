@@ -26,10 +26,14 @@ export class RoleDto {
 
   @Expose()
   @Field()
-  name: string;
+  code: string;
 
   @Expose()
   @Field()
+  name: string;
+
+  @Expose()
+  @Field({ nullable: true })
   description: string;
 
   @Expose()

@@ -17,12 +17,20 @@ GET http://localhost:3000/auth/users
 Content-Type: application/json
 
 
-### Active an existing report
+### Active an existing user
 PATCH http://localhost:3000/auth/1/active
+Content-Type: application/json
+ 
+{
+    "password": "Password123@"
+}
+
+### Update role of an existing user
+PATCH http://localhost:3000/auth/1/role
 Content-Type: application/json
 
 {
-    "password": "Password123@"
+    "roleId": 1
 }
 
 

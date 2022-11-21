@@ -24,8 +24,9 @@ type RoleDto {
   createdAt: DateTime!
   updatedBy: String!
   updatedAt: DateTime!
+  code: String!
   name: String!
-  description: String!
+  description: String
   isActive: Boolean!
   users: [UserDto!]!
 }
@@ -37,14 +38,13 @@ type UserDto {
   updatedBy: String
   updatedAt: DateTime
   firstName: String!
-  lastName: String!
+  lastName: String
   email: String!
   isActive: Boolean!
   termsAcceptedAt: DateTime
   lastLoggedInAt: DateTime
-  roleId: Float
-  role: RoleDto
-  providers: [ProviderDto!]
+  role: RoleDto!
+  provider: ProviderDto
 }
 
 type Query {
@@ -54,4 +54,30 @@ type Query {
   roles: [RoleDto!]
   provider(id: Float!): ProviderDto
   providers: [ProviderDto!]
+}
+
+type Mutation {
+  createUser(user: CreateUserDto!): UserDto!
+  createRole(role: CreateRoleDto!): RoleDto!
+  createProvider(provider: CreateProviderDto!): ProviderDto!
+}
+
+input CreateUserDto {
+  firstName: String!
+  lastName: String
+  email: String!
+  roleId: Float!
+  providerId: Float
+}
+
+input CreateRoleDto {
+  code: String!
+  name: String!
+  description: String
+}
+
+input CreateProviderDto {
+  name: String!
+  group: String!
+  brighttreeId: Float!
 }

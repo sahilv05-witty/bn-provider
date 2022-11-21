@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { Provider } from '../providers/provider.entity';
 import { Role } from '../roles/role.entity';
 import { Base } from '../shared/base.entity';
@@ -8,8 +8,8 @@ export class User extends Base {
   @Column()
   firstName: string;
 
-  @Column()
-  lastName: string;
+  @Column({ nullable: true })
+  lastName?: string;
 
   @Column()
   email: string;
@@ -32,6 +32,6 @@ export class User extends Base {
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   role: Role;
 
-  @OneToMany(() => Provider, (provider) => provider.user, { eager: true })
-  providers: Provider[];
+  @OneToOne(() => Provider, (provider) => provider?.user, { nullable: true })
+  provider?: Provider;
 }

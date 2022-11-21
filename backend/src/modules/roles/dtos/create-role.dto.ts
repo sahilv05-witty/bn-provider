@@ -1,10 +1,18 @@
-import { IsString } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsOptional, IsString } from 'class-validator';
 
+@InputType()
 export class CreateRoleDto {
   @IsString()
+  @Field()
   code: string;
+
   @IsString()
+  @Field()
   name: string;
+
   @IsString()
-  description: string;
+  @IsOptional()
+  @Field({ nullable: true })
+  description?: string;
 }

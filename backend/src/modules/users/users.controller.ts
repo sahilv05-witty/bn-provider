@@ -15,6 +15,7 @@ import { RolesService } from '../roles/roles.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { ActiveUserDto } from './dtos/active-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UpdateUserRoleDto } from './dtos/update-user-role.dto';
 import { UserDto } from './dtos/user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -65,7 +66,7 @@ export class UsersController {
   }
 
   @Patch('/:id/active')
-  activateUser(@Param('/:id') id: string, @Body() body: ActiveUserDto) {
+  activateUser(@Param('id') id: string, @Body() body: ActiveUserDto) {
     return this.usersService.activateUserAccount(parseInt(id), body);
   }
 
@@ -75,8 +76,14 @@ export class UsersController {
   @Post()
   changeUserActiveStatus() {}
 
-  @Post()
-  updateUser() {}
+  @Patch('/:id/role')
+  updateUserRole(
+    @Param('id') id: string,
+    @Body() body: UpdateUserRoleDto,
+    @CurrentUser() currentUser: User,
+  ) {
+    return this.usersService.updateUserRole(parseInt(id), body, currentUser);
+  }
 
   @Delete('/:id')
   async removeUser(@Param('id') id: string, @CurrentUser() currentUser: User) {
@@ -85,20 +92,11 @@ export class UsersController {
       throw new NotFoundException('User not found');
     }
 
-    const providersPromise: Promise<Provider>[] = [];
-    user.providers &&
-      user.providers.forEach((provider) => {
-        providersPromise.push(
-          this.providersService.deLinkUserAccountToProvider(
-            provider.id,
-            currentUser,
-          ),
-        );
-      });
-
-    if (providersPromise.length > 0) {
-      console.log('Log before making provider user null');
-      await Promise.all(providersPromise);
+    if (user.provider) {
+      await this.providersService.deLinkUserAccountToProvider(
+        user.provider.id,
+        currentUser,
+      );
     }
 
     return this.usersService.remove(user);

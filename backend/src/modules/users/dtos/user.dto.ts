@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Expose, Transform } from 'class-transformer';
+import { IsOptional } from 'class-validator';
 import { ProviderDto } from 'src/modules/providers/dtos/provider.dto';
 import { RoleDto } from 'src/modules/roles/dtos/role.dto';
 
@@ -33,8 +34,8 @@ export class UserDto {
   firstName: string;
 
   @Expose()
-  @Field()
-  lastName: string;
+  @Field({ nullable: true })
+  lastName?: string;
 
   @Expose()
   @Field()
@@ -53,16 +54,12 @@ export class UserDto {
   lastLoggedInAt?: Date;
 
   @Expose()
-  @Field({ nullable: true })
-  @Transform(({ obj }) => obj.role?.id)
-  roleId: number;
-
-  @Expose()
-  @Field((type) => RoleDto, { nullable: true })
+  @Field((type) => RoleDto)
   @Transform(({ obj }) => obj.role)
   role: RoleDto;
 
   @Expose()
-  @Field((type) => [ProviderDto], { nullable: true })
-  providers: ProviderDto[];
+  @Field((type) => ProviderDto, { nullable: true })
+  @Transform(({ obj }) => obj.provider)
+  provider?: ProviderDto;
 }

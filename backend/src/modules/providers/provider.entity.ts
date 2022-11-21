@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { Base } from '../shared/base.entity';
 import { User } from '../users/user.entity';
 
@@ -16,7 +16,7 @@ export class Provider extends Base {
   @Column({ default: true })
   isActive: boolean;
 
-  @ManyToOne(() => User, (user) => user.providers)
+  @OneToOne(() => User, (user) => user?.provider, { nullable: true })
   @JoinColumn()
-  user: User;
+  user?: User;
 }

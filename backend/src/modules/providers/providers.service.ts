@@ -13,8 +13,8 @@ export class ProvidersService {
     return this.repo.find();
   }
 
-  findAllByUserId(userId: number) {
-    return this.repo.find({ where: { user: { id: userId } } });
+  findOneByUserId(userId: number) {
+    return this.repo.findOne({ where: { user: { id: userId } } });
   }
 
   findOne(id: number) {

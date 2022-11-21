@@ -28,7 +28,7 @@ export class RolesService {
       return null;
     }
 
-    return this.repo.findOneBy({ id });
+    return this.repo.findOne({ where: { id } });
   }
 
   findAll() {

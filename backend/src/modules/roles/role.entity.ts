@@ -10,8 +10,8 @@ export class Role extends Base {
   @Column()
   name: string;
 
-  @Column()
-  description: string;
+  @Column({ nullable: true })
+  description?: string;
 
   @Column({ default: true })
   isActive: boolean;
