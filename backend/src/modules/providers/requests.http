@@ -1,0 +1,13 @@
+### create a new provider
+POST http://localhost:3000/providers
+Content-Type: application/json
+
+{
+    "name" : "John Smith",
+    "group": "BetterNight Group of Doctors",
+    "brighttreeId": 1
+}
+
+### Get all providers
+GET http://localhost:3000/providers
+Content-Type: application/json

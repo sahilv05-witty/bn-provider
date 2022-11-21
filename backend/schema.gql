@@ -2,12 +2,56 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type ProviderDto {
   id: Float!
+  createdBy: String!
+  createdAt: DateTime!
+  updatedBy: String!
+  updatedAt: DateTime!
+  name: String!
+  group: String!
+  user: UserDto
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type RoleDto {
+  id: Float!
+  createdBy: String!
+  createdAt: DateTime!
+  updatedBy: String!
+  updatedAt: DateTime!
+  name: String!
+  description: String!
+  isActive: Boolean!
+  users: [UserDto!]!
+}
+
+type UserDto {
+  id: Float!
+  createdBy: String!
+  createdAt: DateTime!
+  updatedBy: String
+  updatedAt: DateTime
+  firstName: String!
+  lastName: String!
   email: String!
+  isActive: Boolean!
+  termsAcceptedAt: DateTime
+  lastLoggedInAt: DateTime
+  roleId: Float
+  role: RoleDto
+  providers: [ProviderDto!]
 }
 
 type Query {
-  user(id: String!): User!
-  users: [User!]!
+  user(id: Float!): UserDto!
+  users: [UserDto!]!
+  role(id: Float!): RoleDto
+  roles: [RoleDto!]
+  provider(id: Float!): ProviderDto
+  providers: [ProviderDto!]
 }
