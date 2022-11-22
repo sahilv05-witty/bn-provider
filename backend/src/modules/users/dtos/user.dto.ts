@@ -62,4 +62,8 @@ export class UserDto {
   @Field((type) => ProviderDto, { nullable: true })
   @Transform(({ obj }) => obj.provider)
   provider?: ProviderDto;
+
+  @Expose()
+  @Field()
+  isProvider: boolean;
 }

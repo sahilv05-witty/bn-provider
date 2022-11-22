@@ -32,6 +32,9 @@ export class User extends Base {
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   role: Role;
 
-  @OneToOne(() => Provider, (provider) => provider?.user, { nullable: true })
+  @OneToOne(() => Provider, (provider) => provider?.user, {
+    eager: true,
+    nullable: true,
+  })
   provider?: Provider;
 }

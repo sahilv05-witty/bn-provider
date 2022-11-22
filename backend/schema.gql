@@ -6,10 +6,11 @@ type ProviderDto {
   id: Float!
   createdBy: String!
   createdAt: DateTime!
-  updatedBy: String!
-  updatedAt: DateTime!
+  updatedBy: String
+  updatedAt: DateTime
   name: String!
   group: String!
+  isActive: Boolean!
   user: UserDto
 }
 
@@ -45,6 +46,7 @@ type UserDto {
   lastLoggedInAt: DateTime
   role: RoleDto!
   provider: ProviderDto
+  isProvider: Boolean!
 }
 
 type ReferenceDto {
@@ -62,18 +64,24 @@ type ReferenceDto {
 type Query {
   reference(id: Float!): ReferenceDto
   references: [ReferenceDto!]!
-  user(id: Float!): UserDto!
-  users: [UserDto!]!
+  user(id: Float!): UserDto
+  users(searchUser: SearchUserDto): [UserDto!]!
   role(id: Float!): RoleDto
-  roles: [RoleDto!]
+  roles(isActive: Boolean): [RoleDto!]
   provider(id: Float!): ProviderDto
   providers: [ProviderDto!]
+}
+
+input SearchUserDto {
+  isActive: Boolean
+  roleId: Float
 }
 
 type Mutation {
   createReference(reference: CreateReferenceDto!): ReferenceDto!
   updateReference(reference: UpdateReferenceDto!): ReferenceDto!
   createUser(user: CreateUserDto!): UserDto!
+  activeUser(user: ActiveUserDto!): UserDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
 }
@@ -107,6 +115,11 @@ input CreateUserDto {
   email: String!
   roleId: Float!
   providerId: Float
+}
+
+input ActiveUserDto {
+  id: Float!
+  password: String!
 }
 
 input CreateRoleDto {

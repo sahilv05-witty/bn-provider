@@ -21,7 +21,7 @@ export abstract class Base {
   @Column({ nullable: true })
   updatedBy?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   @UpdateDateColumn({ nullable: true })
   updatedAt?: Date;
 }

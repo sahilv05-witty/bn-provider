@@ -1,4 +1,4 @@
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject, NotFoundException, BadRequestException } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -9,11 +9,14 @@ import {
 } from '@nestjs/graphql';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ProviderDto } from '../providers/dtos/provider.dto';
+import { Provider } from '../providers/provider.entity';
 import { ProvidersService } from '../providers/providers.service';
 import { RoleDto } from '../roles/dtos/role.dto';
 import { RolesService } from '../roles/roles.service';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { ActiveUserDto } from './dtos/active-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { SearchUserDto } from './dtos/search-user.dto';
 import { UserDto } from './dtos/user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -26,7 +29,7 @@ export class UsersResolver {
     @Inject(ProvidersService) private providersService: ProvidersService,
   ) {}
 
-  @Query((returns) => UserDto)
+  @Query((returns) => UserDto, { nullable: true })
   @Serialize(UserDto)
   user(@Args('id') id: number) {
     return this.usersService.findOne(id);
@@ -34,8 +37,8 @@ export class UsersResolver {
 
   @Query((returns) => [UserDto])
   @Serialize(UserDto)
-  users() {
-    return this.usersService.findAll();
+  users(@Args('searchUser', { nullable: true }) searchUser: SearchUserDto) {
+    return this.usersService.findAll(searchUser);
   }
 
   @ResolveField((returns) => RoleDto)
@@ -50,41 +53,59 @@ export class UsersResolver {
   async provider(@Parent() user) {
     const { id } = user;
     const result = await this.providersService.findOneByUserId(id);
-    console.log('Provider called', result);
     return result;
   }
 
   @Mutation((returns) => UserDto)
   async createUser(
-    @Args('user') createUser: CreateUserDto,
+    @Args('user') user: CreateUserDto,
     @CurrentUser() currentUser: User,
   ) {
-    const role = await this.rolesService.findOne(createUser.roleId);
+    const role = await this.rolesService.findOne(user.roleId);
 
     if (!role) {
       throw new NotFoundException('Role not found.');
     }
 
-    let provider = null;
+    let provider: Provider = null;
 
-    if (!createUser.providerId && role.code === 'provider') {
-      provider = await this.providersService.findOne(createUser.providerId);
+    if (user.providerId) {
+      provider = await this.providersService.findOne(user.providerId);
 
       if (!provider) {
         throw new NotFoundException('Provider not found.');
       }
     }
 
-    const user = await this.usersService.create(createUser, role, currentUser);
+    if (role.code.toLowerCase() !== 'provider' && provider) {
+      throw new BadRequestException(
+        `${provider.name} (${user.firstName} ${user.lastName}) cannot be mapped to the ${role.name}`,
+      );
+    }
 
-    if (provider && createUser.providerId && role.code === 'provider') {
+    const userDetails = await this.usersService.create(user, role, currentUser);
+
+    if (provider && user.providerId && role.code.toLowerCase() === 'provider') {
       await this.providersService.linkUserAccountToProvider(
         provider.id,
-        user,
+        userDetails,
         currentUser,
       );
     }
 
-    return user;
+    return userDetails;
+  }
+
+  @Mutation((returns) => UserDto)
+  async activeUser(@Args('user') user: ActiveUserDto) {
+    const userDetails = await this.usersService.findOne(user.id);
+
+    if (!userDetails) {
+      throw new NotFoundException('User not found');
+    }
+
+    Object.assign(userDetails, user);
+
+    return this.usersService.activateUserAccount(userDetails);
   }
 }

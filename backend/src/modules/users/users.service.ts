@@ -5,6 +5,7 @@ import { Role } from '../roles/role.entity';
 import { RolesService } from '../roles/roles.service';
 import { ActiveUserDto } from './dtos/active-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { SearchUserDto } from './dtos/search-user.dto';
 import { UpdateUserRoleDto } from './dtos/update-user-role.dto';
 import { User } from './user.entity';
 
@@ -15,7 +16,24 @@ export class UsersService {
     @Inject(RolesService) private rolesService: RolesService,
   ) {}
 
-  findAll() {
+  findAll(searchUser?: SearchUserDto) {
+    const { isActive, roleId } = searchUser || {};
+
+    if (isActive !== undefined || roleId !== undefined) {
+      let whereClause = null;
+      if (isActive !== undefined && roleId === undefined) {
+        whereClause = { where: { isActive } };
+      } else if (isActive === undefined && roleId !== undefined) {
+        whereClause = { where: { role: { id: roleId } } };
+      } else {
+        whereClause = { where: { isActive, role: { id: roleId } } };
+      }
+
+      console.log(JSON.stringify(whereClause));
+
+      return this.usersRepo.find(whereClause);
+    }
+
     return this.usersRepo.find();
   }
 
@@ -42,14 +60,7 @@ export class UsersService {
     return this.usersRepo.save(user);
   }
 
-  async activateUserAccount(id: number, activeUserDto: ActiveUserDto) {
-    const user = await this.findOne(id);
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    Object.assign(user, activeUserDto);
+  async activateUserAccount(user: User) {
     user.isActive = true;
     user.termsAcceptedAt = new Date();
     user.updatedBy = `${user.lastName}, ${user.firstName}`;
@@ -87,7 +98,7 @@ export class UsersService {
     role: Role,
     currentUser: User,
   ) {
-    const isProvider = role.code == 'Provider';
+    const isProvider = role.code.toLowerCase() == 'provider';
 
     const user = this.usersRepo.create({
       createdBy: `${currentUser.lastName}, ${currentUser.firstName}`,

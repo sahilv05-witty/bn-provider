@@ -29,8 +29,8 @@ export class RolesResolver {
   }
 
   @Query((returns) => [RoleDto], { nullable: true })
-  roles() {
-    return this.rolesService.findAll();
+  roles(@Args('isActive', { nullable: true }) isActive: boolean) {
+    return this.rolesService.findAll(isActive);
   }
 
   @ResolveField((returns) => [UserDto])

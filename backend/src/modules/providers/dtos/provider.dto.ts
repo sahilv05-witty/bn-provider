@@ -17,11 +17,11 @@ export class ProviderDto {
   createdAt: Date;
 
   @Expose()
-  @Field()
+  @Field({ nullable: true })
   updatedBy: string;
 
   @Expose()
-  @Field()
+  @Field({ nullable: true })
   updatedAt: Date;
 
   @Expose()
@@ -31,6 +31,10 @@ export class ProviderDto {
   @Expose()
   @Field()
   group: string;
+
+  @Expose()
+  @Field()
+  isActive: boolean;
 
   @Expose()
   @Field((type) => UserDto, { nullable: true })

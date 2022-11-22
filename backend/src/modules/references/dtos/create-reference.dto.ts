@@ -1,5 +1,5 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql';
-import { IsString, IsOptional, IsBoolean, IsEnum } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export enum ReferenceType {
   PATIENTSTATUS = 'PATIENTSTATUS',

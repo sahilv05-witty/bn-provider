@@ -44,7 +44,7 @@ export class UsersController {
 
     const provider = await this.providersService.findOne(body.providerId);
 
-    if (!provider || role.code !== 'provider') {
+    if (!provider || role.code.toLowerCase() !== 'provider') {
       throw new NotFoundException('Provider not found.');
     }
 
@@ -66,8 +66,16 @@ export class UsersController {
   }
 
   @Patch('/:id/active')
-  activateUser(@Param('id') id: string, @Body() body: ActiveUserDto) {
-    return this.usersService.activateUserAccount(parseInt(id), body);
+  async activateUser(@Param('id') id: string, @Body() body: ActiveUserDto) {
+    const user = await this.usersService.findOne(parseInt(id));
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    Object.assign(user, body);
+
+    return this.usersService.activateUserAccount(user);
   }
 
   @Post()

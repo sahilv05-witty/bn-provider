@@ -31,7 +31,11 @@ export class RolesService {
     return this.repo.findOne({ where: { id } });
   }
 
-  findAll() {
+  findAll(isActive?: boolean) {
+    if (isActive !== undefined) {
+      return this.repo.find({ where: { isActive } });
+    }
+
     return this.repo.find();
   }
 }

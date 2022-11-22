@@ -13,7 +13,7 @@ export class Reference extends Base {
   description: string;
 
   @Column({ default: true })
-  IsActive: boolean;
+  isActive: boolean;
 
   @Column()
   type: string;
