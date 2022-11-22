@@ -1,8 +1,21 @@
 // Theme Colors 
 $primary: #f6901e;
 $secondary: #243875;
+$secondary-2: #273860;
+
 $white: #ffffff;
+$dark: #1A1A1A;
+
+$page-bg:rgba(36, 56, 117, 0.2);
 
 $header-background: linear-gradient(180deg, #eff4f9 33.93%, #ffffff 100%);
 $primary-gradient: linear-gradient(180deg, #F39323 0%, #EB5B28 100%);
 $footer-background: linear-gradient(180deg, #2a3b64 0%, #203157 100%);
+
+// SIZES 
+$largeInput: 66px;
+$fullHeight: 100%;
+$padding: 15px;
+$fontSize: 14px;
+$inputWidth: 290px;
+$labelAlignment: 13px;

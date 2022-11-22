@@ -1,19 +1,26 @@
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Item } from 'semantic-ui-react';
 import "../form-controls/FormControl.scss";
+
 interface InputField{
-    dis?:boolean;
     placeholder?:string;
     type?:string;
-    icon?:string;
     label?:string;
-    fieldClass?:string;
+    NewClass?:string;
+    inline?: any;
+    required?: any;
+    hint?: any;
 }
 
-const InputField = ({dis,placeholder,label,fieldClass, type}:InputField) =>{ 
+const InputField = ({placeholder,label,NewClass, type, inline, required, hint}:InputField) =>{ 
 return (
-      <Form.Field className={fieldClass}>
-       {label ? <label>{label}</label>:''}
-      <Input type={type} placeholder={placeholder} />
+        <Form.Field className={NewClass} inline={inline} required={required} >
+            {label ? <label>{label}</label>:''}
+            <Item as="div">
+                <Input type={type} placeholder={placeholder}/>
+                {hint ? <span className='hint'>Password must be at least 8 characters long, 
+                    contain at least one lower case letter, one upper case letter, one digit, and one special character.</span>: ""
+                }
+            </Item>
       </Form.Field>
 )
 

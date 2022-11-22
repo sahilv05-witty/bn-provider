@@ -1,0 +1,13 @@
+@import "../vars.scss";
+
+.Account-activation{
+  padding: $padding;
+  height: $fullHeight;
+ 
+
+  form{
+    background: $page-bg;
+    height:$fullHeight;
+    padding: $padding;
+  }
+}
