@@ -1,5 +1,10 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export abstract class Base {
@@ -9,12 +14,14 @@ export abstract class Base {
   @Column()
   createdBy: string;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @Column()
+  @CreateDateColumn()
   createdAt: Date;
 
   @Column({ nullable: true })
   updatedBy?: string;
 
   @Column({ nullable: true })
+  @UpdateDateColumn({ nullable: true })
   updatedAt?: Date;
 }

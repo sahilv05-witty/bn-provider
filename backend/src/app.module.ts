@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PatientsModule } from './modules/patients/patients.module';
 import { Provider } from './modules/providers/provider.entity';
 import { ProvidersModule } from './modules/providers/providers.module';
+import { Reference } from './modules/references/reference.entity';
 import { ReferencesModule } from './modules/references/references.module';
 import { Role } from './modules/roles/role.entity';
 import { RolesModule } from './modules/roles/roles.module';
@@ -22,7 +23,7 @@ import { UsersModule } from './modules/users/users.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [User, Role, Provider],
+      entities: [User, Role, Provider, Reference],
       synchronize: true, // Till first release to QA this field value is going to be true
     }),
     // TypeOrmModule.forRootAsync({

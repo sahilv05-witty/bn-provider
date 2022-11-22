@@ -1,9 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Expose } from 'class-transformer';
-import { UserDto } from 'src/modules/users/dtos/user.dto';
 
 @ObjectType()
-export class RoleDto {
+export class ReferenceDto {
   @Expose()
   @Field()
   id: number;
@@ -34,13 +33,9 @@ export class RoleDto {
 
   @Expose()
   @Field({ nullable: true })
-  description: string;
+  description?: string;
 
   @Expose()
-  @Field()
+  @Field({ nullable: true })
   isActive: boolean;
-
-  @Expose()
-  @Field((type) => [UserDto])
-  users: UserDto[];
 }

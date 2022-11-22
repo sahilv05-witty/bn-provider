@@ -51,7 +51,7 @@ export class UsersService {
 
     Object.assign(user, activeUserDto);
     user.isActive = true;
-    user.updatedAt = user.termsAcceptedAt = new Date();
+    user.termsAcceptedAt = new Date();
     user.updatedBy = `${user.lastName}, ${user.firstName}`;
 
     return this.usersRepo.save(user);
@@ -76,7 +76,6 @@ export class UsersService {
 
     Object.assign(user, updateUserRoleDto);
     user.role = role;
-    user.updatedAt = new Date();
     user.updatedBy = `${currentUser.lastName}, ${currentUser.firstName}`;
 
     return this.usersRepo.save(user);

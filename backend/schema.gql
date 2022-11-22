@@ -22,8 +22,8 @@ type RoleDto {
   id: Float!
   createdBy: String!
   createdAt: DateTime!
-  updatedBy: String!
-  updatedAt: DateTime!
+  updatedBy: String
+  updatedAt: DateTime
   code: String!
   name: String!
   description: String
@@ -47,7 +47,21 @@ type UserDto {
   provider: ProviderDto
 }
 
+type ReferenceDto {
+  id: Float!
+  createdBy: String!
+  createdAt: DateTime!
+  updatedBy: String
+  updatedAt: DateTime
+  code: String!
+  name: String!
+  description: String
+  isActive: Boolean
+}
+
 type Query {
+  reference(id: Float!): ReferenceDto
+  references: [ReferenceDto!]!
   user(id: Float!): UserDto!
   users: [UserDto!]!
   role(id: Float!): RoleDto
@@ -57,9 +71,34 @@ type Query {
 }
 
 type Mutation {
+  createReference(reference: CreateReferenceDto!): ReferenceDto!
+  updateReference(reference: UpdateReferenceDto!): ReferenceDto!
   createUser(user: CreateUserDto!): UserDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
+}
+
+input CreateReferenceDto {
+  code: String!
+  name: String!
+  description: String
+  type: ReferenceType!
+}
+
+"""The supported colors."""
+enum ReferenceType {
+  """Reference types belongs to the PATIENT STATUS"""
+  PATIENTSTATUS
+  ENTRYPOINT @deprecated(reason: "Reference types belongs to the ENTRY POINT")
+  PATHWAY @deprecated(reason: "Reference types belongs to the PATHWAY.")
+}
+
+input UpdateReferenceDto {
+  id: Float!
+  code: String!
+  name: String!
+  description: String
+  isActive: Boolean
 }
 
 input CreateUserDto {

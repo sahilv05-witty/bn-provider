@@ -40,7 +40,6 @@ export class ProvidersService {
     const provider = await this.findOne(id);
     provider.user = user;
     provider.updatedBy = `${updatedBy.lastName}, ${updatedBy.firstName}`;
-    provider.updatedAt = new Date();
     return this.repo.save(provider);
   }
 
@@ -48,7 +47,6 @@ export class ProvidersService {
     const provider = await this.findOne(id);
     provider.user = null;
     provider.updatedBy = `${updatedBy.lastName}, ${updatedBy.firstName}`;
-    provider.updatedAt = new Date();
     return this.repo.save(provider);
   }
 
