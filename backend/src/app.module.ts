@@ -7,8 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PatientsModule } from './modules/patients/patients.module';
 import { Provider } from './modules/providers/provider.entity';
 import { ProvidersModule } from './modules/providers/providers.module';
-import { Reference } from './modules/references/reference.entity';
-import { ReferencesModule } from './modules/references/references.module';
+import { UserStateGlossary } from './modules/userStateGlossaries/user-state-glossary.entity';
+import { UserStateGlossariesModule } from './modules/userStateGlossaries/user-state-glossaries.module';
 import { Role } from './modules/roles/role.entity';
 import { RolesModule } from './modules/roles/roles.module';
 import { User } from './modules/users/user.entity';
@@ -23,7 +23,7 @@ import { UsersModule } from './modules/users/users.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [User, Role, Provider, Reference],
+      entities: [User, Role, Provider, UserStateGlossary],
       synchronize: true, // Till first release to QA this field value is going to be true
     }),
     // TypeOrmModule.forRootAsync({
@@ -46,7 +46,7 @@ import { UsersModule } from './modules/users/users.module';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
     }),
-    ReferencesModule,
+    UserStateGlossariesModule,
     UsersModule,
     RolesModule,
     ProvidersModule,

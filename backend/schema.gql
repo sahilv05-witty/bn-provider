@@ -49,7 +49,7 @@ type UserDto {
   isProvider: Boolean!
 }
 
-type ReferenceDto {
+type UserStateGlossaryDto {
   id: Float!
   createdBy: String!
   createdAt: DateTime!
@@ -62,8 +62,8 @@ type ReferenceDto {
 }
 
 type Query {
-  reference(id: Float!): ReferenceDto
-  references: [ReferenceDto!]!
+  userStateGlossary(id: Float!): UserStateGlossaryDto
+  userStateGlossaries: [UserStateGlossaryDto!]!
   user(id: Float!): UserDto
   users(searchUser: SearchUserDto): [UserDto!]!
   role(id: Float!): RoleDto
@@ -78,30 +78,30 @@ input SearchUserDto {
 }
 
 type Mutation {
-  createReference(reference: CreateReferenceDto!): ReferenceDto!
-  updateReference(reference: UpdateReferenceDto!): ReferenceDto!
+  createUserStateGlossary(createUserStateGlossary: CreateUserStateGlossaryDto!): UserStateGlossaryDto!
+  updateUserStateGlossary(reference: UpdateUserStateGlossaryDto!): UserStateGlossaryDto!
   createUser(user: CreateUserDto!): UserDto!
   activeUser(user: ActiveUserDto!): UserDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
 }
 
-input CreateReferenceDto {
+input CreateUserStateGlossaryDto {
   code: String!
   name: String!
   description: String
-  type: ReferenceType!
+  type: UserStateGlossaryType!
 }
 
 """The supported colors."""
-enum ReferenceType {
-  """Reference types belongs to the PATIENT STATUS"""
+enum UserStateGlossaryType {
+  """UserStateGlossary types belongs to the PATIENT STATUS"""
   PATIENTSTATUS
-  ENTRYPOINT @deprecated(reason: "Reference types belongs to the ENTRY POINT")
-  PATHWAY @deprecated(reason: "Reference types belongs to the PATHWAY.")
+  ENTRYPOINT @deprecated(reason: "UserStateGlossary types belongs to the ENTRY POINT")
+  PATHWAY @deprecated(reason: "UserStateGlossary types belongs to the PATHWAY.")
 }
 
-input UpdateReferenceDto {
+input UpdateUserStateGlossaryDto {
   id: Float!
   code: String!
   name: String!

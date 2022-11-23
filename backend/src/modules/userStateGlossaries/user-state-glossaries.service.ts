@@ -2,14 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
-import { CreateReferenceDto } from './dtos/create-reference.dto';
-import { UpdateReferenceDto } from './dtos/update-reference.dto';
-import { Reference } from './reference.entity';
+import { CreateUserStateGlossaryDto } from './dtos/create-user-state-glossary.dto';
+import { UpdateUserStateGlossaryDto } from './dtos/update-user-state-glossary.dto';
+import { UserStateGlossary } from './user-state-glossary.entity';
 
 @Injectable()
-export class ReferencesService {
+export class UserStateGlossariesService {
   constructor(
-    @InjectRepository(Reference) private repo: Repository<Reference>,
+    @InjectRepository(UserStateGlossary)
+    private repo: Repository<UserStateGlossary>,
   ) {}
 
   findAll() {
@@ -24,7 +25,7 @@ export class ReferencesService {
   }
 
   create(
-    { name, code, description, type }: CreateReferenceDto,
+    { name, code, description, type }: CreateUserStateGlossaryDto,
     { firstName, lastName }: User,
   ) {
     const role = this.repo.create({
@@ -39,13 +40,13 @@ export class ReferencesService {
   }
 
   async update(
-    args: Partial<UpdateReferenceDto>,
+    args: Partial<UpdateUserStateGlossaryDto>,
     { firstName, lastName }: User,
   ) {
     const reference = await this.findOne(args.id);
 
     if (!reference) {
-      throw new Error('Reference not found');
+      throw new Error('User state glossary not found');
     }
 
     Object.assign(reference, args, { updatedBy: `${lastName}, ${firstName}` });

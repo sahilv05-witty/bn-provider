@@ -15,7 +15,7 @@ export class User extends Base {
   email: string;
 
   @Column({ nullable: true })
-  password: string;
+  password?: string;
 
   @Column({ default: false })
   isActive: boolean;

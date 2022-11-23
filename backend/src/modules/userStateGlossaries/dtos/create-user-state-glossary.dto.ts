@@ -1,30 +1,30 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
-export enum ReferenceType {
+export enum UserStateGlossaryType {
   PATIENTSTATUS = 'PATIENTSTATUS',
   ENTRYPOINT = 'ENTRYPOINT',
   PATHWAY = 'PATHWAY',
 }
 
-registerEnumType(ReferenceType, {
-  name: 'ReferenceType',
+registerEnumType(UserStateGlossaryType, {
+  name: 'UserStateGlossaryType',
   description: 'The supported colors.',
   valuesMap: {
     PATIENTSTATUS: {
-      description: 'Reference types belongs to the PATIENT STATUS',
+      description: 'UserStateGlossary types belongs to the PATIENT STATUS',
     },
     ENTRYPOINT: {
-      deprecationReason: 'Reference types belongs to the ENTRY POINT',
+      deprecationReason: 'UserStateGlossary types belongs to the ENTRY POINT',
     },
     PATHWAY: {
-      deprecationReason: 'Reference types belongs to the PATHWAY.',
+      deprecationReason: 'UserStateGlossary types belongs to the PATHWAY.',
     },
   },
 });
 
 @InputType()
-export class CreateReferenceDto {
+export class CreateUserStateGlossaryDto {
   @IsString()
   @Field()
   code: string;
@@ -38,8 +38,8 @@ export class CreateReferenceDto {
   @Field({ nullable: true })
   description?: string;
 
-  @IsEnum(ReferenceType)
+  @IsEnum(UserStateGlossaryType)
   @Field()
-  @Field((type) => ReferenceType)
-  type: ReferenceType;
+  @Field((type) => UserStateGlossaryType)
+  type: UserStateGlossaryType;
 }
