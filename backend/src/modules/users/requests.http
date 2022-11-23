@@ -1,6 +1,38 @@
+### create a new role
+
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-    "email": "superadmin@test.com"   
+    "firstName": "John",
+    "lastName" : "Smith",
+    "email": "provider1@test.com",
+    "password": "test123@",
+    "roleId": 3,
+    "providerId": 1
 }
+
+### Get all users
+GET http://localhost:3000/auth/users
+Content-Type: application/json
+
+
+### Active an existing user
+PATCH http://localhost:3000/auth/1/active
+Content-Type: application/json
+ 
+{
+    "password": "Password123@"
+}
+
+### Update role of an existing user
+PATCH http://localhost:3000/auth/1/role
+Content-Type: application/json
+
+{
+    "roleId": 1
+}
+
+
+### Delete an existing user;
+DELETE http://localhost:3000/auth/8

@@ -1,0 +1,14 @@
+### create a new role
+
+POST http://localhost:3000/roles
+Content-Type: application/json
+
+{
+    "code": "provider",
+    "name": "Provider",
+    "description": "This role user would be able to see all patients within their associated doctor group, eg. if there are 3 physicians within a 1 doctor group, each physician can see their patients as well as the other two doctor’s patients.  Would be perform filtering, sorting and navigate through the patient records across the pages."
+}
+
+
+### Get all roles
+GET http://localhost:3000/roles
