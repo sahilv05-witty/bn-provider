@@ -1,0 +1,21 @@
+@import "../vars.scss";
+
+.Provider-Form-Page{
+  display: flex;
+  flex-direction: column;
+  height: $fullHeight;
+  .container.fluid{
+    background: $page-bg;
+    height:$fullHeight;
+    padding: $padding;
+    overflow: auto;
+    flex: 1;
+    form{
+      display: table;
+      margin: auto;
+      @include mobileSize{
+        width: 100%;
+      }
+    }
+  }
+}

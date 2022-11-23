@@ -1,5 +1,5 @@
 // Theme Colors 
-$primary: #f6901e;
+$primary:#F26722;
 $secondary: #243875;
 $secondary-2: #273860;
 
@@ -17,5 +17,40 @@ $largeInput: 66px;
 $fullHeight: 100%;
 $padding: 15px;
 $fontSize: 14px;
+$fontSizeLarge: 32px;
 $inputWidth: 290px;
 $labelAlignment: 13px;
+$laptopWidth: 1199px;
+$ipadWidth: 991px;
+$mobileWidth: 767px;
+$smallMobileWidth: 575px;
+$xsMobileWidth: 400px;
+
+@mixin laptopSize {
+    @media only screen and (max-width: $laptopWidth) {
+      @content;
+    }
+  }
+  
+  @mixin ipadSize {
+    @media only screen and (max-width: $ipadWidth) {
+      @content;
+    }
+  }
+  
+  @mixin mobileSize {
+    @media only screen and (max-width: $mobileWidth) {
+      @content;
+    }
+  }
+  
+  @mixin mobileSize-sm {
+    @media only screen and (max-width: $smallMobileWidth) {
+      @content;
+    }
+  }
+  @mixin mobileSize-xs {
+    @media only screen and (max-width: $xsMobileWidth) {
+      @content;
+    }
+  }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select } from 'semantic-ui-react'
+import { Select, Form, Item } from 'semantic-ui-react'
 
 const countryOptions = [
   { key: 'af', value: 'af', text: 'Afghanistan' },
@@ -27,8 +27,26 @@ const countryOptions = [
   { key: 'bj', value: 'bj', text: 'Benin' },
 ]
 
-const InputSelect = () => (
-  <Select placeholder='Select your country' options={countryOptions} />
+interface InputSelect{
+  placeholder?:string;
+  type?:string;
+  label?:string;
+  AddClass?:string;
+  inline?: any;
+  required?: any;
+  hint?: any;
+  fluid?: any;
+}
+
+const InputSelect = ({placeholder, AddClass, inline, required, fluid, label}: InputSelect) => (
+
+
+  <Form.Field className={AddClass} inline={inline} required={required} >
+  {inline ? <label>{label}</label>:''}
+  <Item as="div">
+    <Select placeholder={placeholder} options={countryOptions} fluid={fluid} />
+  </Item>
+  </Form.Field>
 )
 
 export default InputSelect
