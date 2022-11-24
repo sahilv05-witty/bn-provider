@@ -1,0 +1,29 @@
+@import '../vars.scss';
+.provider-subheader {
+    display: flex;
+    height: 62px;
+    align-items: center;
+    flex: 0 0 62px;
+    width: 100%;
+    padding: 0 15px;
+    background: $header-background;
+    .titles{
+      flex: 1;
+    }
+    .breadcrumb {
+      a {
+        color: $secondary !important;
+        text-transform: uppercase;
+        font-weight: 600;
+        &+.right.angle.icon{
+          color: $primary;
+        }
+      }
+    }
+    .actions{
+      display: flex;
+      grid-gap: $padding - 7;
+      align-items: center;
+    }
+}
+  

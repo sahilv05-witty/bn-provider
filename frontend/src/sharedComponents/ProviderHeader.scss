@@ -1,0 +1,52 @@
+@import '../vars.scss';
+.provider-header {
+    display: flex;
+    height: 62px;
+    flex: 0 0 62px;
+    align-items: center;
+    width: 100%;
+    padding: 0 15px;
+    background: $header-background;
+    
+    img {
+      height: 40px;
+      margin-left: 0;
+      cursor: pointer;
+    }
+
+    .header-content{
+      margin-left: -15px;
+      display: flex;
+      grid-gap: 18px;
+      align-items: center;
+      flex: 1;
+      .header{
+        margin: 0;
+        color: $secondary;
+      }
+    }
+    .toggle-btn {
+      background: $primary-gradient;
+      height: 62px;
+      width: 62px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      padding: 11px;
+
+
+      .item {
+        display: block;
+        width: 28px;
+        height: 4px;
+        background-color: $white;
+        border-radius: 1px;
+        & + .item {
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,44 @@
+@import "../vars.scss";
+
+body{
+    background: url(../assets/img/login-banner.jpg) !important; 
+    background-size: cover !important;
+}
+.Login{
+    display: flex;
+    flex-direction: column;
+    height: $fullHeight;
+    .container.fluid{
+    flex: 1;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+    padding: $padding + 5px;
+    overflow: auto;
+    @include mobileSize-xs {
+        max-width: $fullHeight !important;
+    }
+    .field{
+        max-width: $inputWidth + 10px;
+    }
+    .title{
+        text-align: center;
+        color: $white !important;
+        font-size: $fontSizeLarge !important;
+    }
+    .link{
+        display: block;
+        text-align: center;
+        cursor: pointer;
+    }
+    form{
+        position: relative;
+        margin-top: 4em;
+    }
+    .header.error{
+        font-size: $fontSize - 4px !important;
+        padding: $padding - 10px !important;
+        display: flex;
+    }
+}
+    
+}

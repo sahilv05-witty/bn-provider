@@ -1,0 +1,100 @@
+@import '../vars.scss';
+
+.ui.massive {
+    font-size: 1em !important;
+    input, .button {
+        height: $largeInput;
+    }
+}
+.button{
+    background: $primary-gradient !important;
+    color: $white !important;
+    text-transform: uppercase !important;
+
+}
+
+a{
+    color: $white !important;
+}
+.form{
+    input, .button{
+        height: 42px;
+    }
+    .field {
+        max-width: 290px;
+        margin: 0 auto 1.6em !important;
+        label {
+            text-transform: uppercase !important;
+            font-weight: 600 !important;
+            color:$secondary-2 !important;
+            font-size: $fontSize !important;
+            line-height: 1;
+            &+div{
+                color: $dark;
+            }
+        }
+        small{
+            display: block;
+            text-align: right;
+            color: $secondary-2;
+            font-weight: 600;
+            font-size: $fontSize - 2px;
+            margin-bottom: 2px;
+        }
+        .hint{
+            display: block;
+            font-size: $fontSize - 2px;
+            line-height: 1.2;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        &.inline{
+            display: grid;
+            grid-template-columns: 1fr $inputWidth;
+            justify-content: center;
+            max-width: 550px;
+            @include mobileSize{
+                display: block;
+            }
+            .ui.input{
+                width: 100% !important;
+            }
+            label{
+                text-align: right;
+                padding-top: $labelAlignment;
+            }
+        }
+        &.required{
+            label{
+                &:after{
+                    color: $secondary-2 !important;
+                }
+            }
+        }
+    }
+}
+.ui.header{
+color: $secondary !important;
+}
+.input-term-policy{
+    .ui.checkbox{
+        label{
+            padding: 3px 0 0 33px;
+            text-align: left;
+            font-size: $fontSize - 2px !important;
+            text-transform: inherit !important;
+            font-weight: 400 !important;
+            &::before, &::after{
+                cursor: pointer !important;
+            }
+            a{
+                color:$primary !important;
+            }
+        }
+        .star{
+            position: absolute;
+            left: 19px;
+            top: -2px;
+        }
+    }
+}
