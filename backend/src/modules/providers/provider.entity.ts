@@ -1,4 +1,12 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
+import { Patient } from '../patients/patient.entity';
 import { Base } from '../shared/base.entity';
 import { User } from '../users/user.entity';
 
@@ -19,4 +27,7 @@ export class Provider extends Base {
   @OneToOne(() => User, (user) => user?.provider, { nullable: true })
   @JoinColumn()
   user?: User;
+
+  @OneToMany(() => Patient, (patient) => patient.provider)
+  patients: Patient[];
 }

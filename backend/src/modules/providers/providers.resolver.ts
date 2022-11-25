@@ -24,11 +24,13 @@ export class ProvidersResolver {
   ) {}
 
   @Query((returns) => ProviderDto, { nullable: true })
+  @Serialize(ProviderDto)
   provider(@Args('id') id: number) {
     return this.providersService.findOne(id);
   }
 
   @Query((returns) => [ProviderDto], { nullable: true })
+  @Serialize(ProviderDto)
   providers() {
     return this.providersService.findAll();
   }
@@ -46,6 +48,7 @@ export class ProvidersResolver {
   }
 
   @Mutation((returns) => ProviderDto)
+  @Serialize(ProviderDto)
   createProvider(
     @Args('provider') provider: CreateProviderDto,
     @CurrentUser() user: User,

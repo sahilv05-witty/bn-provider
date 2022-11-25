@@ -1,6 +1,7 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Base } from '../shared/base.entity';
-import { UserStateGlossary } from '../userStateGlossaries/user-state-glossary.entity';
+import { Glossary } from '../glossaries/glossary.entity';
+import { Provider } from '../providers/provider.entity';
 
 @Entity()
 export class Patient extends Base {
@@ -19,21 +20,20 @@ export class Patient extends Base {
   @Column()
   dateOfBirth?: Date;
 
-  @OneToMany(
-    () => UserStateGlossary,
-    (userStateGlossary) => userStateGlossary.entryPoints,
-  )
-  entryPoint: UserStateGlossary;
+  @ManyToOne(() => Glossary, (glossary) => glossary.entryPoints, {
+    eager: true,
+  })
+  entryPoint: Glossary;
 
-  @OneToMany(
-    () => UserStateGlossary,
-    (userStateGlossary) => userStateGlossary.pathways,
-  )
-  currentPathway: UserStateGlossary;
+  @ManyToOne(() => Glossary, (glossary) => glossary.pathways, { eager: true })
+  currentPathway: Glossary;
 
-  @OneToMany(
-    () => UserStateGlossary,
-    (userStateGlossary) => userStateGlossary.statuses,
-  )
-  status: UserStateGlossary;
+  @ManyToOne(() => Glossary, (glossary) => glossary.statuses, { eager: true })
+  status: Glossary;
+
+  @Column()
+  statusDate: Date;
+
+  @ManyToOne(() => Provider, (provider) => provider.patients, { eager: true })
+  provider: Provider;
 }

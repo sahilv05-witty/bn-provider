@@ -57,6 +57,7 @@ export class UsersResolver {
   }
 
   @Mutation((returns) => UserDto)
+  @Serialize(UserDto)
   async createUser(
     @Args('user') user: CreateUserDto,
     @CurrentUser() currentUser: User,
@@ -97,6 +98,7 @@ export class UsersResolver {
   }
 
   @Mutation((returns) => UserDto)
+  @Serialize(UserDto)
   async activeUser(@Args('user') user: ActiveUserDto) {
     const userDetails = await this.usersService.findOne(user.id);
 

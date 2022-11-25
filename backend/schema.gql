@@ -2,16 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ProviderDto {
+type GlossaryDto {
   id: Float!
   createdBy: String!
   createdAt: DateTime!
   updatedBy: String
   updatedAt: DateTime
+  code: String!
   name: String!
-  group: String!
-  isActive: Boolean!
-  user: UserDto
+  description: String
+  isActive: Boolean
+  type: String!
 }
 
 """
@@ -49,27 +50,50 @@ type UserDto {
   isProvider: Boolean!
 }
 
-type UserStateGlossaryDto {
+type ProviderDto {
   id: Float!
   createdBy: String!
   createdAt: DateTime!
   updatedBy: String
   updatedAt: DateTime
-  code: String!
   name: String!
-  description: String
-  isActive: Boolean
+  group: String!
+  isActive: Boolean!
+  user: UserDto
+}
+
+type PatientDto {
+  id: Float!
+  createdBy: String!
+  createdAt: DateTime!
+  updatedBy: String
+  updatedAt: DateTime
+  firstName: String!
+  lastName: String
+  dateOfBirth: DateTime!
+  brighttreeNumber: Float!
+  betterNightId: Float!
+  entryPoint: String!
+  currentPathway: String!
+  status: String!
+  statusDate: DateTime!
+  provider: String!
 }
 
 type Query {
-  userStateGlossary(id: Float!): UserStateGlossaryDto
-  userStateGlossaries: [UserStateGlossaryDto!]!
+  glossary(id: Float!): GlossaryDto
+  glossaries: [GlossaryDto!]!
   user(id: Float!): UserDto
   users(searchUser: SearchUserDto): [UserDto!]!
   role(id: Float!): RoleDto
   roles(isActive: Boolean): [RoleDto!]
-  provider(id: Float!): ProviderDto
+  provider: ProviderDto!
   providers: [ProviderDto!]
+  patients(providerId: Float): [PatientDto!]!
+  patient(id: Float!): PatientDto
+  entryPoint: GlossaryDto!
+  currentPathway: GlossaryDto!
+  status: GlossaryDto!
 }
 
 input SearchUserDto {
@@ -78,30 +102,36 @@ input SearchUserDto {
 }
 
 type Mutation {
-  createUserStateGlossary(createUserStateGlossary: CreateUserStateGlossaryDto!): UserStateGlossaryDto!
-  updateUserStateGlossary(reference: UpdateUserStateGlossaryDto!): UserStateGlossaryDto!
+  createGlossary(glossary: CreateGlossaryDto!): GlossaryDto!
+  updateGlossary(reference: UpdateGlossaryDto!): GlossaryDto!
   createUser(user: CreateUserDto!): UserDto!
   activeUser(user: ActiveUserDto!): UserDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
+  createPatient(patient: CreatePatientDto!): PatientDto!
+  updatePatientStatus(patient: UpdatePatientDto!): PatientDto!
 }
 
-input CreateUserStateGlossaryDto {
+input CreateGlossaryDto {
   code: String!
   name: String!
   description: String
-  type: UserStateGlossaryType!
+  type: GlossaryType!
 }
 
 """The supported colors."""
-enum UserStateGlossaryType {
-  """UserStateGlossary types belongs to the PATIENT STATUS"""
+enum GlossaryType {
+  """Glossary types belongs to the PATIENT STATUS"""
   PATIENTSTATUS
-  ENTRYPOINT @deprecated(reason: "UserStateGlossary types belongs to the ENTRY POINT")
-  PATHWAY @deprecated(reason: "UserStateGlossary types belongs to the PATHWAY.")
+
+  """Glossary types belongs to the ENTRY POINT"""
+  ENTRYPOINT
+
+  """Glossary types belongs to the PATHWAY."""
+  PATHWAY
 }
 
-input UpdateUserStateGlossaryDto {
+input UpdateGlossaryDto {
   id: Float!
   code: String!
   name: String!
@@ -132,4 +162,23 @@ input CreateProviderDto {
   name: String!
   group: String!
   brighttreeId: Float!
+}
+
+input CreatePatientDto {
+  firstName: String!
+  lastName: String
+  dateOfBirth: DateTime!
+  brighttreeNumber: Float!
+  betterNightId: Float!
+  entryPointId: Float!
+  currentPathwayId: Float!
+  statusId: Float!
+  statusDate: DateTime!
+  providerId: Float!
+}
+
+input UpdatePatientDto {
+  id: Float!
+  statusId: Float!
+  statusDate: DateTime!
 }
