@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
-import { CreateUserStateGlossaryDto } from './dtos/create-user-state-glossary.dto';
-import { UpdateUserStateGlossaryDto } from './dtos/update-user-state-glossary.dto';
-import { UserStateGlossary } from './user-state-glossary.entity';
+import { CreateGlossaryDto } from './dtos/create-glossary.dto';
+import { UpdateGlossaryDto as UpdateGlossaryDto } from './dtos/update-glossary.dto';
+import { Glossary } from './glossary.entity';
 
 @Injectable()
-export class UserStateGlossariesService {
+export class GlossariesService {
   constructor(
-    @InjectRepository(UserStateGlossary)
-    private repo: Repository<UserStateGlossary>,
+    @InjectRepository(Glossary)
+    private repo: Repository<Glossary>,
   ) {}
 
   findAll() {
@@ -25,7 +25,7 @@ export class UserStateGlossariesService {
   }
 
   create(
-    { name, code, description, type }: CreateUserStateGlossaryDto,
+    { name, code, description, type }: CreateGlossaryDto,
     { firstName, lastName }: User,
   ) {
     const role = this.repo.create({
@@ -40,7 +40,7 @@ export class UserStateGlossariesService {
   }
 
   async update(
-    args: Partial<UpdateUserStateGlossaryDto>,
+    args: Partial<UpdateGlossaryDto>,
     { firstName, lastName }: User,
   ) {
     const reference = await this.findOne(args.id);

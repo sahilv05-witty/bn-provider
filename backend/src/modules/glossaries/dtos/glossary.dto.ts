@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Expose } from 'class-transformer';
 
 @ObjectType()
-export class UserStateGlossaryDto {
+export class GlossaryDto {
   @Expose()
   @Field()
   id: number;
@@ -38,4 +38,8 @@ export class UserStateGlossaryDto {
   @Expose()
   @Field({ nullable: true })
   isActive: boolean;
+
+  @Expose()
+  @Field()
+  type: string;
 }

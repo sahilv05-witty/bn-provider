@@ -35,4 +35,12 @@ export class CreatePatientDto {
   @IsNumber()
   @Field()
   statusId: number;
+
+  @IsDate()
+  @Field()
+  statusDate: Date;
+
+  @IsNumber()
+  @Field()
+  providerId: number;
 }

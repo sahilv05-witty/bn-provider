@@ -24,11 +24,13 @@ export class RolesResolver {
   ) {}
 
   @Query((returns) => RoleDto, { nullable: true })
+  @Serialize(RoleDto)
   role(@Args('id') id: number) {
     return this.rolesService.findOne(id);
   }
 
   @Query((returns) => [RoleDto], { nullable: true })
+  @Serialize(RoleDto)
   roles(@Args('isActive', { nullable: true }) isActive: boolean) {
     return this.rolesService.findAll(isActive);
   }
@@ -41,6 +43,7 @@ export class RolesResolver {
   }
 
   @Mutation((returns) => RoleDto)
+  @Serialize(RoleDto)
   createRole(@Args('role') role: CreateRoleDto, @CurrentUser() user: User) {
     return this.rolesService.create(role, user);
   }

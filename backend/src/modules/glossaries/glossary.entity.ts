@@ -1,9 +1,9 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Patient } from '../patients/patient.entity';
 import { Base } from '../shared/base.entity';
 
 @Entity()
-export class UserStateGlossary extends Base {
+export class Glossary extends Base {
   @Column()
   code: string;
 
@@ -19,12 +19,12 @@ export class UserStateGlossary extends Base {
   @Column()
   type: string;
 
-  @ManyToOne(() => Patient, (patient) => patient.entryPoint)
+  @OneToMany(() => Patient, (patient) => patient.entryPoint)
   entryPoints: Patient[];
 
-  @ManyToOne(() => Patient, (patient) => patient.currentPathway)
+  @OneToMany(() => Patient, (patient) => patient.currentPathway)
   pathways: Patient[];
 
-  @ManyToOne(() => Patient, (patient) => patient.status)
+  @OneToMany(() => Patient, (patient) => patient.status)
   statuses: Patient[];
 }

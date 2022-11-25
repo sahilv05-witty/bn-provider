@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsString, IsOptional, IsBoolean, IsNumber } from 'class-validator';
 
 @InputType()
-export class UpdateUserStateGlossaryDto {
+export class UpdateGlossaryDto {
   @IsNumber()
   @Field()
   id: number;
