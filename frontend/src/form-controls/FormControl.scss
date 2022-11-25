@@ -10,7 +10,17 @@
     background: $primary-gradient !important;
     color: $white !important;
     text-transform: uppercase !important;
-
+    &:disabled{
+        background: #C4C4C4 !important;
+        opacity: 1 !important;
+    }
+&.basic.ui{
+    box-shadow: none !important;
+    color: $primary !important;
+    &:hover, &:focus{
+        background: transparent !important;
+    }
+}
 }
 
 a{

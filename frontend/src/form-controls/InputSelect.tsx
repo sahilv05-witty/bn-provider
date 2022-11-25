@@ -36,15 +36,16 @@ interface InputSelect{
   required?: any;
   hint?: any;
   fluid?: any;
+  options: any;
 }
 
-const InputSelect = ({placeholder, AddClass, inline, required, fluid, label}: InputSelect) => (
+const InputSelect = ({placeholder, AddClass, inline, required, fluid, label, options}: InputSelect) => (
 
 
   <Form.Field className={AddClass} inline={inline} required={required} >
   {inline ? <label>{label}</label>:''}
   <Item as="div">
-    <Select placeholder={placeholder} options={countryOptions} fluid={fluid} />
+    <Select placeholder={placeholder} options={options} fluid={fluid} />
   </Item>
   </Form.Field>
 )

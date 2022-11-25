@@ -10,16 +10,18 @@ interface InputButton{
     requiredHintText?: Boolean;
     circular?: any;
     icon?: any;
+    basic?: boolean;
+    disabled?: boolean;
 }
 
-const InputButton = ({ text, fluid, size, inline, AddClass, requiredHintText, circular, icon }:InputButton) =>{ 
+const InputButton = ({ text, fluid, size, inline, AddClass, requiredHintText, circular, icon, basic, disabled }:InputButton) =>{ 
 return (
     
     <Form.Field className={AddClass} inline={inline}  >
        {inline ? <label></label>:''}
        <Item as="div">
          {requiredHintText ? <small>* indicates a required field</small>: "" }
-        <Button fluid={fluid} size={size} circular={circular}  content={text} icon={icon}/>
+        <Button disabled={disabled} basic={basic} fluid={fluid} size={size} circular={circular}  content={text} icon={icon}/>
        </Item>
       </Form.Field>
       
