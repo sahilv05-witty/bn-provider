@@ -7,7 +7,21 @@
     width: 100%;
     padding: 0 15px;
     background: $header-background;
-    
+    position: relative;
+    &:after {
+      content: "";
+      height: 16px;
+      background: linear-gradient(
+        180deg,
+        #d8e5f5 0%,
+        rgba(240, 246, 253, 0) 100%
+      );
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+    }
     img {
       height: 40px;
       margin-left: 0;

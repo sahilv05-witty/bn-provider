@@ -15,6 +15,7 @@ function AccountActivation() {
       <ProviderHeader />
       <ProviderSubHeader />
       <Container fluid>
+        <Item as="div" className='content'>
         <Header as="h5" textAlign='center'>Welcome to the Provider Portal, please set your password and agree to the terms of use.</Header>
         <Form>
             <StringField inline label="First Name " text="John"/>
@@ -26,6 +27,7 @@ function AccountActivation() {
             <InputTermPolicy inline />
             <InputButton text="Continue" inline fluid requiredHintText/>
         </Form>
+        </Item>
     </Container>
     <ProviderFooter />
     </Item>
