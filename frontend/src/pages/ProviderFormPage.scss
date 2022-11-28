@@ -18,9 +18,10 @@
     }
     form{
       width: fit-content;
-      margin: 25px auto 0;
+      margin: 25px auto 10px;
       @include mobileSize{
         width: 100%;
+        margin: 10px auto ;
       }
     }
   }

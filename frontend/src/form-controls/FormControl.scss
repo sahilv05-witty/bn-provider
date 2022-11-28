@@ -72,7 +72,7 @@ a {
             .ui.input {
                 width: 100% !important;
             }
-            label {
+            &>label {
                 text-align: right;
                 padding-top: $labelAlignment;
             }
@@ -86,7 +86,7 @@ a {
         }
         &.empty-label{
             @include mobileSize{
-                label{
+                &>label{
                     display: none !important;
                 }
             }
@@ -115,6 +115,15 @@ color: $secondary !important;
             position: absolute;
             left: 19px;
             top: -2px;
+        }
+    }
+}
+.custom-checkbox{
+    .toggle{
+        label{
+            color: $dark !important;
+            font-size: $fontSize - 2px !important; 
+            line-height: 1.2;
         }
     }
 }

@@ -28,8 +28,8 @@ function CreateAdminUser() {
           <InputField  label="Last Name" inline placeholder='Last Name' required/>
           <InputField  type="email" label="Email" inline placeholder='Email Address' required/>
           <InputSelect options={roleOption} inline fluid placeholder='Select Role' label="Role" required />
-          <InputButton onClick={myFunction} AddClass='mb-0 empty-label' disabled text="Save" inline fluid requiredHintText/>
-          <InputButton text="Cancel" inline fluid AddClass='btn-secondary empty-label'/>
+          <InputButton onClick={myFunction} AddClass='mb-0 empty-label'  text="Save" inline fluid requiredHintText/>
+          <InputButton text="Cancel" inline fluid AddClass='btn-secondary empty-label mb-0'/>
         </Form>
         </Item>
     </Container>
