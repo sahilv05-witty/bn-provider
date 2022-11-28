@@ -1,21 +1,24 @@
 @import "../vars.scss";
 
-body{
+
+.Login{
     background: url(../assets/img/login-banner.jpg) !important; 
     background-size: cover !important;
-}
-.Login{
     display: flex;
     flex-direction: column;
     height: $fullHeight;
     .container.fluid{
     flex: 1;
-    max-width: 340px !important;
     margin: 0 auto !important;
     padding: $padding + 5px;
     overflow: auto;
+    width: 100% !important;
     @include mobileSize-xs {
         max-width: $fullHeight !important;
+    }
+    .content{
+        max-width: 300px !important;
+        margin: 0 auto;
     }
     .field{
         max-width: $inputWidth + 10px;

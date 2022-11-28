@@ -7,24 +7,35 @@ import ProviderSubHeader from '../sharedComponents/ProviderSubHeader';
 import ProviderFooter from '../sharedComponents/ProviderFooter';
 import "./ProviderFormPage.scss";
 
+const roleOption = [
+  {value: "Account Admin", text: "Account Admin"},
+  {value: "Super Admin", text: "Super Admin"}
 
-function CreateNewUser() {
+]
+
+function CreateAdminUser() {
+  const myFunction = () =>{
+    alert("This is working.")
+  }
   return (
     <Item as="div" className='Provider-Form-Page'>
       <ProviderHeader/>
       <ProviderSubHeader />
       <Container fluid>
+        <Item as='div' className='content'>
         <Form>
           <InputField  label="First Name" inline placeholder='First Name' required/>
           <InputField  label="Last Name" inline placeholder='Last Name' required/>
           <InputField  type="email" label="Email" inline placeholder='Email Address' required/>
-            <InputSelect inline fluid placeholder='Select Role' label="Role" required />
-          <InputButton text="Save" inline fluid requiredHintText/>
+          <InputSelect options={roleOption} inline fluid placeholder='Select Role' label="Role" required />
+          <InputButton onClick={myFunction} AddClass='mb-0 empty-label'  text="Save" inline fluid requiredHintText/>
+          <InputButton text="Cancel" inline fluid AddClass='btn-secondary empty-label mb-0'/>
         </Form>
+        </Item>
     </Container>
     <ProviderFooter />
     </Item>
   )
 }
 
-export default CreateNewUser
+export default CreateAdminUser

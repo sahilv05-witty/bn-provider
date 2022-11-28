@@ -1,12 +1,12 @@
 @import '../vars.scss';
 .provider-subheader {
     display: flex;
-    height: 62px;
+    height: 67px;
     align-items: center;
-    flex: 0 0 62px;
+    flex: 0 0 67px;
     width: 100%;
     padding: 0 15px;
-    background: $header-background;
+    border-bottom: 1px solid $secondary;
     .titles{
       flex: 1;
     }

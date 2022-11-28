@@ -1,7 +1,8 @@
 import './App.scss';
 import Login from './pages/Login';
 import AccountActivation from './pages/AccountActivation';
-import CreateNewUser from './pages/CreateNewUser';
+import CreateAdminUser from './pages/CreateAdminUser';
+import CreateProviderUser from './pages/CreateProviderUser';
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,8 +15,11 @@ function App() {
     <Router>
       <Routes>
         <Route  element={<AccountActivation />} path="/account-activation" />
-        <Route element={<CreateNewUser />} path="/create-user" />
+        <Route element={<CreateAdminUser />} path="/create-admin-user" />
+        <Route element={<CreateProviderUser />} path="/create-provider-user" />
+        <Route element={<Login />} path="/login"  />
         <Route element={<Login />} path="/"  />
+        <Route element={<Login />} path="*"  />
       </Routes>
     </Router>
   );
