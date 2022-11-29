@@ -118,12 +118,9 @@ color: $secondary !important;
         }
     }
 }
-.custom-checkbox{
-    .toggle{
-        label{
-            color: $dark !important;
-            font-size: $fontSize - 2px !important; 
-            line-height: 1.2;
-        }
-    }
+.error{
+    color: $error;
+    font-size: $fontSize - 2px;
+    line-height: 1.2;
+    font-weight: 600;
 }

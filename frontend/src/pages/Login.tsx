@@ -18,7 +18,6 @@ return (
                 <Form size='massive'>
                     {/* ERROR  */}
                     <Header block className='error' image={errorIcon} color="red" content="Invalid password. Your account has been temporarily locked due to too many unsuccessful log in attempts. You can try again in 10 minutes." />
-                    
                     <Header as="h1" className='title' content="Sign In" />
                     <InputField type="email" placeholder='WORK EMAIL'/>
                     <InputField type="password" placeholder='PASSWORD'/>

@@ -10,10 +10,11 @@ interface InputField{
     required?: any;
     hint?: any;
     value?: string;
+    error?: string;
     // onchange:? ()=> any;
 }
 
-const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value}:InputField) =>{ 
+const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value, error}:InputField) =>{ 
 return (
         <Form.Field className={AddClass} inline={inline} required={required} >
             {label ? <label>{label}</label>:''}
@@ -22,6 +23,7 @@ return (
                 {hint ? <span className='hint'>Password must be at least 8 characters long, 
                     contain at least one lower case letter, one upper case letter, one digit, and one special character.</span>: ""
                 }
+                {error ? <div className='error'>{error}</div>: ""}
             </Item>
       </Form.Field>
 )
