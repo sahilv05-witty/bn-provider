@@ -47,7 +47,7 @@ const InputSelect = ({placeholder, AddClass, inline, required, fluid, label, opt
   {inline ? <label>{label}</label>:''}
   <Item as="div">
     <Select placeholder={placeholder} options={options} fluid={fluid} />
-    {error ? <div className='error'>{error}</div>: ""}
+    {error ? <Item as="div" className='error'>{error}</Item>: ""}
   </Item>
   </Form.Field>
 )

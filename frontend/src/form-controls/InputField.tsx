@@ -23,7 +23,7 @@ return (
                 {hint ? <span className='hint'>Password must be at least 8 characters long, 
                     contain at least one lower case letter, one upper case letter, one digit, and one special character.</span>: ""
                 }
-                {error ? <div className='error'>{error}</div>: ""}
+                {error ? <Item as="div" className='error'>{error}</Item>: ""}
             </Item>
       </Form.Field>
 )

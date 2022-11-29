@@ -12,18 +12,18 @@ interface InputButton {
     requiredHintText?: Boolean;
     circular?: any;
     icon?: any;
-
+    checked: boolean;
     disabled?: boolean;
-    onClick?: ()=> any;
+    onChange?: ()=> any;
 }
 
-const InputButton = ({ text, fluid, label, inline, AddClass, toggle, circular, icon, disabled, onClick }:InputButton) =>{ 
+const InputButton = ({ text, fluid, label, inline, AddClass, toggle, circular, icon, disabled, onChange,checked }:InputButton) =>{ 
     return (
 
         <Form.Field className={AddClass} inline={inline}  >
         {label ? <label>{label}</label>:''}
         <Item as="div">
-            <Checkbox className={toggle ? "switch-button": ""} toggle={toggle}  label={text}  />
+            <Checkbox className={toggle ? "switch-button": ""} toggle={toggle}  label={text} checked={checked} onChange={onChange}/>
         </Item>
         </Form.Field>        
     )
