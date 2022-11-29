@@ -1,12 +1,15 @@
-import { Container, Form, Header, Item } from 'semantic-ui-react';
-import { InputButton } from '../controls';
-import InputField from '../controls/InputField';
-import InputTermPolicy from '../controls/InputTermPolicy';
-import StringField from '../controls/StringField';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderSubHeader from '../sharedComponents/ProviderSubHeader';
-import './ProviderFormPage.scss';
+import { Form, Header, Container, Item } from 'semantic-ui-react';
+import {
+  InputButton,
+  InputField,
+  InputTermPolicy,
+  StringField,
+} from '../controls/form';
+import {
+  ProviderFooter,
+  ProviderHeader,
+  ProviderSubHeader,
+} from '../controls/sharedComponents';
 
 function AccountActivation() {
   return (
@@ -34,7 +37,7 @@ function AccountActivation() {
               hint
             />
             <InputField
-              name='password'
+              name='confirmPassword'
               type='password'
               label='CONFIRM PASSWORD'
               inline

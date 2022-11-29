@@ -4,7 +4,7 @@ import "./ProviderFooter.scss";
 interface Footer {
 }
 
-const ProviderFooter = ({}:Footer) =>{ 
+export const ProviderFooter = ({}:Footer) =>{ 
 return (   
     <Item as='footer' className="provider-footer">
         <Item as="span">© BetterNight, 2023</Item>
@@ -17,5 +17,3 @@ return (
 )
 }
 ProviderFooter({});
-
-export default ProviderFooter

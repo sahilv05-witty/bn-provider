@@ -1,0 +1,69 @@
+@import "../../../vars.scss";
+.ui.toggle.checkbox{
+    &.switch-button{
+        $width: 65px;
+        $height: 30px;
+        $offbg: #979797;
+        $onbg:$primary;
+        &::before{
+        content: "No" !important;
+            width: $height  !important;
+            height: $height !important;
+            border-radius: 500rem !important;
+            padding: 8px 0 0 6px !important;
+            color: $white !important;
+            position: absolute;
+            z-index: 2;
+            left: 34px;
+            top: -1px;
+            pointer-events: none;
+        }
+        &>input{
+            width: $width  !important;
+            height: $height !important;
+            &:checked{
+                &+label{
+                    &::after{
+                        left: 36px !important;
+                    }
+                    &::before{
+                        background-color: $secondary !important;
+                    }
+                }
+                
+            }
+            &:focus{
+                &:checked{
+                    &+label{
+                        &::before{
+                            background-color: $secondary !important;
+                        }
+                    }
+                    
+                }
+
+            }
+        }
+        &>label{
+            color: $dark !important;
+            font-size: $fontSize - 2px !important; 
+            line-height: 1.2;
+            padding-left: $width + 10px !important;
+            &:before{
+                content: "Yes" !important;
+                width: $width  !important;
+                height: $height !important;
+                border-radius: 500rem !important;
+                padding: 8px 0 0 6px !important;
+                color: #fff !important;
+                background: $offbg !important;
+            }
+            &:after{
+                width: $height - 4px  !important;
+                height: $height - 4px !important;
+                top: 2px !important;
+                left: 2px !important;
+            }
+        }
+    }
+}

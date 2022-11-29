@@ -1,24 +1,23 @@
 import { Form, Input, InputOnChangeData, Item } from 'semantic-ui-react';
-import '../form-controls/FormControl.scss';
-import _ from 'lodash';
 
-interface InputField {
+interface InputFieldProps {
   name: string;
   placeholder?: string;
-  type?: any;
+  type?: string;
   label?: any;
   AddClass?: string;
-  inline?: any;
-  required?: any;
+  inline?: boolean;
+  required?: boolean;
   hint?: any;
   value?: string;
+  error?: string;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
   ) => void;
 }
 
-const InputField = ({
+export const InputField = ({
   name,
   placeholder,
   label,
@@ -28,8 +27,9 @@ const InputField = ({
   required,
   hint,
   value,
+  error,
   onChange,
-}: InputField) => {
+}: InputFieldProps) => {
   return (
     <Form.Field className={AddClass} inline={inline} required={required}>
       {label ? <label>{label}</label> : ''}
@@ -50,9 +50,14 @@ const InputField = ({
         ) : (
           ''
         )}
+        {error ? (
+          <Item as='div' className='error'>
+            {error}
+          </Item>
+        ) : (
+          ''
+        )}
       </Item>
     </Form.Field>
   );
 };
-
-export default InputField;

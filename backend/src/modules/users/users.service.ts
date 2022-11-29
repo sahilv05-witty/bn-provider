@@ -17,6 +17,10 @@ export class UsersService {
   ) {}
 
   findAll(searchUser?: SearchUserDto) {
+    if (!searchUser) {
+      return this.usersRepo.find();
+    }
+
     const { isActive, roleId } = searchUser || {};
 
     if (isActive !== undefined || roleId !== undefined) {
@@ -32,8 +36,6 @@ export class UsersService {
 
       return this.usersRepo.find(whereClause);
     }
-
-    return this.usersRepo.find();
   }
 
   findAllByRoleId(roleId: number) {

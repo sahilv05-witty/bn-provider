@@ -1,5 +1,5 @@
 import './App.scss';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import AccountActivation from './pages/AccountActivation';
 import CreateAdminUser from './pages/CreateAdminUser';
 import CreateProviderUser from './pages/CreateProviderUser';

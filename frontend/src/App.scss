@@ -1,17 +1,30 @@
-
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@import "./vars.scss";
+#root{
+  height: $fullHeight;
 }
-
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.Provider-Form-Page{
+  display: flex;
+  flex-direction: column;
+  height: $fullHeight;
+  .container.fluid{
+    height:$fullHeight;
+    width: $fullHeight !important;
+    padding: $padding;
+    overflow: auto;
+    margin: 0 !important;
+    flex: 1;
+    .content{
+      background: $page-bg;
+      padding: $padding;
+      min-height: $fullHeight;
+    }
+    form{
+      width: fit-content;
+      margin: 25px auto 10px;
+      @include mobileSize{
+        width: 100%;
+        margin: 10px auto ;
+      }
+    }
   }
 }

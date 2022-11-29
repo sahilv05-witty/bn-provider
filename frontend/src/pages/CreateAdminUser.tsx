@@ -1,13 +1,19 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useMemo, useReducer } from 'react';
-import { Container, Form, Item } from 'semantic-ui-react';
-import { InputButton, InputSelect } from '../controls';
-import InputField from '../controls/InputField';
+import { Form, Container, Item } from 'semantic-ui-react';
+import { InputButton, InputField, InputSelect } from '../controls/form';
+import {
+  ProviderFooter,
+  ProviderHeader,
+  ProviderSubHeader,
+} from '../controls/sharedComponents';
 import { mutationCreateUser, queryRoles } from '../services';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderSubHeader from '../sharedComponents/ProviderSubHeader';
-import './ProviderFormPage.scss';
+
+interface Role {
+  id: string;
+  name: string;
+  code: string;
+}
 
 type UserForm = {
   firstName: string;
@@ -16,29 +22,27 @@ type UserForm = {
   role: string;
 };
 
-type ActionTypes = 'firstName' | 'lastName' | 'email' | 'role';
+type ActionTypesProps = 'firstName' | 'lastName' | 'email' | 'role' | 'reset';
 
 type Action = {
-  type: ActionTypes;
+  type: ActionTypesProps;
   payload: string;
 };
 
 const initialData: UserForm = {} as UserForm;
 
 const userReducer = (state = initialData, action: Action) => {
+  if (action.type === 'reset') return { ...initialData };
   return { ...state, [action.type]: action.payload };
 };
 
 function CreateAdminUser() {
-  const [user, dispatchUserFormFieldChange] = useReducer(
-    userReducer,
-    initialData
-  );
+  const [user, dispatchFormFieldChange] = useReducer(userReducer, initialData);
 
-  const { loading, data } = useQuery(queryRoles);
+  const { data } = useQuery(queryRoles);
   const [createUserMutation] = useMutation(mutationCreateUser);
 
-  const handleButtonClick = async () => {
+  const handleSave = async () => {
     const result = await createUserMutation({
       variables: {
         firstName: user.firstName,
@@ -47,27 +51,38 @@ function CreateAdminUser() {
         roleId: parseInt(user.role),
       },
     });
+
+    if (result.data.createUser.email === user.email) {
+      // Replace alert with the Sematic Modal Popup
+      alert(
+        'Account has been created and triggered activation email to the user.'
+      );
+
+      dispatchFormFieldChange({
+        type: 'reset',
+        payload: '',
+      });
+    }
   };
 
-  const updateFieldValue = (fieldName: ActionTypes, value: string) => {
-    dispatchUserFormFieldChange({
+  const updateFieldValue = (fieldName: ActionTypesProps, value: string) => {
+    dispatchFormFieldChange({
       type: fieldName,
       payload: value,
     });
   };
 
-  const renderRoles = useMemo(() => {
-    return data.roles.map(({ id, code, name }: any) => {
-      return {
-        value: code,
-        text: name,
-      };
-    });
-  }, []);
-
-  if (loading) return <p>Loading Roles...</p>;
-  // if (mLoading) return <p>Submitting the User details...</p>;
-  // if (mError) return `Submission error! ${mError.message}`;
+  const roles = useMemo(() => {
+    return data?.roles
+      .filter((role: Role) => role.code.toLowerCase() !== 'provider')
+      .map(({ id, code, name }: any) => {
+        return {
+          key: code,
+          value: id,
+          text: name,
+        };
+      });
+  }, [data]);
 
   return (
     <Item as='div' className='Provider-Form-Page'>
@@ -85,7 +100,7 @@ function CreateAdminUser() {
               value={user.firstName}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 const { name, value } = target;
-                updateFieldValue(name as ActionTypes, value);
+                updateFieldValue(name as ActionTypesProps, value);
               }}
             />
             <InputField
@@ -97,7 +112,7 @@ function CreateAdminUser() {
               value={user.lastName}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 const { name, value } = target;
-                updateFieldValue(name as ActionTypes, value);
+                updateFieldValue(name as ActionTypesProps, value);
               }}
             />
             <InputField
@@ -110,18 +125,17 @@ function CreateAdminUser() {
               value={user.email}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 const { name, value } = target;
-                updateFieldValue(name as ActionTypes, value);
+                updateFieldValue(name as ActionTypesProps, value);
               }}
             />
             <InputSelect
               name='role'
+              options={roles}
               inline
               fluid
               placeholder='Select Role'
               label='Role'
               required
-              value={user.role}
-              options={renderRoles()}
               onChange={(e, data) => {
                 if (data.value) {
                   updateFieldValue('role', data.value.toString());
@@ -134,7 +148,7 @@ function CreateAdminUser() {
               inline
               fluid
               requiredHintText
-              onClick={handleButtonClick}
+              onClick={handleSave}
             />
             <InputButton
               text='Cancel'

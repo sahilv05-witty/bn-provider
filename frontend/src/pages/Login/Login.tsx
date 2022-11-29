@@ -1,10 +1,11 @@
-import { Container, Form, Header, Item } from 'semantic-ui-react';
-import errorIcon from '../assets/img/error-icon.svg';
-import { InputButton } from '../controls';
-import InputField from '../controls/InputField';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-
+import React from 'react';
+import { Item, Form, Header, Container } from 'semantic-ui-react';
+import { InputField, InputButton } from '../../controls/form';
+import {
+  ProviderFooter,
+  ProviderHeader,
+} from '../../controls/sharedComponents';
+import errorIcon from '../../assets/img/error-icon.svg';
 import './Login.scss';
 
 const Login = () => {
@@ -23,7 +24,6 @@ const Login = () => {
               color='red'
               content='Invalid password. Your account has been temporarily locked due to too many unsuccessful log in attempts. You can try again in 10 minutes.'
             />
-
             <Header as='h1' className='title' content='Sign In' />
             <InputField name='email' type='email' placeholder='WORK EMAIL' />
             <InputField
