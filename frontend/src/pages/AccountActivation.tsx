@@ -1,15 +1,15 @@
 import { Form, Header, Container, Item } from 'semantic-ui-react'
-import InputButton from '../form-controls/InputButton';
-import InputField from '../form-controls/InputField';
-import InputTermPolicy from '../form-controls/InputTermPolicy';
-import StringField from '../form-controls/StringField';
-import ProviderSubHeader from '../sharedComponents/ProviderSubHeader';
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
+import {InputButton, InputField, InputTermPolicy, StringField} from '../form-controls';
+import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../sharedComponents';
 import "./ProviderFormPage.scss";
 
 
 function AccountActivation() {
+  // function getData(){
+  //   return "Vivek Yadav"
+  // }
+  // console.log("=================================");
+  // console.log(getData());
   return (
     <Item as="div" className='Provider-Form-Page'>
       <ProviderHeader />
@@ -22,7 +22,7 @@ function AccountActivation() {
             <StringField inline label="Last Name " text="Smith"/>
             <StringField inline label="Email " text="john@smith.com"/>
             <StringField inline label="Provider Group " text="Smith Group"/>
-            <InputField type='password' label="CREATE PASSWORD" inline placeholder='Password' required hint />
+            <InputField  type='password' label="CREATE PASSWORD" inline placeholder='Password' required hint />
             <InputField type='password' label="CONFIRM PASSWORD" inline placeholder='Confirm Password'  required/>
             <InputTermPolicy inline AddClass="empty-label"/>
             <InputButton text="Continue" inline fluid requiredHintText AddClass='mb-0 empty-label'/>

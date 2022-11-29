@@ -7,7 +7,7 @@ interface ProviderHeader {
     toggleMenu?: Boolean;
 }
 
-const ProviderHeader = ({toggleMenu}: ProviderHeader) =>{ 
+export const ProviderHeader = ({toggleMenu}: ProviderHeader) =>{ 
 return (
     
 <Item as="div" className="provider-header">
@@ -28,5 +28,3 @@ return (
 
 
 }
-
-export default ProviderHeader

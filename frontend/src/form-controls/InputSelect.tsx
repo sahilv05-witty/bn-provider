@@ -40,7 +40,7 @@ interface InputSelect{
   error?: string;
 }
 
-const InputSelect = ({placeholder, AddClass, inline, required, fluid, label, options, error}: InputSelect) => (
+export const InputSelect = ({placeholder, AddClass, inline, required, fluid, label, options, error}: InputSelect) => (
 
 
   <Form.Field className={AddClass} inline={inline} required={required} >
@@ -51,5 +51,3 @@ const InputSelect = ({placeholder, AddClass, inline, required, fluid, label, opt
   </Item>
   </Form.Field>
 )
-
-export default InputSelect
