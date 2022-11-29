@@ -1,5 +1,7 @@
 @import "./vars.scss";
-
+#root{
+  height: $fullHeight;
+}
 .Provider-Form-Page{
   display: flex;
   flex-direction: column;
