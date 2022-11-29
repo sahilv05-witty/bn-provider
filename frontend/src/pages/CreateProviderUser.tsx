@@ -1,36 +1,32 @@
+import React, {useState}from 'react'
 import { Form, Container, Item } from 'semantic-ui-react'
-import InputButton from '../form-controls/InputButton';
-import InputField from '../form-controls/InputField';
-import InputSelect from '../form-controls/InputSelect';
-import StringField from '../form-controls/StringField';
-import InputCheckbox from '../form-controls/InputCheckbox';
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderSubHeader from '../sharedComponents/ProviderSubHeader';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
-import "./ProviderFormPage.scss";
+import {InputButton, InputField, InputSelect, InputCheckbox, StringField} from '../controls/form';
+import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../controls/sharedComponents';
 
 const roleOption = [
   {value: "Provider 1", text: "Provider 1"},
   {value: "Provider 2", text: "Provider 2"}
 
 ]
-const doctorGroup = [
-  {value: "Group A", text: "Group A"},
-  {value: "Group B", text: "Group B"}
-
-]
 
 const doctorText = "“Dr.” will be used in the salutation of the activation email when this is yes. The user’s first name will be used when this is no.";
 const errorText = "First name can only contain letters, apostrophes, hyphens, and periods.";
+
 function CreateProviderUser() {
+  const [value, setValue] = useState(true);
+
+  let checkFun = ()=>{
+    setValue(!value)
+  }
+
   return (
     <Item as="div" className='Provider-Form-Page'>
-      <ProviderHeader/>
+      <ProviderHeader toggleMenu/>
       <ProviderSubHeader />
       <Container fluid>
       <Item as="div" className='content'>
         <Form>
-            <InputCheckbox label="Doctor" inline toggle text={doctorText} />
+            <InputCheckbox label="Doctor" inline toggle text={doctorText} checked={value} onChange={checkFun}/>
             <InputField  label="First Name" inline placeholder='First Name' required error={errorText}/>
             <InputField  label="Last Name" inline placeholder='Last Name' required/>
             <InputField  type="email" label="Email" inline placeholder='Email Address' required/>

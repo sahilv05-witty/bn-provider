@@ -1,11 +1,8 @@
 import React from 'react'
 import { Item, Form, Header, Container } from 'semantic-ui-react';
-import InputField from '../form-controls/InputField';
-import InputButton from "../form-controls/InputButton";
-import errorIcon from "../assets/img/error-icon.svg";
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
-
+import { InputField, InputButton } from '../../controls/form';
+import {ProviderFooter,ProviderHeader} from '../../controls/sharedComponents';
+import errorIcon from "../../assets/img/error-icon.svg";
 import "./Login.scss"
 
 const Login = () =>{ 

@@ -1,4 +1,4 @@
-@import '../vars.scss';
+@import '../../../vars.scss';
 .provider-header {
     display: flex;
     height: 62px;
@@ -37,6 +37,8 @@
       .header{
         margin: 0;
         color: $secondary;
+        text-transform: uppercase;
+        font-size: $fontSize + 3px;
       }
     }
     .toggle-btn {

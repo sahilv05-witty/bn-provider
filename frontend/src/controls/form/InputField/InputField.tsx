@@ -1,7 +1,6 @@
 import { Form, Input, Item } from 'semantic-ui-react';
-import "../form-controls/FormControl.scss";
 
-interface InputField{
+interface InputFieldProps{
     placeholder?:string;
     type?:any;
     label?:any;
@@ -14,7 +13,7 @@ interface InputField{
     // onchange:? ()=> any;
 }
 
-const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value, error}:InputField) =>{ 
+export const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value, error}:InputFieldProps) =>{ 
 return (
         <Form.Field className={AddClass} inline={inline} required={required} >
             {label ? <label>{label}</label>:''}
@@ -23,12 +22,8 @@ return (
                 {hint ? <span className='hint'>Password must be at least 8 characters long, 
                     contain at least one lower case letter, one upper case letter, one digit, and one special character.</span>: ""
                 }
-                {error ? <div className='error'>{error}</div>: ""}
+                {error ? <Item as="div" className='error'>{error}</Item>: ""}
             </Item>
       </Form.Field>
 )
-
-
 }
-
-export default InputField

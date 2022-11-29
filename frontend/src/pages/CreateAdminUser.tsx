@@ -1,11 +1,6 @@
 import { Form, Container, Item } from 'semantic-ui-react'
-import InputButton from '../form-controls/InputButton';
-import InputField from '../form-controls/InputField';
-import InputSelect from '../form-controls/InputSelect';
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderSubHeader from '../sharedComponents/ProviderSubHeader';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
-import "./ProviderFormPage.scss";
+import {InputButton, InputField, InputSelect} from '../controls/form';
+import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../controls/sharedComponents';
 
 const roleOption = [
   {value: "Account Admin", text: "Account Admin"},

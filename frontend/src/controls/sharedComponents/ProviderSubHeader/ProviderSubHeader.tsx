@@ -1,5 +1,5 @@
 import { Breadcrumb, Item, Icon } from 'semantic-ui-react';
-import InputButton from "../form-controls/InputButton";
+import {InputButton} from '../../form';
 import './ProviderSubHeader.scss';
 
 const sections = [
@@ -11,13 +11,13 @@ interface ProviderSubHeader {
     ActionButton?: Boolean;
 }
 
-const ProviderSubHeader = ({ActionButton}: ProviderSubHeader) =>{ 
+export const ProviderSubHeader = ({ActionButton}: ProviderSubHeader) =>{ 
 return (
     
 <Item as="div" className="provider-subheader">
-    <div className='titles'>
+    <Item as='div' className='titles'>
     <Breadcrumb icon='right angle' size="big" sections={sections} />
-    </div>
+    </Item>
 
    
 {ActionButton?    
@@ -30,5 +30,3 @@ return (
 
 
 }
-
-export default ProviderSubHeader
