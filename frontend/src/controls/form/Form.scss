@@ -1,4 +1,4 @@
-@import '../vars.scss';
+@import "../../vars.scss";
 
 .ui.massive {
     font-size: 1em !important;
@@ -6,25 +6,7 @@
         height: $largeInput;
     }
 }
-.button {
-    background: $primary-gradient !important;
-    color: $white !important;
-    text-transform: uppercase !important;
-    &:disabled {
-        background: #C4C4C4 !important;
-        opacity: 1 !important;
-    }
-}
-.btn-secondary{
-    .ui.button {
-        box-shadow: none !important;
-        color: $primary !important;
-        background: transparent !important;
-        &:hover, &:focus {
-            background: transparent !important;
-        }
-    }
-}
+
 a {
     color: $white !important;
 }
@@ -96,28 +78,7 @@ a {
 .ui.header {
 color: $secondary !important;
 }
-.input-term-policy {
-    .ui.checkbox {
-        label {
-            padding: 3px 0 0 33px;
-            text-align: left;
-            font-size: $fontSize - 2px !important;
-            text-transform: inherit !important;
-            font-weight: 400 !important;
-            &::before, &::after{
-                cursor: pointer !important;
-            }
-            a {
-                color:$primary !important;
-            }
-        }
-        .star {
-            position: absolute;
-            left: 19px;
-            top: -2px;
-        }
-    }
-}
+
 .error{
     color: $error;
     font-size: $fontSize - 2px;

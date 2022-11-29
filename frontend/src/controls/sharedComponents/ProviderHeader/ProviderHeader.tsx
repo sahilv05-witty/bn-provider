@@ -1,6 +1,6 @@
 import React, { Provider } from 'react'
 import { Image, Item, Header} from 'semantic-ui-react'
-import logo from "../assets/img/bn-logo.png";
+import logo from "../../../assets/img/bn-logo.png";
 import './ProviderHeader.scss';
 
 interface ProviderHeader {

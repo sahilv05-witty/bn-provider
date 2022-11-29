@@ -1,15 +1,8 @@
 import { Form, Header, Container, Item } from 'semantic-ui-react'
-import {InputButton, InputField, InputTermPolicy, StringField} from '../form-controls';
-import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../sharedComponents';
-import "./ProviderFormPage.scss";
-
+import {InputButton, InputField, InputTermPolicy, StringField} from '../controls/form';
+import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../controls/sharedComponents';
 
 function AccountActivation() {
-  // function getData(){
-  //   return "Vivek Yadav"
-  // }
-  // console.log("=================================");
-  // console.log(getData());
   return (
     <Item as="div" className='Provider-Form-Page'>
       <ProviderHeader />

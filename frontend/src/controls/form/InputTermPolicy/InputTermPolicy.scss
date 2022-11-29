@@ -1,0 +1,23 @@
+@import "../../../vars.scss";
+.input-term-policy {
+  .ui.checkbox {
+      label {
+          padding: 3px 0 0 33px;
+          text-align: left;
+          font-size: $fontSize - 2px !important;
+          text-transform: inherit !important;
+          font-weight: 400 !important;
+          &::before, &::after{
+              cursor: pointer !important;
+          }
+          a {
+              color:$primary !important;
+          }
+      }
+      .star {
+          position: absolute;
+          left: 19px;
+          top: -2px;
+      }
+  }
+}

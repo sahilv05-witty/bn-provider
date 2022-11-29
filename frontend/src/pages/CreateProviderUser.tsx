@@ -1,22 +1,14 @@
 import React, {useState}from 'react'
 import { Form, Container, Item } from 'semantic-ui-react'
-
-import {InputButton, InputField, InputSelect, InputCheckbox, StringField} from '../form-controls';
-
-import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../sharedComponents';
-
-import "./ProviderFormPage.scss";
+import {InputButton, InputField, InputSelect, InputCheckbox, StringField} from '../controls/form';
+import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../controls/sharedComponents';
 
 const roleOption = [
   {value: "Provider 1", text: "Provider 1"},
   {value: "Provider 2", text: "Provider 2"}
 
 ]
-const doctorGroup = [
-  {value: "Group A", text: "Group A"},
-  {value: "Group B", text: "Group B"}
 
-]
 const doctorText = "“Dr.” will be used in the salutation of the activation email when this is yes. The user’s first name will be used when this is no.";
 const errorText = "First name can only contain letters, apostrophes, hyphens, and periods.";
 

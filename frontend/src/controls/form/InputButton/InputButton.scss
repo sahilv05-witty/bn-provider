@@ -1,0 +1,20 @@
+@import '../../../vars.scss';
+.button {
+    background: $primary-gradient !important;
+    color: $white !important;
+    text-transform: uppercase !important;
+    &:disabled {
+        background: #C4C4C4 !important;
+        opacity: 1 !important;
+    }
+}
+.btn-secondary{
+    .ui.button {
+        box-shadow: none !important;
+        color: $primary !important;
+        background: transparent !important;
+        &:hover, &:focus {
+            background: transparent !important;
+        }
+    }
+}

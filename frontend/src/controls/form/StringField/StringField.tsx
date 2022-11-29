@@ -1,13 +1,13 @@
 import { Form, Input, Item } from 'semantic-ui-react';
-import "../form-controls/FormControl.scss";
-interface StringField{
+
+interface StringFieldProps{
     text?:string;
     label?:string;
     AddClass?:string;
     inline?: any;
 }
 
-export const StringField = ({label,AddClass, text, inline}:StringField) =>{ 
+export const StringField = ({label,AddClass, text, inline}:StringFieldProps) =>{ 
 return (
       <Form.Field className={AddClass} inline={inline}>
        {label ? <label style={{paddingTop: 3}}>{label}</label>:''}

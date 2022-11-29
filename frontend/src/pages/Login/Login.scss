@@ -1,8 +1,8 @@
-@import "../vars.scss";
+@import "../../vars.scss";
 
 
 .Login{
-    background: url(../assets/img/login-banner.jpg) !important; 
+    background: url(../../assets/img/login-banner.jpg) !important; 
     background-size: cover !important;
     display: flex;
     flex-direction: column;

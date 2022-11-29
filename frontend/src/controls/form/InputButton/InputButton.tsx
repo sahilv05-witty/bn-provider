@@ -1,7 +1,7 @@
-import {  Button, Form, Item, Icon } from 'semantic-ui-react';
-import "../form-controls/FormControl.scss";
+import {  Button, Form, Item } from 'semantic-ui-react';
+import "./InputButton.scss";
 
-interface InputButtonProbs{
+interface InputButtonProps{
     text?: string;
     size?: any;
     fluid?: any;
@@ -10,12 +10,11 @@ interface InputButtonProbs{
     requiredHintText?: Boolean;
     circular?: any;
     icon?: any;
-
     disabled?: boolean;
     onClick?: ()=> any;
 }
 
-export const InputButton = ({ text, fluid, size, inline, AddClass, requiredHintText, circular, icon, disabled, onClick }:InputButtonProbs) =>{ 
+export const InputButton = ({ text, fluid, size, inline, AddClass, requiredHintText, circular, icon, disabled, onClick }:InputButtonProps) =>{ 
     return (
 
         <Form.Field className={AddClass} inline={inline}  >

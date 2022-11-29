@@ -1,7 +1,6 @@
 import { Form, Input, Item } from 'semantic-ui-react';
-import "../form-controls/FormControl.scss";
 
-interface InputField{
+interface InputFieldProps{
     placeholder?:string;
     type?:any;
     label?:any;
@@ -14,7 +13,7 @@ interface InputField{
     // onchange:? ()=> any;
 }
 
-export const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value, error}:InputField) =>{ 
+export const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value, error}:InputFieldProps) =>{ 
 return (
         <Form.Field className={AddClass} inline={inline} required={required} >
             {label ? <label>{label}</label>:''}

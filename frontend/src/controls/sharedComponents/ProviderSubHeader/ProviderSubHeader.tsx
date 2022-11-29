@@ -1,5 +1,5 @@
 import { Breadcrumb, Item, Icon } from 'semantic-ui-react';
-import {InputButton} from '../form-controls';
+import {InputButton} from '../../form';
 import './ProviderSubHeader.scss';
 
 const sections = [

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input } from 'semantic-ui-react'
 
-const InputField = () =>{ 
+export const ProviderSidebar = () =>{ 
 return (
     
 <Input placeholder='Search...' />
@@ -9,5 +9,3 @@ return (
 
 
 }
-
-export default InputField
