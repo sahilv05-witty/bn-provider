@@ -8,7 +8,7 @@ interface InputTermPolicy{
 }
 
 
-function InputTermPolicy({label, inline, required}: InputTermPolicy) {
+export function InputTermPolicy({label, inline, required}: InputTermPolicy) {
   return (
     <Form.Field className="input-term-policy" inline={inline} >
         {inline ? <label>{label}</label>:''}
@@ -18,5 +18,3 @@ function InputTermPolicy({label, inline, required}: InputTermPolicy) {
   </Form.Field>
   )
 }
-
-export default InputTermPolicy

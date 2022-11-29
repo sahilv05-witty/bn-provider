@@ -38,7 +38,7 @@ interface InputSelect{
   fluid?: any;
 }
 
-const InputSelect = ({placeholder, AddClass, inline, required, fluid, label}: InputSelect) => (
+export const InputSelect = ({placeholder, AddClass, inline, required, fluid, label}: InputSelect) => (
 
 
   <Form.Field className={AddClass} inline={inline} required={required} >
@@ -48,5 +48,3 @@ const InputSelect = ({placeholder, AddClass, inline, required, fluid, label}: In
   </Item>
   </Form.Field>
 )
-
-export default InputSelect

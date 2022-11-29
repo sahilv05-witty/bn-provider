@@ -13,7 +13,7 @@ interface InputField{
     // onchange:? ()=> any;
 }
 
-const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value}:InputField) =>{ 
+export const InputField = ({placeholder,label,AddClass, type, inline, required, hint, value}:InputField) =>{ 
 return (
         <Form.Field className={AddClass} inline={inline} required={required} >
             {label ? <label>{label}</label>:''}
@@ -25,8 +25,4 @@ return (
             </Item>
       </Form.Field>
 )
-
-
 }
-
-export default InputField

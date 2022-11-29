@@ -1,13 +1,9 @@
 import React from 'react'
 import { Item, Form, Header, Container } from 'semantic-ui-react';
-import InputField from '../form-controls/InputField';
-import InputButton from "../form-controls/InputButton";
+import { InputField, InputButton } from '../form-controls';
 import errorIcon from "../assets/img/error-icon.svg";
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
-
+import {ProviderFooter,ProviderHeader} from '../sharedComponents';
 import "./Login.scss"
-
 const Login = () =>{ 
 return (    
     <Item as="div" className="Login">
