@@ -1,16 +1,25 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.scss';
+import 'semantic-ui-css/semantic.min.css';
 import App from './App';
+import './index.scss';
 import reportWebVitals from './reportWebVitals';
-import 'semantic-ui-css/semantic.min.css'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  cache: new InMemoryCache(),
+});
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>
 );
 

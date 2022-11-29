@@ -88,7 +88,7 @@ type Query {
   role(id: Float!): RoleDto
   roles(isActive: Boolean): [RoleDto!]
   provider: ProviderDto!
-  providers: [ProviderDto!]
+  providers(searchProvider: SearchProviderDto): [ProviderDto!]
   patients(providerId: Float): [PatientDto!]!
   patient(id: Float!): PatientDto
   entryPoint: GlossaryDto!
@@ -99,6 +99,10 @@ type Query {
 input SearchUserDto {
   isActive: Boolean
   roleId: Float
+}
+
+input SearchProviderDto {
+  isActive: Boolean
 }
 
 type Mutation {
