@@ -17,7 +17,7 @@ interface InputButton {
     onChange?: ()=> any;
 }
 
-const InputButton = ({ text, fluid, label, inline, AddClass, toggle, circular, icon, disabled, onChange,checked }:InputButton) =>{ 
+export const InputCheckbox = ({ text, fluid, label, inline, AddClass, toggle, circular, icon, disabled, onChange,checked }:InputButton) =>{ 
     return (
 
         <Form.Field className={AddClass} inline={inline}  >

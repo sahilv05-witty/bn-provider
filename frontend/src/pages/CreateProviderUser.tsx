@@ -1,13 +1,10 @@
 import React, {useState}from 'react'
 import { Form, Container, Item } from 'semantic-ui-react'
-import InputButton from '../form-controls/InputButton';
-import InputField from '../form-controls/InputField';
-import InputSelect from '../form-controls/InputSelect';
-import StringField from '../form-controls/StringField';
-import InputCheckbox from '../form-controls/InputCheckbox';
-import ProviderHeader from '../sharedComponents/ProviderHeader';
-import ProviderSubHeader from '../sharedComponents/ProviderSubHeader';
-import ProviderFooter from '../sharedComponents/ProviderFooter';
+
+import {InputButton, InputField, InputSelect, InputCheckbox, StringField} from '../form-controls';
+
+import {ProviderFooter,ProviderHeader,ProviderSubHeader} from '../sharedComponents';
+
 import "./ProviderFormPage.scss";
 
 const roleOption = [
