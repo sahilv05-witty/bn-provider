@@ -1,0 +1,30 @@
+{
+  "name": "bn-provider",
+  "version": "1.0.0",
+  "description": "Provider portal backend api. It providers access to the patient details and their status for a given provider/physician and thier doctors group using GraphQL queries and mutations.",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "concurrently \"npm:api\" \"npm:ui\"",
+    "ui": "npm run start --prefix frontend",
+    "api": "npm run start:dev --prefix backend",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sahilv05-witty/bn-provider.git"
+  },
+  "keywords": [
+    "NestJS",
+    "TypeORM",
+    "GraphQL"
+  ],
+  "author": "Sarath Chandra Kammari",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sahilv05-witty/bn-provider/issues"
+  },
+  "homepage": "https://github.com/sahilv05-witty/bn-provider#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

@@ -21,6 +21,7 @@ export class UsersService {
 
     if (isActive !== undefined || roleId !== undefined) {
       let whereClause = null;
+
       if (isActive !== undefined && roleId === undefined) {
         whereClause = { where: { isActive } };
       } else if (isActive === undefined && roleId !== undefined) {
@@ -28,8 +29,6 @@ export class UsersService {
       } else {
         whereClause = { where: { isActive, role: { id: roleId } } };
       }
-
-      console.log(JSON.stringify(whereClause));
 
       return this.usersRepo.find(whereClause);
     }

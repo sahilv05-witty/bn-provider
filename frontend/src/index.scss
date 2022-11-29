@@ -14,7 +14,11 @@ code {
 #root{
   height: 100%;
 }
+.form {
+.field{
+  &.mb-0{
+    margin-bottom: 0 !important;
+  }
+}
 
-.mb-0{
-  margin-bottom: 0 !important;
 }
