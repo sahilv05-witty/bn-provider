@@ -4,7 +4,7 @@
 
 ## Description
 
-Provider portal backend api. It providers access to the patient details and their status for a given provider/physician and thier doctors group.
+Provider portal providers access to the patient details and their status for a given provider/physician and thier group.
 
 ## Major Technologies
 
