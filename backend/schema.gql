@@ -82,7 +82,7 @@ type PatientDto {
 
 type Query {
   glossary(id: Float!): GlossaryDto
-  glossaries: [GlossaryDto!]!
+  glossaries(search: SearchGlossaryDto): [GlossaryDto!]!
   user(id: Float!): UserDto
   users(searchUser: SearchUserDto): [UserDto!]!
   role(id: Float!): RoleDto
@@ -96,6 +96,23 @@ type Query {
   status: GlossaryDto!
 }
 
+input SearchGlossaryDto {
+  code: String
+  type: GlossaryType
+}
+
+"""The supported colors."""
+enum GlossaryType {
+  """Glossary types belongs to the PATIENT STATUS"""
+  PATIENTSTATUS
+
+  """Glossary types belongs to the ENTRY POINT"""
+  ENTRYPOINT
+
+  """Glossary types belongs to the PATHWAY."""
+  PATHWAY
+}
+
 input SearchUserDto {
   isActive: Boolean
   roleId: Float
@@ -107,7 +124,7 @@ input SearchProviderDto {
 
 type Mutation {
   createGlossary(glossary: CreateGlossaryDto!): GlossaryDto!
-  updateGlossary(reference: UpdateGlossaryDto!): GlossaryDto!
+  updateGlossary(glossary: UpdateGlossaryDto!): GlossaryDto!
   createUser(user: CreateUserDto!): UserDto!
   activeUser(user: ActiveUserDto!): UserDto!
   createRole(role: CreateRoleDto!): RoleDto!
@@ -121,18 +138,6 @@ input CreateGlossaryDto {
   name: String!
   description: String
   type: GlossaryType!
-}
-
-"""The supported colors."""
-enum GlossaryType {
-  """Glossary types belongs to the PATIENT STATUS"""
-  PATIENTSTATUS
-
-  """Glossary types belongs to the ENTRY POINT"""
-  ENTRYPOINT
-
-  """Glossary types belongs to the PATHWAY."""
-  PATHWAY
 }
 
 input UpdateGlossaryDto {

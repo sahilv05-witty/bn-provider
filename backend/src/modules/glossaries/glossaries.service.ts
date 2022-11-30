@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { CreateGlossaryDto } from './dtos/create-glossary.dto';
-import { UpdateGlossaryDto as UpdateGlossaryDto } from './dtos/update-glossary.dto';
+import { SearchGlossaryDto } from './dtos/search-glossary.dto';
+import { UpdateGlossaryDto } from './dtos/update-glossary.dto';
 import { Glossary } from './glossary.entity';
 
 @Injectable()
@@ -13,8 +14,12 @@ export class GlossariesService {
     private repo: Repository<Glossary>,
   ) {}
 
-  findAll() {
-    return this.repo.find();
+  findAll(searchDto?: Partial<SearchGlossaryDto>) {
+    if (!searchDto) {
+      return this.repo.find();
+    }
+
+    return this.repo.findBy({ ...searchDto });
   }
 
   findOne(id: number) {

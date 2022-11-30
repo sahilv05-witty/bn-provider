@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { CreateProviderDto } from './dtos/create-provider.dto';
 import { SearchProviderDto } from './dtos/search-provider.dto';
+import { UpdateProviderDto } from './dtos/update-provider.dto';
 import { Provider } from './provider.entity';
 
 @Injectable()
@@ -44,6 +45,11 @@ export class ProvidersService {
       createdBy: `${user.lastName}, ${user.firstName}`,
     });
 
+    return this.repo.save(provider);
+  }
+
+  update(provider: Partial<Provider>, user: User) {
+    provider.updatedBy = `${user.lastName}, ${user.firstName}`;
     return this.repo.save(provider);
   }
 

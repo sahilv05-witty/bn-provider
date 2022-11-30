@@ -37,7 +37,7 @@ export class UsersResolver {
 
   @Query((returns) => [UserDto])
   @Serialize(UserDto)
-  users(@Args('searchUser', { nullable: true }) searchUser: SearchUserDto) {
+  users(@Args('searchUser', { nullable: true }) searchUser?: SearchUserDto) {
     return this.usersService.findAll(searchUser);
   }
 
