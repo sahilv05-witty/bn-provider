@@ -1,0 +1,18 @@
+@import '../../../vars.scss';
+.Provider-Sidebar {
+  &.ui.overlay {
+  width: 185px !important;
+  top: 62px;
+  height: calc(100vh - 112px) !important;
+  &.menu{
+    .item{
+      color: $secondary !important;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 1.65em 1em !important;
+
+
+    }
+  }
+}
+}

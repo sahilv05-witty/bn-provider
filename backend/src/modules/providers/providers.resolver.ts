@@ -14,6 +14,7 @@ import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { CreateProviderDto } from './dtos/create-provider.dto';
 import { ProviderDto } from './dtos/provider.dto';
+import { SearchProviderDto } from './dtos/search-provider.dto';
 import { ProvidersService } from './providers.service';
 
 @Resolver((of) => ProviderDto)
@@ -31,8 +32,11 @@ export class ProvidersResolver {
 
   @Query((returns) => [ProviderDto], { nullable: true })
   @Serialize(ProviderDto)
-  providers() {
-    return this.providersService.findAll();
+  providers(
+    @Args('searchProvider', { nullable: true })
+    searchProvider: SearchProviderDto,
+  ) {
+    return this.providersService.findAll(searchProvider);
   }
 
   @ResolveField((returns) => UserDto)

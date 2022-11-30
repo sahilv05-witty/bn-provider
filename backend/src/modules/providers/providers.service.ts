@@ -3,14 +3,25 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { CreateProviderDto } from './dtos/create-provider.dto';
+import { SearchProviderDto } from './dtos/search-provider.dto';
 import { Provider } from './provider.entity';
 
 @Injectable()
 export class ProvidersService {
   constructor(@InjectRepository(Provider) private repo: Repository<Provider>) {}
 
-  findAll() {
-    return this.repo.find();
+  findAll(searchProvider: SearchProviderDto) {
+    if (!searchProvider) {
+      return this.repo.find();
+    }
+
+    const { isActive } = searchProvider || {};
+
+    if (isActive !== undefined) {
+      let whereClause = { where: { isActive } };
+
+      return this.repo.find(whereClause);
+    }
   }
 
   findOneByUserId(userId: number) {
