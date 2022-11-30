@@ -11,8 +11,13 @@ const root = ReactDOM.createRoot(
 );
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
+  uri: '/api',
   cache: new InMemoryCache(),
+  // headers: {
+  //   authorization: localStorage.getItem('token') || '',
+  //   'client-name': 'Space Explorer [web]',
+  //   'client-version': '1.0.0',
+  // },
 });
 
 root.render(

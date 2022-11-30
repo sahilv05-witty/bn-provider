@@ -10,7 +10,7 @@ import { Provider } from './provider.entity';
 export class ProvidersService {
   constructor(@InjectRepository(Provider) private repo: Repository<Provider>) {}
 
-  findAll(searchProvider: SearchProviderDto) {
+  findAll(searchProvider?: SearchProviderDto) {
     if (!searchProvider) {
       return this.repo.find();
     }
