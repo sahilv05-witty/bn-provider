@@ -1,12 +1,14 @@
 import { Inject } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { User } from '../users/user.entity';
 import { CreateGlossaryDto } from './dtos/create-glossary.dto';
-import { UpdateGlossaryDto } from './dtos/update-glossary.dto';
+import { GlossaryType } from './dtos/glossary-type.dto';
 import { GlossaryDto } from './dtos/glossary.dto';
+import { SearchGlossaryDto } from './dtos/search-glossary.dto';
+import { UpdateGlossaryDto } from './dtos/update-glossary.dto';
 import { GlossariesService } from './glossaries.service';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
 
 @Resolver((of) => GlossaryDto)
 export class GlossariesResolver {
@@ -23,8 +25,8 @@ export class GlossariesResolver {
 
   @Query((returns) => [GlossaryDto])
   @Serialize(GlossaryDto)
-  glossaries() {
-    return this.GlossariesService.findAll();
+  glossaries(@Args('search', { nullable: true }) search?: SearchGlossaryDto) {
+    return this.GlossariesService.findAll(search);
   }
 
   @Mutation((returns) => GlossaryDto)
@@ -40,9 +42,9 @@ export class GlossariesResolver {
   @Mutation((returns) => GlossaryDto)
   @Serialize(GlossaryDto)
   updateGlossary(
-    @Args('reference') reference: UpdateGlossaryDto,
+    @Args('glossary') glossary: UpdateGlossaryDto,
     @CurrentUser() user: User,
   ) {
-    return this.GlossariesService.update(reference, user);
+    return this.GlossariesService.update(glossary, user);
   }
 }

@@ -3,22 +3,15 @@ import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { GlossaryType } from './glossary-type.dto';
 
 @InputType()
-export class CreateGlossaryDto {
-  @IsString()
-  @Field()
-  code: string;
-
-  @IsString()
-  @Field()
-  name: string;
-
+export class SearchGlossaryDto {
   @IsString()
   @IsOptional()
   @Field({ nullable: true })
-  description?: string;
+  code?: string;
 
   @IsEnum(GlossaryType)
   @Field()
-  @Field((type) => GlossaryType)
-  type: GlossaryType;
+  @IsOptional()
+  @Field((type) => GlossaryType, { nullable: true })
+  type?: GlossaryType;
 }

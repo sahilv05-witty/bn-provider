@@ -1,13 +1,24 @@
 ### create a new provider
-POST http://localhost:3000/providers
+POST http://localhost:5000/providers
 Content-Type: application/json
 
 {
-    "name" : "John Smith",
-    "group": "BetterNight Group of Doctors",
-    "brighttreeId": 1
+    "name" : "Trisha Lewis",
+    "group": "Group A",
+    "brighttreeId": 4
+}
+
+### Update an existing provider
+PATCH  http://localhost:5000/providers/1
+Content-Type: application/json
+
+{
+    "id": 3,
+    "name" : "Grant Dolin",
+    "group": "Group A",
+    "brighttreeId": 2
 }
 
 ### Get all providers
-GET http://localhost:3000/providers
+GET http://localhost:5000/providers
 Content-Type: application/json
