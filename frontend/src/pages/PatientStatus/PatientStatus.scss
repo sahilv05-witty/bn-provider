@@ -1,0 +1,35 @@
+@import "../../vars.scss";
+.Provider-Status{
+    display: flex;
+    flex-direction: column;
+    height: $fullHeight;
+    .container.fluid{
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        height: $fullHeight;
+        sidebar{
+            padding: $padding - 7px;
+        }
+        .content{
+            background: $page-bg;
+            padding: $padding;
+            min-height: $fullHeight;
+            }
+    }
+    .form{
+        input, button, label {
+            font-size: $fontSize - 2px !important;
+            text-transform: initial !important;
+        }
+        input{
+            height: $miniInput;
+        }
+        label{
+            color: $dark !important;
+        }
+        button{
+            width: 100%;
+            height: $defaultButton;
+        }
+    }
+}
