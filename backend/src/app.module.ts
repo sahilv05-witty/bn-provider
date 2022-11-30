@@ -46,10 +46,10 @@ import { Patient } from './modules/patients/patient.entity';
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
-      cors: {
-        origin: 'http://localhost:5001',
-        credentials: false,
-      },
+      // cors: {
+      //   origin: 'http://localhost:5001',
+      //   credentials: false,
+      // },
     }),
     GlossariesModule,
     UsersModule,
