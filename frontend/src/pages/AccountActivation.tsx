@@ -10,7 +10,7 @@ import {
   ProviderHeader,
   ProviderSubHeader,
 } from '../controls/sharedComponents';
-
+let hintText = `Password must be at least 8 characters long, contain at least one lower case letter, one upper case letter, one digit, and one special character.`;
 function AccountActivation() {
   return (
     <Item as='div' className='Provider-Form-Page'>
@@ -34,7 +34,7 @@ function AccountActivation() {
               inline
               placeholder='Password'
               required
-              hint
+              hint={hintText}
             />
             <InputField
               name='confirmPassword'

@@ -28,3 +28,22 @@
     }
   }
 }
+
+.ui.striped.table{
+  border: 0;
+  thead{
+    tr{
+      th{
+        background: $page-bg;
+        color: $secondary;
+      }
+    }
+  }
+  tbody {
+    tr{
+      &:nth-child(2n){
+        background: #F5F5F5;
+      }
+    }
+  }
+}

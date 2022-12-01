@@ -11,6 +11,7 @@ interface InputFieldProps {
   hint?: any;
   value?: string;
   error?: string;
+  size?: any;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
@@ -29,6 +30,7 @@ export const InputField = ({
   value,
   error,
   onChange,
+  size,
 }: InputFieldProps) => {
   return (
     <Form.Field className={AddClass} inline={inline} required={required}>
@@ -40,12 +42,11 @@ export const InputField = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          size={size}
         />
         {hint ? (
           <span className='hint'>
-            Password must be at least 8 characters long, contain at least one
-            lower case letter, one upper case letter, one digit, and one special
-            character.
+            {hint}
           </span>
         ) : (
           ''
