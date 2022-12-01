@@ -11,12 +11,18 @@
       flex: 1;
     }
     .breadcrumb {
+      .section{
+        text-transform: uppercase;
+        font-size: $fontSize + 6px;
+        font-weight: 700;
+      }
       a {
         color: $secondary !important;
         text-transform: uppercase;
-        font-weight: 600;
+        font-weight: 700;
         &+.right.angle.icon{
           color: $primary;
+          font-size: 1.2em;
         }
       }
     }

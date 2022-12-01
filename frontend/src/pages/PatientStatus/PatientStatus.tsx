@@ -11,16 +11,40 @@ import { PatientStatusTable } from "./PatientStatusTable";
 import "./PatientStatus.scss";
 
 export const PatientStatus = () => {
-  const [isActive, setActive] = useState(false);
+  const ActionButtons = (
+    <>
+      <InputButton
+        text="Export"
+        onClick={() => console.log("This is working Export")}
+      />
+      <InputButton
+        icon="plus"
+        circular
+        size="mini"
+        onClick={() => console.log("This is Plus Button")}
+      />
+    </>
+  );
+
+  const PageTitle = [
+    { key: "Patient Status", content: "Patient Status ", active: true },
+  ];
+
+  const [visible, setVisible] = useState(false);
   const toggleSidebar = () => {
-    setActive(!isActive);
+    setVisible(!visible);
+    console.log("fdsdfsd");
   };
 
   return (
     <Item as="div" className="Provider-Status">
       <ProviderHeader toggleMenu={toggleSidebar} />
-      <ProviderSubHeader ActionButton />
-      <ProviderSidebar visible={isActive} onHide={setActive} />
+      <ProviderSubHeader
+        PageTitle={PageTitle}
+        pageTitleHint={"Data was last updated on 9/29/22 at 6am PT. "}
+        ActionButton={ActionButtons}
+      />
+      <ProviderSidebar visible={visible} onHide={setVisible} />
       <Container fluid>
         <Item as="sidebar">
           <Form size="mini">

@@ -1,20 +1,16 @@
 @import "../../vars.scss";
 .Provider-Status{
-    display: flex;
-    flex-direction: column;
-    height: $fullHeight;
     .container.fluid{
         display: grid;
         grid-template-columns: 170px 1fr;
-        height: $fullHeight;
+        padding: 0 !important;
+        overflow: hidden !important;
+        .content{
+            overflow: auto !important;
+        }
         sidebar{
             padding: $padding - 7px;
         }
-        .content{
-            background: $page-bg;
-            padding: $padding;
-            min-height: $fullHeight;
-            }
     }
     .form{
         input, button, label {

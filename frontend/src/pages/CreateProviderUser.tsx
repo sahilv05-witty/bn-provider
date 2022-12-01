@@ -40,6 +40,11 @@ const userReducer = (state = initialData, action: Action) => {
   return { ...state, [action.type]: action.payload };
 };
 
+const PageTitle = [
+  { key: "Providers", content: "Providers", link: true },
+  { key: "Create New User", content: "Create New User", active: true },
+];
+
 function CreateProviderUser() {
   const [user, dispatchFormFieldChange] = useReducer(userReducer, initialData);
 
@@ -89,7 +94,7 @@ function CreateProviderUser() {
   return (
     <Item as="div" className="Provider-Form-Page">
       <ProviderHeader />
-      <ProviderSubHeader />
+      <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
         <Item as="div" className="content">
           <Form>
