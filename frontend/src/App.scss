@@ -23,14 +23,12 @@
 }
 // PROVIDER FORM 
 .Provider-Form-Page{
-  .container.fluid{
-    form{
-      width: fit-content;
-      margin: 25px auto 10px;
-      @include mobileSize{
-        width: 100%;
-        margin: 10px auto ;
-      }
+  form{
+    width: fit-content;
+    margin: 25px auto 10px;
+    @include mobileSize{
+      width: 100%;
+      margin: 10px auto ;
     }
   }
 }
