@@ -11,6 +11,7 @@ import { UsersService } from './users.service';
 import { CurrentUserMiddleware } from './middlewares/current-user.middleware';
 
 import { User } from './user.entity';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
   imports: [

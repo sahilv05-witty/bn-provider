@@ -41,6 +41,10 @@ export class UsersResolver {
     return this.usersService.findAll(searchUser);
   }
 
+  validateActivationLink(
+    @Args('accountActivationLink') accountActivationLink: string,
+  ) {}
+
   @ResolveField((returns) => RoleDto)
   @Serialize(RoleDto)
   role(@Parent() user) {
