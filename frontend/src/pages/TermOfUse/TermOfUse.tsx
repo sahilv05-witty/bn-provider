@@ -6,11 +6,15 @@ import {
   ProviderSubHeader,
 } from "../../controls/sharedComponents";
 
+const PageTitle = [
+  { key: "Term of Use", content: "Term of Use", active: true },
+];
+
 export const TermOfUse = () => {
   return (
     <Item as="div" className="Term-of-Use">
       <ProviderHeader toggleMenu={() => {}} />
-      <ProviderSubHeader />
+      <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
         <Item as="p">
           <i>Last revised [date last revised]</i>
