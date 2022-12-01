@@ -11,6 +11,7 @@
     a{
         color: $white;
         text-decoration: underline;
+        cursor: pointer;
         &+a{
             margin-left: 20px;
         }
