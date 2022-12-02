@@ -13,7 +13,6 @@ import { Patient } from './patient.entity';
 export class PatientsService {
   constructor(@InjectRepository(Patient) private repo: Repository<Patient>) {}
   async findAll(provider?: Provider) {
-    console.log(JSON.stringify(provider));
     if (provider) {
       // Get provider patients and their provider group patients
 

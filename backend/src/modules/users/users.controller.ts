@@ -9,7 +9,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { Provider } from '../providers/provider.entity';
 import { ProvidersService } from '../providers/providers.service';
 import { RolesService } from '../roles/roles.service';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -67,6 +66,7 @@ export class UsersController {
 
   @Patch('/:id/active')
   async activateUser(@Param('id') id: string, @Body() body: ActiveUserDto) {
+    console.log(id);
     const user = await this.usersService.findOne(parseInt(id));
 
     if (!user) {
