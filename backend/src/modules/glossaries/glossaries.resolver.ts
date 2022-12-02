@@ -4,7 +4,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { User } from '../users/user.entity';
 import { CreateGlossaryDto } from './dtos/create-glossary.dto';
-import { GlossaryType } from './dtos/glossary-type.dto';
+import { GlossaryType } from './enums/glossary-type.enum';
 import { GlossaryDto } from './dtos/glossary.dto';
 import { SearchGlossaryDto } from './dtos/search-glossary.dto';
 import { UpdateGlossaryDto } from './dtos/update-glossary.dto';
