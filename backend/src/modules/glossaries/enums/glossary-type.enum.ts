@@ -8,7 +8,7 @@ export enum GlossaryType {
 
 registerEnumType(GlossaryType, {
   name: 'GlossaryType',
-  description: 'The supported colors.',
+  description: 'The supported glossary types.',
   valuesMap: {
     PATIENTSTATUS: {
       description: 'Glossary types belongs to the PATIENT STATUS',

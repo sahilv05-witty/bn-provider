@@ -20,6 +20,34 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type GlossaryPatientStatusDto {
+  id: Float!
+  createdBy: String!
+  createdAt: DateTime!
+  updatedBy: String
+  updatedAt: DateTime
+  beId: Float
+  beState: String
+  description: String!
+  pathway: String!
+  patientStatus: String!
+  patientStatusDefinition: String!
+}
+
+type GlossaryUserTypeSettingDto {
+  id: Float!
+  createdBy: String!
+  createdAt: DateTime!
+  updatedBy: String
+  updatedAt: DateTime
+  entryPoint: String!
+  initialState: String!
+  skipHST: Boolean!
+  isFollowupAllowed: Boolean!
+  service: String!
+  serviceDefinition: String!
+}
+
 type RoleDto {
   id: Float!
   createdBy: String!
@@ -83,6 +111,10 @@ type PatientDto {
 type Query {
   glossary(id: Float!): GlossaryDto
   glossaries(search: SearchGlossaryDto): [GlossaryDto!]!
+  patientStatuses: [GlossaryPatientStatusDto!]!
+  patientStatus(id: Float!): [GlossaryPatientStatusDto!]
+  userTypeSettings: [GlossaryUserTypeSettingDto!]!
+  userTypeSetting(id: Float!): [GlossaryUserTypeSettingDto!]
   user(id: Float!): UserDto
   users(searchUser: SearchUserDto): [UserDto!]!
   role(id: Float!): RoleDto
@@ -101,7 +133,7 @@ input SearchGlossaryDto {
   type: GlossaryType
 }
 
-"""The supported colors."""
+"""The supported glossary types."""
 enum GlossaryType {
   """Glossary types belongs to the PATIENT STATUS"""
   PATIENTSTATUS
@@ -125,12 +157,15 @@ input SearchProviderDto {
 type Mutation {
   createGlossary(glossary: CreateGlossaryDto!): GlossaryDto!
   updateGlossary(glossary: UpdateGlossaryDto!): GlossaryDto!
+  createPatientStatus(patientStatus: CreateGlossaryPatientStatusDto!): GlossaryPatientStatusDto!
+  updatePatientStatus(patient: UpdatePatientDto!): PatientDto!
+  createUserTypeSetting(userTypeSetting: CreateGlossaryUserTypeSettingDto!): GlossaryUserTypeSettingDto!
+  updateUserTypeSetting(userTypeSetting: UpdateGlossaryUserTypeSettingDto!): GlossaryUserTypeSettingDto!
   createUser(user: CreateUserDto!): UserDto!
   activeUser(user: ActiveUserDto!): UserDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
   createPatient(patient: CreatePatientDto!): PatientDto!
-  updatePatientStatus(patient: UpdatePatientDto!): PatientDto!
 }
 
 input CreateGlossaryDto {
@@ -146,6 +181,37 @@ input UpdateGlossaryDto {
   name: String!
   description: String
   isActive: Boolean
+}
+
+input CreateGlossaryPatientStatusDto {
+  beId: Float
+  beState: String
+  description: String
+  dataSource: String!
+  pathway: String!
+  patientStatus: String!
+  patientStatusDefinition: String!
+}
+
+input UpdatePatientDto {
+  id: Float!
+  statusId: Float!
+  statusDate: DateTime!
+}
+
+input CreateGlossaryUserTypeSettingDto {
+  entryPoint: String!
+  initialState: String!
+  skipHST: Boolean!
+  isFollowupAllowed: Boolean!
+  service: String!
+  serviceDefinition: String!
+}
+
+input UpdateGlossaryUserTypeSettingDto {
+  id: Float!
+  service: String!
+  serviceDefinition: String!
 }
 
 input CreateUserDto {
@@ -184,10 +250,4 @@ input CreatePatientDto {
   statusId: Float!
   statusDate: DateTime!
   providerId: Float!
-}
-
-input UpdatePatientDto {
-  id: Float!
-  statusId: Float!
-  statusDate: DateTime!
 }

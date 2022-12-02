@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { GlossaryType } from './glossary-type.dto';
+import { GlossaryType } from '../enums/glossary-type.enum';
 
 @InputType()
 export class CreateGlossaryDto {
@@ -18,7 +18,6 @@ export class CreateGlossaryDto {
   description?: string;
 
   @IsEnum(GlossaryType)
-  @Field()
   @Field((type) => GlossaryType)
   type: GlossaryType;
 }
