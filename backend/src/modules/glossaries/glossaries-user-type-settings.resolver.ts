@@ -24,7 +24,7 @@ export class GlossariesUserTypeSettingsResolver {
   @Query((returns) => [GlossaryUserTypeSettingDto], { nullable: true })
   @Serialize(GlossaryUserTypeSettingDto)
   userTypeSetting(@Args('id') id: number) {
-    return this.service.find(id);
+    return this.service.findOne(id);
   }
 
   @Mutation((returns) => GlossaryUserTypeSettingDto)

@@ -22,7 +22,7 @@ export class Glossary extends Base {
   @OneToMany(() => Patient, (patient) => patient.entryPoint)
   entryPoints: Patient[];
 
-  @OneToMany(() => Patient, (patient) => patient.currentPathway)
+  @OneToMany(() => Patient, (patient) => patient.pathway)
   pathways: Patient[];
 
   @OneToMany(() => Patient, (patient) => patient.status)

@@ -17,7 +17,7 @@ export class GlossariesUserTypeSettingsService {
     return this.repo.find();
   }
 
-  find(id: number) {
+  findOne(id: number) {
     return this.repo.findOneBy({ id });
   }
 
@@ -50,7 +50,7 @@ export class GlossariesUserTypeSettingsService {
     userTypeSettingDto: UpdateGlossaryUserTypeSettingDto,
     { firstName, lastName }: User,
   ) {
-    const userTypeSetting = await this.find(id);
+    const userTypeSetting = await this.findOne(id);
 
     if (!userTypeSetting) {
       throw new NotFoundException('User type setting glossary not found');
