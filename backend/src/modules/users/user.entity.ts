@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { Notification } from '../notifications/notification.entity';
 import { Provider } from '../providers/provider.entity';
 import { Role } from '../roles/role.entity';
 import { Base } from '../shared/base.entity';
@@ -37,4 +38,9 @@ export class User extends Base {
     nullable: true,
   })
   provider?: Provider;
+
+  @OneToMany(() => Notification, (notification) => notification?.user, {
+    nullable: true,
+  })
+  notifications?: Notification[];
 }

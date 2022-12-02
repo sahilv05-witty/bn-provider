@@ -1,56 +1,62 @@
-import { Form, Header, Container, Item } from 'semantic-ui-react';
+import { Form, Header, Container, Item } from "semantic-ui-react";
 import {
   InputButton,
   InputField,
   InputTermPolicy,
   StringField,
-} from '../controls/form';
+} from "../controls/form";
 import {
   ProviderFooter,
   ProviderHeader,
   ProviderSubHeader,
-} from '../controls/sharedComponents';
+} from "../controls/sharedComponents";
+
+let hintText = `Password must be at least 8 characters long, contain at least one lower case letter, one upper case letter, one digit, and one special character.`;
+
+const PageTitle = [
+  { key: "Account Activation", content: "Account Activation", active: true },
+];
 
 function AccountActivation() {
   return (
-    <Item as='div' className='Provider-Form-Page'>
+    <Item as="div" className="Provider-Form-Page">
       <ProviderHeader />
-      <ProviderSubHeader />
+      <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
-        <Item as='div' className='content'>
-          <Header as='h5' textAlign='center'>
+        <Item as="div" className="content">
+          <Header as="h5" textAlign="center">
             Welcome to the Provider Portal, please set your password and agree
             to the terms of use.
           </Header>
           <Form>
-            <StringField inline label='First Name ' text='John' />
-            <StringField inline label='Last Name ' text='Smith' />
-            <StringField inline label='Email ' text='john@smith.com' />
-            <StringField inline label='Provider Group ' text='Smith Group' />
+            <StringField inline label="First Name " text="John" />
+            <StringField inline label="Last Name " text="Smith" />
+            <StringField inline label="Email " text="john@smith.com" />
+            <StringField inline label="Provider Group " text="Smith Group" />
             <InputField
-              name='password'
-              type='password'
-              label='CREATE PASSWORD'
+              name="password"
+              type="password"
+              label="CREATE PASSWORD"
               inline
-              placeholder='Password'
+              placeholder="Password"
               required
-              hint
+              hint={hintText}
             />
             <InputField
-              name='confirmPassword'
-              type='password'
-              label='CONFIRM PASSWORD'
+              name="confirmPassword"
+              type="password"
+              label="CONFIRM PASSWORD"
               inline
-              placeholder='Confirm Password'
+              placeholder="Confirm Password"
               required
             />
-            <InputTermPolicy inline AddClass='empty-label' />
+            <InputTermPolicy inline AddClass="empty-label" />
             <InputButton
-              text='Continue'
+              text="Continue"
               inline
               fluid
               requiredHintText
-              AddClass='mb-0 empty-label'
+              AddClass="mb-0 empty-label"
             />
           </Form>
         </Item>
