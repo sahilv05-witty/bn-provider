@@ -14,6 +14,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { User } from './modules/users/user.entity';
 import { UsersModule } from './modules/users/users.module';
 import { Patient } from './modules/patients/patient.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { Patient } from './modules/patients/patient.entity';
     RolesModule,
     ProvidersModule,
     PatientsModule,
+    AuthModule,
   ],
   providers: [
     {
