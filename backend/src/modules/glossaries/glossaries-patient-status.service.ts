@@ -18,7 +18,7 @@ export class GlossariesPatientStatusService {
     return this.repo.find();
   }
 
-  find(id: number) {
+  findOne(id: number) {
     return this.repo.findOneBy({ id });
   }
 
@@ -53,7 +53,7 @@ export class GlossariesPatientStatusService {
     patientStatusDto: UpdateGlossaryPatientStatusDto,
     { firstName, lastName }: User,
   ) {
-    const patientStatus = await this.find(id);
+    const patientStatus = await this.findOne(id);
 
     if (!patientStatus) {
       throw new NotFoundException('Patient status glossary not found');

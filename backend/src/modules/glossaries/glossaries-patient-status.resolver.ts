@@ -24,7 +24,7 @@ export class GlossariesPatientStatusResolver {
   @Query((returns) => [GlossaryPatientStatusDto], { nullable: true })
   @Serialize(GlossaryPatientStatusDto)
   patientStatus(@Args('id') id: number) {
-    return this.service.find(id);
+    return this.service.findOne(id);
   }
 
   @Mutation((returns) => GlossaryPatientStatusDto)

@@ -47,17 +47,32 @@ export class PatientDto {
 
   @Expose()
   @Field()
-  @Transform(({ obj }) => obj.entryPoint?.name)
   entryPoint: string;
 
   @Expose()
   @Field()
-  @Transform(({ obj }) => obj.currentPathway?.name)
-  currentPathway: string;
+  pathway: string;
 
   @Expose()
   @Field()
-  @Transform(({ obj }) => obj.status?.name)
+  state: string;
+
+  @Expose()
+  @Field()
+  skipHST: boolean;
+
+  @Expose()
+  @Field()
+  isFollowupAllowed: boolean;
+
+  @Expose()
+  @Field()
+  @Transform(({ obj }) => obj.service?.service)
+  service: string;
+
+  @Expose()
+  @Field()
+  @Transform(({ obj }) => obj.status?.patientStatus)
   status: string;
 
   @Expose()

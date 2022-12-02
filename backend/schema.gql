@@ -102,7 +102,11 @@ type PatientDto {
   brighttreeNumber: Float!
   betterNightId: Float!
   entryPoint: String!
-  currentPathway: String!
+  pathway: String!
+  state: String!
+  skipHST: Boolean!
+  isFollowupAllowed: Boolean!
+  service: String!
   status: String!
   statusDate: DateTime!
   provider: String!
@@ -123,8 +127,7 @@ type Query {
   providers(searchProvider: SearchProviderDto): [ProviderDto!]
   patients(providerId: Float): [PatientDto!]!
   patient(id: Float!): PatientDto
-  entryPoint: GlossaryDto!
-  currentPathway: GlossaryDto!
+  service: GlossaryDto!
   status: GlossaryDto!
 }
 
@@ -245,8 +248,12 @@ input CreatePatientDto {
   dateOfBirth: DateTime!
   brighttreeNumber: Float!
   betterNightId: Float!
-  entryPointId: Float!
-  currentPathwayId: Float!
+  entryPoint: String!
+  pathway: String!
+  state: String!
+  skipHST: Boolean!
+  isFollowupAllowed: Boolean!
+  serviceId: Float!
   statusId: Float!
   statusDate: DateTime!
   providerId: Float!
