@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { useReducer, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Container, Form, Header, Item } from 'semantic-ui-react';
 import errorIcon from '../../assets/img/error-icon.svg';
 import { InputButton, InputField } from '../../controls/form';
@@ -8,6 +8,7 @@ import {
   ProviderFooter,
   ProviderHeader,
 } from '../../controls/sharedComponents';
+import { useAuth } from '../../hooks/useAuth';
 import { mutationLoginUser } from '../../services';
 import './Login.scss';
 
@@ -37,6 +38,19 @@ const INVALID_CREDENTIALS_ACCOUNT_LOCKED =
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [user, dispatchFieldChange] = useReducer(userReducer, initialData);
+  const location = useLocation();
+
+  const auth = useAuth();
+
+  const redirectTo =
+    location.state && location.state.path !== 'login'
+      ? location.state.path
+      : '/';
+
+  if (auth.user) {
+    return <Navigate to={redirectTo} />;
+  }
+
   const [loginUserMutation] = useMutation(mutationLoginUser);
   const navigate = useNavigate();
 
@@ -69,12 +83,8 @@ const Login = () => {
       const userDetails = result.data.login;
 
       if (userDetails && userDetails.email === user.email) {
-        if (userDetails.isProvider) {
-          navigate('patient-status');
-          return;
-        }
-
-        navigate('accounts');
+        auth.setUser(userDetails);
+        navigate(redirectTo, { replace: true });
       }
     } catch (error: any) {
       const { errors, data } = error;
