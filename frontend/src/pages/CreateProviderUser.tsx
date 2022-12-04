@@ -1,24 +1,24 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { useMemo, useReducer, useState } from "react";
-import { Container, Form, Item } from "semantic-ui-react";
+import { useMutation, useQuery } from '@apollo/client';
+import { useMemo, useReducer, useState } from 'react';
+import { Container, Form, Item } from 'semantic-ui-react';
 import {
   InputButton,
   InputCheckbox,
   InputField,
   InputSelect,
   StringField,
-} from "../controls/form";
+} from '../controls/form';
 import {
   ProviderFooter,
   ProviderHeader,
   ProviderSubHeader,
-} from "../controls/sharedComponents";
-import { mutationCreateUser, queryProviders } from "../services";
+} from '../controls/sharedComponents';
+import { mutationCreateUser, queryProviders } from '../services';
 
 const doctorText =
-  "“Dr.” will be used in the salutation of the activation email when this is yes. The user’s first name will be used when this is no.";
+  '“Dr.” will be used in the salutation of the activation email when this is yes. The user’s first name will be used when this is no.';
 const errorText =
-  "First name can only contain letters, apostrophes, hyphens, and periods.";
+  'First name can only contain letters, apostrophes, hyphens, and periods.';
 
 type UserForm = {
   firstName: string;
@@ -27,7 +27,7 @@ type UserForm = {
   provider: number;
 };
 
-type ActionTypesProps = "firstName" | "lastName" | "email" | "provider";
+type ActionTypesProps = 'firstName' | 'lastName' | 'email' | 'provider';
 
 type Action = {
   type: ActionTypesProps;
@@ -41,8 +41,8 @@ const userReducer = (state = initialData, action: Action) => {
 };
 
 const PageTitle = [
-  { key: "Providers", content: "Providers", link: true },
-  { key: "Create New User", content: "Create New User", active: true },
+  { key: 'Providers', content: 'Providers', link: true },
+  { key: 'Create New User', content: 'Create New User', active: true },
 ];
 
 function CreateProviderUser() {
@@ -68,7 +68,6 @@ function CreateProviderUser() {
   }, [data]);
 
   const doctorGroup = data?.providers.find((provider: any) => {
-    console.log(JSON.stringify(provider));
     return provider.id === parseInt(user.provider?.toString());
   })?.group;
 
@@ -92,14 +91,14 @@ function CreateProviderUser() {
   };
 
   return (
-    <Item as="div" className="Provider-Form-Page">
+    <Item as='div' className='Provider-Form-Page'>
       <ProviderHeader />
       <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
-        <Item as="div" className="content">
+        <Item as='div' className='content'>
           <Form>
             <InputCheckbox
-              label="Doctor"
+              label='Doctor'
               inline
               toggle
               text={doctorText}
@@ -107,10 +106,10 @@ function CreateProviderUser() {
               onChange={checkFun}
             />
             <InputField
-              name="firstName"
-              label="First Name"
+              name='firstName'
+              label='First Name'
               inline
-              placeholder="First Name"
+              placeholder='First Name'
               required
               error={errorText}
               value={user.firstName}
@@ -120,10 +119,10 @@ function CreateProviderUser() {
               }}
             />
             <InputField
-              name="lastName"
-              label="Last Name"
+              name='lastName'
+              label='Last Name'
               inline
-              placeholder="Last Name"
+              placeholder='Last Name'
               required
               value={user.lastName}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,11 +131,11 @@ function CreateProviderUser() {
               }}
             />
             <InputField
-              name="email"
-              type="email"
-              label="Email"
+              name='email'
+              type='email'
+              label='Email'
               inline
-              placeholder="Email Address"
+              placeholder='Email Address'
               required
               value={user.email}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,33 +144,33 @@ function CreateProviderUser() {
               }}
             />
             <InputSelect
-              name="provider"
+              name='provider'
               options={providers}
               inline
               fluid
-              placeholder="Select Provider"
-              label="Provider"
+              placeholder='Select Provider'
+              label='Provider'
               required
               onChange={(e, data) => {
                 if (data.value) {
-                  updateFieldValue("provider", data.value.toString());
+                  updateFieldValue('provider', data.value.toString());
                 }
               }}
             />
-            <StringField inline label="Doctor Group" text={doctorGroup} />
+            <StringField inline label='Doctor Group' text={doctorGroup} />
             <InputButton
-              AddClass="mb-0 empty-label"
-              text="Save"
+              AddClass='mb-0 empty-label'
+              text='Save'
               inline
               fluid
               requiredHintText
               onClick={handleSave}
             />
             <InputButton
-              text="Cancel"
+              text='Cancel'
               inline
               fluid
-              AddClass="btn-secondary empty-label mb-0"
+              AddClass='btn-secondary empty-label mb-0'
             />
           </Form>
         </Item>

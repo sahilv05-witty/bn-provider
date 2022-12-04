@@ -166,6 +166,7 @@ type Mutation {
   updateUserTypeSetting(userTypeSetting: UpdateGlossaryUserTypeSettingDto!): GlossaryUserTypeSettingDto!
   createUser(user: CreateUserDto!): UserDto!
   activeUser(user: ActiveUserDto!): UserDto!
+  login(email: String!, password: String!): UserDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
   createPatient(patient: CreatePatientDto!): PatientDto!
