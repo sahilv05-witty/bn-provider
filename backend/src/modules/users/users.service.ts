@@ -93,7 +93,6 @@ export class UsersService {
     return this.usersRepo.save(user);
   }
 
-  // Similarly add other methods
   create(
     { firstName, lastName, email }: CreateUserDto,
     role: Role,
@@ -116,5 +115,9 @@ export class UsersService {
 
   async remove(user: User) {
     return this.usersRepo.remove(user);
+  }
+
+  login(email: string, password: string) {
+    return this.usersRepo.findOne({ where: { email, password } });
   }
 }

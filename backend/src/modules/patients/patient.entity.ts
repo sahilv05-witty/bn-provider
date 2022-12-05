@@ -2,6 +2,8 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Base } from '../shared/base.entity';
 import { Glossary } from '../glossaries/glossary.entity';
 import { Provider } from '../providers/provider.entity';
+import { GlossaryPatientStatus } from '../glossaries/glossary-patient-status.entity';
+import { GlossaryUserTypeSetting } from '../glossaries/glossary-user-type-setting.entity';
 
 @Entity()
 export class Patient extends Base {
@@ -20,16 +22,34 @@ export class Patient extends Base {
   @Column()
   dateOfBirth?: Date;
 
-  @ManyToOne(() => Glossary, (glossary) => glossary.entryPoints, {
-    eager: true,
-  })
-  entryPoint: Glossary;
+  @Column({ nullable: true })
+  entryPoint: string;
 
-  @ManyToOne(() => Glossary, (glossary) => glossary.pathways, { eager: true })
-  currentPathway: Glossary;
+  @Column({ nullable: true })
+  pathway: string;
 
-  @ManyToOne(() => Glossary, (glossary) => glossary.statuses, { eager: true })
-  status: Glossary;
+  @Column({ nullable: true })
+  state: string;
+
+  @Column()
+  skipHST: boolean;
+
+  @Column()
+  isFollowupAllowed: boolean;
+
+  @ManyToOne(
+    () => GlossaryUserTypeSetting,
+    (userTypeSetting) => userTypeSetting.patients,
+    { eager: true },
+  )
+  service: GlossaryUserTypeSetting;
+
+  @ManyToOne(
+    () => GlossaryPatientStatus,
+    (patientStatus) => patientStatus.patients,
+    { eager: true },
+  )
+  status: GlossaryPatientStatus;
 
   @Column()
   statusDate: Date;

@@ -1,13 +1,13 @@
-import { useQuery, useMutation } from '@apollo/client';
-import { useMemo, useReducer } from 'react';
-import { Form, Container, Item } from 'semantic-ui-react';
-import { InputButton, InputField, InputSelect } from '../controls/form';
+import { useQuery, useMutation } from "@apollo/client";
+import { useMemo, useReducer } from "react";
+import { Form, Container, Item } from "semantic-ui-react";
+import { InputButton, InputField, InputSelect } from "../controls/form";
 import {
   ProviderFooter,
   ProviderHeader,
   ProviderSubHeader,
-} from '../controls/sharedComponents';
-import { mutationCreateUser, queryRoles } from '../services';
+} from "../controls/sharedComponents";
+import { mutationCreateUser, queryRoles } from "../services";
 
 interface Role {
   id: string;
@@ -22,7 +22,7 @@ type UserForm = {
   role: string;
 };
 
-type ActionTypesProps = 'firstName' | 'lastName' | 'email' | 'role' | 'reset';
+type ActionTypesProps = "firstName" | "lastName" | "email" | "role" | "reset";
 
 type Action = {
   type: ActionTypesProps;
@@ -32,9 +32,14 @@ type Action = {
 const initialData: UserForm = {} as UserForm;
 
 const userReducer = (state = initialData, action: Action) => {
-  if (action.type === 'reset') return { ...initialData };
+  if (action.type === "reset") return { ...initialData };
   return { ...state, [action.type]: action.payload };
 };
+
+const PageTitle = [
+  { key: "Administrators", content: "Administrators", link: true },
+  { key: "Create New User", content: "Create New User", active: true },
+];
 
 function CreateAdminUser() {
   const [user, dispatchFormFieldChange] = useReducer(userReducer, initialData);
@@ -55,12 +60,12 @@ function CreateAdminUser() {
     if (result.data.createUser.email === user.email) {
       // Replace alert with the Sematic Modal Popup
       alert(
-        'Account has been created and triggered activation email to the user.'
+        "Account has been created and triggered activation email to the user."
       );
 
       dispatchFormFieldChange({
-        type: 'reset',
-        payload: '',
+        type: "reset",
+        payload: "",
       });
     }
   };
@@ -74,7 +79,7 @@ function CreateAdminUser() {
 
   const roles = useMemo(() => {
     return data?.roles
-      .filter((role: Role) => role.code.toLowerCase() !== 'provider')
+      .filter((role: Role) => role.code.toLowerCase() !== "provider")
       .map(({ id, code, name }: any) => {
         return {
           key: code,
@@ -85,17 +90,17 @@ function CreateAdminUser() {
   }, [data]);
 
   return (
-    <Item as='div' className='Provider-Form-Page'>
+    <Item as="div" className="Provider-Form-Page">
       <ProviderHeader />
-      <ProviderSubHeader />
+      <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
-        <Item as='div' className='content'>
+        <Item as="div" className="content">
           <Form>
             <InputField
-              name='firstName'
-              label='First Name'
+              name="firstName"
+              label="First Name"
               inline
-              placeholder='First Name'
+              placeholder="First Name"
               required
               value={user.firstName}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,10 +109,10 @@ function CreateAdminUser() {
               }}
             />
             <InputField
-              name='lastName'
-              label='Last Name'
+              name="lastName"
+              label="Last Name"
               inline
-              placeholder='Last Name'
+              placeholder="Last Name"
               required
               value={user.lastName}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,11 +121,11 @@ function CreateAdminUser() {
               }}
             />
             <InputField
-              name='email'
-              type='email'
-              label='Email'
+              name="email"
+              type="email"
+              label="Email"
               inline
-              placeholder='Email Address'
+              placeholder="Email Address"
               required
               value={user.email}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,32 +134,32 @@ function CreateAdminUser() {
               }}
             />
             <InputSelect
-              name='role'
+              name="role"
               options={roles}
               inline
               fluid
-              placeholder='Select Role'
-              label='Role'
+              placeholder="Select Role"
+              label="Role"
               required
               onChange={(e, data) => {
                 if (data.value) {
-                  updateFieldValue('role', data.value.toString());
+                  updateFieldValue("role", data.value.toString());
                 }
               }}
             />
             <InputButton
-              AddClass='mb-0 empty-label'
-              text='Save'
+              AddClass="mb-0 empty-label"
+              text="Save"
               inline
               fluid
               requiredHintText
               onClick={handleSave}
             />
             <InputButton
-              text='Cancel'
+              text="Cancel"
               inline
               fluid
-              AddClass='btn-secondary empty-label mb-0'
+              AddClass="btn-secondary empty-label mb-0"
             />
           </Form>
         </Item>

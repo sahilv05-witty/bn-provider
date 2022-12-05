@@ -1,4 +1,4 @@
-import { Inject, NotFoundException, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -40,6 +40,10 @@ export class UsersResolver {
   users(@Args('searchUser', { nullable: true }) searchUser?: SearchUserDto) {
     return this.usersService.findAll(searchUser);
   }
+
+  validateActivationLink(
+    @Args('accountActivationLink') accountActivationLink: string,
+  ) {}
 
   @ResolveField((returns) => RoleDto)
   @Serialize(RoleDto)
@@ -109,5 +113,26 @@ export class UsersResolver {
     Object.assign(userDetails, user);
 
     return this.usersService.activateUserAccount(userDetails);
+  }
+
+  @Mutation((returns) => UserDto)
+  @Serialize(UserDto)
+  async login(
+    @Args('email') email: string,
+    @Args('password') password: string,
+  ) {
+    const userDetails = await this.usersService.login(email, password);
+
+    if (!userDetails) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (!userDetails.isActive) {
+      throw new NotFoundException('User account is not active.');
+    }
+
+    return this.usersService.update(userDetails.id, {
+      lastLoggedInAt: new Date(),
+    });
   }
 }

@@ -40,6 +40,11 @@ const userReducer = (state = initialData, action: Action) => {
   return { ...state, [action.type]: action.payload };
 };
 
+const PageTitle = [
+  { key: 'Providers', content: 'Providers', link: true },
+  { key: 'Create New User', content: 'Create New User', active: true },
+];
+
 function CreateProviderUser() {
   const [user, dispatchFormFieldChange] = useReducer(userReducer, initialData);
 
@@ -63,7 +68,6 @@ function CreateProviderUser() {
   }, [data]);
 
   const doctorGroup = data?.providers.find((provider: any) => {
-    console.log(JSON.stringify(provider));
     return provider.id === parseInt(user.provider?.toString());
   })?.group;
 
@@ -88,8 +92,8 @@ function CreateProviderUser() {
 
   return (
     <Item as='div' className='Provider-Form-Page'>
-      <ProviderHeader toggleMenu />
-      <ProviderSubHeader />
+      <ProviderHeader />
+      <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
         <Item as='div' className='content'>
           <Form>

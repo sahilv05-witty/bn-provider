@@ -1,29 +1,52 @@
 @import "./vars.scss";
 #root{
   height: $fullHeight;
-}
-.Provider-Form-Page{
-  display: flex;
-  flex-direction: column;
-  height: $fullHeight;
-  .container.fluid{
-    height:$fullHeight;
-    width: $fullHeight !important;
-    padding: $padding;
-    overflow: auto;
-    margin: 0 !important;
-    flex: 1;
-    .content{
-      background: $page-bg;
+  color: $secondary;
+  &>div{
+    display: flex;
+    flex-direction: column;
+    height: $fullHeight;
+    .container.fluid{
+      flex:1;
+      width: 100% !important;
+      margin: 0  !important;
+      overflow: auto;
       padding: $padding;
-      min-height: $fullHeight;
+      & > .content{
+        background: $page-bg;
+        padding: $padding;
+        min-height: $fullHeight;
+      }
+ 
     }
-    form{
-      width: fit-content;
-      margin: 25px auto 10px;
-      @include mobileSize{
-        width: 100%;
-        margin: 10px auto ;
+  }
+}
+// PROVIDER FORM 
+.Provider-Form-Page{
+  form{
+    width: fit-content;
+    margin: 25px auto 10px;
+    @include mobileSize{
+      width: 100%;
+      margin: 10px auto ;
+    }
+  }
+}
+// DEFAULT TABLE 
+.ui.striped.table{
+  border: 0;
+  thead{
+    tr{
+      th{
+        background: $page-bg;
+        color: $secondary;
+      }
+    }
+  }
+  tbody {
+    tr{
+      &:nth-child(2n){
+        background: #F5F5F5;
       }
     }
   }

@@ -1,5 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 @InputType()
 export class CreatePatientDto {
@@ -24,13 +30,29 @@ export class CreatePatientDto {
   @Field()
   betterNightId: number;
 
-  @IsNumber()
+  @IsString()
   @Field()
-  entryPointId: number;
+  entryPoint: string;
+
+  @IsString()
+  @Field()
+  pathway: string;
+
+  @IsString()
+  @Field()
+  state: string;
+
+  @IsBoolean()
+  @Field()
+  skipHST: boolean;
+
+  @IsBoolean()
+  @Field()
+  isFollowupAllowed: boolean;
 
   @IsNumber()
   @Field()
-  currentPathwayId: number;
+  serviceId: number;
 
   @IsNumber()
   @Field()

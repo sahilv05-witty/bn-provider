@@ -1,0 +1,31 @@
+@import "../../vars.scss";
+.Provider-Status{
+    .container.fluid{
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        padding: 0 !important;
+        overflow: hidden !important;
+        .content{
+            overflow: auto !important;
+        }
+        sidebar{
+            padding: $padding - 7px;
+        }
+    }
+    .form{
+        input, button, label {
+            font-size: $fontSize - 2px !important;
+            text-transform: initial !important;
+        }
+        input{
+            height: $miniInput;
+        }
+        label{
+            color: $dark !important;
+        }
+        button{
+            width: 100%;
+            height: $defaultButton;
+        }
+    }
+}

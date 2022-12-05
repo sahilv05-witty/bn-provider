@@ -1,8 +1,9 @@
 import { Inject, NotFoundException } from '@nestjs/common';
-import { Resolver, Query, Mutation, Args, Parent } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, Resolver } from '@nestjs/graphql';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { GlossaryDto } from '../glossaries/dtos/glossary.dto';
-import { GlossariesService } from '../glossaries/glossaries.service';
+import { GlossariesPatientStatusService } from '../glossaries/glossaries-patient-status.service';
+import { GlossariesUserTypeSettingsService } from '../glossaries/glossaries-user-type-settings.service';
 import { ProviderDto } from '../providers/dtos/provider.dto';
 import { ProvidersService } from '../providers/providers.service';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
@@ -16,7 +17,10 @@ import { PatientsService } from './patients.service';
 export class PatientsResolver {
   constructor(
     @Inject(PatientsService) private patientsService: PatientsService,
-    @Inject(GlossariesService) private glossariesService: GlossariesService,
+    @Inject(GlossariesPatientStatusService)
+    private patientStatusesService: GlossariesPatientStatusService,
+    @Inject(GlossariesUserTypeSettingsService)
+    private userTypeSettingsService: GlossariesUserTypeSettingsService,
     @Inject(ProvidersService) private providerService: ProvidersService,
   ) {}
 
@@ -44,23 +48,16 @@ export class PatientsResolver {
 
   @Query((returns) => GlossaryDto)
   @Serialize(GlossaryDto)
-  entryPoint(@Parent() patient) {
-    const { entryPoint } = patient;
-    return this.glossariesService.findOne(entryPoint.id);
-  }
-
-  @Query((returns) => GlossaryDto)
-  @Serialize(GlossaryDto)
-  currentPathway(@Parent() patient) {
-    const { currentPathway } = patient;
-    return this.glossariesService.findOne(currentPathway.id);
+  service(@Parent() patient) {
+    const { service } = patient;
+    return this.userTypeSettingsService.findOne(service.id);
   }
 
   @Query((returns) => GlossaryDto)
   @Serialize(GlossaryDto)
   status(@Parent() patient) {
     const { status } = patient;
-    return this.glossariesService.findOne(status.id);
+    return this.patientStatusesService.findOne(status.id);
   }
 
   @Query((returns) => ProviderDto)
@@ -76,26 +73,18 @@ export class PatientsResolver {
     @Args('patient') patient: CreatePatientDto,
     @CurrentUser() user: User,
   ) {
-    const entryPoint = await this.glossariesService.findOne(
-      patient.entryPointId,
+    const service = await this.userTypeSettingsService.findOne(
+      patient.serviceId,
     );
 
-    if (!entryPoint) {
-      throw new NotFoundException('Entrypoint not found');
+    if (!service) {
+      throw new NotFoundException('Service not found');
     }
 
-    const currentPathway = await this.glossariesService.findOne(
-      patient.currentPathwayId,
-    );
-
-    if (!currentPathway) {
-      throw new NotFoundException('Current Pathway not found');
-    }
-
-    const status = await this.glossariesService.findOne(patient.statusId);
+    const status = await this.patientStatusesService.findOne(patient.statusId);
 
     if (!status) {
-      throw new NotFoundException('Status not found');
+      throw new NotFoundException('Patient Status not found');
     }
 
     const provider = await this.providerService.findOne(patient.providerId);
@@ -106,8 +95,7 @@ export class PatientsResolver {
 
     return this.patientsService.create(
       patient,
-      entryPoint,
-      currentPathway,
+      service,
       status,
       provider,
       user,
@@ -126,7 +114,7 @@ export class PatientsResolver {
       throw new NotFoundException('Patient not found');
     }
 
-    const status = await this.glossariesService.findOne(patient.statusId);
+    const status = await this.patientStatusesService.findOne(patient.statusId);
 
     if (!status) {
       throw new NotFoundException('Status not found');

@@ -1,20 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../users/user.entity';
+import { GlossaryPatientStatus } from '../glossaries/glossary-patient-status.entity';
+import { GlossaryUserTypeSetting } from '../glossaries/glossary-user-type-setting.entity';
 import { Glossary } from '../glossaries/glossary.entity';
+import { Provider } from '../providers/provider.entity';
+import { User } from '../users/user.entity';
 import { CreatePatientDto } from './dtos/create-patient.dto';
 import { Patient } from './patient.entity';
-import { Provider } from '../providers/provider.entity';
-
-import {} from 'lodash';
-import { UpdatePatientDto } from './dtos/update-patient-status.dto';
 
 @Injectable()
 export class PatientsService {
   constructor(@InjectRepository(Patient) private repo: Repository<Patient>) {}
   async findAll(provider?: Provider) {
-    console.log(JSON.stringify(provider));
     if (provider) {
       // Get provider patients and their provider group patients
 
@@ -61,10 +59,14 @@ export class PatientsService {
       betterNightId,
       brighttreeNumber,
       statusDate,
+      entryPoint,
+      pathway,
+      state,
+      skipHST,
+      isFollowupAllowed,
     }: Partial<CreatePatientDto>,
-    entryPoint: Glossary,
-    currentPathway: Glossary,
-    status: Glossary,
+    service: GlossaryUserTypeSetting,
+    status: GlossaryPatientStatus,
     provider: Provider,
     user: User,
   ) {
@@ -74,9 +76,13 @@ export class PatientsService {
       dateOfBirth,
       brighttreeNumber,
       betterNightId,
-      entryPoint: entryPoint,
-      currentPathway: currentPathway,
-      status: status,
+      entryPoint,
+      pathway,
+      state,
+      skipHST,
+      isFollowupAllowed,
+      service,
+      status,
       statusDate,
       provider,
       createdBy: `${user.lastName}, ${user.firstName}`,
