@@ -4,13 +4,6 @@ import { Item,Pagination , Table , PaginationProps} from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
 import "./table.scss"
 import { InputButton, InputField } from '../../form';
-
-interface PaginationProbs {
-defaultActivePage?:number;
-totalCount:number;
-onChangeEvent:Function;
-perPageItem?:number;
-}
 // type TableColumn = {
 // 	name: string;
 // 	label: string;
@@ -31,45 +24,31 @@ numberOfItemsShow?:number;
 
 
 export const TablePagination = ({numberOfItemsShow = 5,totalCount,defaultActivePage= 1, columnNames, data, isPaginationRequired=true }:TableProp) =>{
-  useEffect(()=>{
-    updateCurrentPageItems(data.slice(defaultActivePage-1,numberOfItemsShow));
+useEffect(()=>{
+    getDataByPageNo(defaultActivePage);
   },[]);
-
-  let [itemPerPage, updateItemPerPage] = useState(numberOfItemsShow);
+let [itemPerPage, updateItemPerPage] = useState(numberOfItemsShow);
 let totalPages = Math.ceil(totalCount/itemPerPage);
-
 const [currentPage,updateCurrentPage] = useState(defaultActivePage);
 const [pageinput, updatePageInput] = useState('');
 const [currentPageItems,updateCurrentPageItems] = useState([] as {[k:string]:any}[]);
-
 const getDataByPageNo = (pageNo:number)=>{
   updateCurrentPage(pageNo);
   updateCurrentPageItems(data.slice((pageNo-1)*itemPerPage,pageNo*itemPerPage));
 }
-const onChange = (pageInfo:PaginationProps)=>{
-// Event when press on pagination number
-  const pageNo = +(pageInfo.activePage || 1);
+const onChange = (pageNo:number,fieldValue='')=>{
+  if(!pageNo)
+  pageNo = 1;
 getDataByPageNo(pageNo);
-updatePageInput('');
+updatePageInput(fieldValue);
 }
-// Page Input field 
-const updateFieldValue = (value:string)=>{
-  updatePageInput(value);
-  const pageNo = +(value || 1);
-  getDataByPageNo(pageNo);
-  
-}
-//
 const perPageItemInc = ()=>{  
   if(itemPerPage <= data.length){
   updateItemPerPage(++itemPerPage);
   totalPages = Math.ceil(totalCount/itemPerPage);
-  updatePageInput('');
-  getDataByPageNo(1);
+  onChange(1);
   }
 } 
-
-
 return (
   <Item as="div" className="Provider-Status-table">
   <Table singleLine striped>
@@ -104,7 +83,9 @@ return (
   <div>
     {data.length} Result
   </div>
-  <Pagination defaultActivePage={defaultActivePage} activePage={currentPage} onPageChange={(e,data)=>onChange(data)} totalPages={totalPages} />
+  <Pagination defaultActivePage={defaultActivePage} activePage={currentPage} onPageChange={(e,data)=>{ 
+    onChange(+(data.activePage||1))
+    }} totalPages={totalPages} />
  <div>Page {currentPage} of {totalPages}
 <input type='number'
   min={1}
@@ -112,8 +93,8 @@ return (
   value={pageinput}
   placeholder='Page No'
   onChange={({target}: React.ChangeEvent<HTMLInputElement>)=>{
-  const {name, value} = target;
-  updateFieldValue(value);
+  let {name, value} = target;
+  onChange(+value,value);
 }}
 />
  </div>
