@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, NotFoundException, UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -7,6 +7,7 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ProviderDto } from '../providers/dtos/provider.dto';
 import { Provider } from '../providers/provider.entity';
@@ -20,6 +21,7 @@ import { SearchUserDto } from './dtos/search-user.dto';
 import { UserDto } from './dtos/user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Resolver((of) => UserDto)
 export class UsersResolver {
@@ -27,6 +29,7 @@ export class UsersResolver {
     @Inject(UsersService) private usersService: UsersService,
     @Inject(RolesService) private rolesService: RolesService,
     @Inject(ProvidersService) private providersService: ProvidersService,
+    @Inject(JwtService) private jwtService: JwtService,
   ) {}
 
   @Query((returns) => UserDto, { nullable: true })
@@ -35,6 +38,7 @@ export class UsersResolver {
     return this.usersService.findOne(id);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Query((returns) => [UserDto])
   @Serialize(UserDto)
   users(@Args('searchUser', { nullable: true }) searchUser?: SearchUserDto) {
@@ -131,8 +135,12 @@ export class UsersResolver {
       throw new NotFoundException('User account is not active.');
     }
 
-    return this.usersService.update(userDetails.id, {
+    const user = this.usersService.update(userDetails.id, {
       lastLoggedInAt: new Date(),
     });
+
+    return {
+      access_token: this.jwtService.sign(user),
+    };
   }
 }

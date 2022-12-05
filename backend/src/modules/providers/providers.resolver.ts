@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -10,6 +10,8 @@ import {
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { UserDto } from '../users/dtos/user.dto';
+import { LocalAuthGuard } from '../users/guards/local-auth.guard';
+import { LocalStrategy } from '../users/strategies/local.strategy';
 import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { CreateProviderDto } from './dtos/create-provider.dto';
@@ -17,6 +19,7 @@ import { ProviderDto } from './dtos/provider.dto';
 import { SearchProviderDto } from './dtos/search-provider.dto';
 import { ProvidersService } from './providers.service';
 
+@UseGuards(LocalAuthGuard)
 @Resolver((of) => ProviderDto)
 export class ProvidersResolver {
   constructor(
