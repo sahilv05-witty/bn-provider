@@ -18,9 +18,9 @@ function App() {
           <Route element={<TermOfUse />} path='term-of-use' />
           <Route
             element={
-              <RequireAuth>
+              // <RequireAuth>
                 <PatientStatus />
-              </RequireAuth>
+              // </RequireAuth>
             }
             path='patients'
           />

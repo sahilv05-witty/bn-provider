@@ -1,56 +1,39 @@
-import { Table, Item } from "semantic-ui-react";
+import { Item } from "semantic-ui-react";
 import "./PatientStatus.scss";
-
+import {TablePagination} from '../../controls/sharedComponents';
 export const PatientStatusTable = () => {
-  return (
-    <Item as="div" className="Provider-Status-table">
-      <Table singleLine striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Patient Name</Table.HeaderCell>
-            <Table.HeaderCell>DOB</Table.HeaderCell>
-            <Table.HeaderCell>Physician</Table.HeaderCell>
-            <Table.HeaderCell>Service</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Status Date</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
+    interface patient{
+    name:string;
+    dob:string;
+    physician:string;
+    service:string;
+    status:string;
+    statusDate:string;
+  }
+  // Get Data from Back end
+  const patientInfo = [
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Vivek Yadav",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Ayush Yadav",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Jean-Luc Picard",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' },
+  {name:"Abhishek",dob:"12/31/1970",physician:"Beverly Crusher", service:"Consultation",status:"Consultation missing information",statusDate:'12/15/2022' } 
+  ] as patient[];
+  const columnName =["Patient Name","DOB","Physician","Service","Status","Status Date"]
 
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>Jean-Luc Picard</Table.Cell>
-            <Table.Cell>12/31/1970</Table.Cell>
-            <Table.Cell>Beverly Crusher</Table.Cell>
-            <Table.Cell>Consultation</Table.Cell>
-            <Table.Cell>Consultation missing information</Table.Cell>
-            <Table.Cell>12/15/2022</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jean-Luc Picard</Table.Cell>
-            <Table.Cell>12/31/1970</Table.Cell>
-            <Table.Cell>Beverly Crusher</Table.Cell>
-            <Table.Cell>Consultation</Table.Cell>
-            <Table.Cell>Consultation missing information</Table.Cell>
-            <Table.Cell>12/15/2022</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jean-Luc Picard</Table.Cell>
-            <Table.Cell>12/31/1970</Table.Cell>
-            <Table.Cell>Beverly Crusher</Table.Cell>
-            <Table.Cell>Consultation</Table.Cell>
-            <Table.Cell>Consultation missing information</Table.Cell>
-            <Table.Cell>12/15/2022</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jean-Luc Picard</Table.Cell>
-            <Table.Cell>12/31/1970</Table.Cell>
-            <Table.Cell>Beverly Crusher</Table.Cell>
-            <Table.Cell>Consultation</Table.Cell>
-            <Table.Cell>Consultation missing information</Table.Cell>
-            <Table.Cell>12/15/2022</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
-    </Item>
+  return (  
+    <Item as="div" className="Provider-Status-table">
+      <TablePagination numberOfItemsShow={5}  totalCount={patientInfo.length} data={patientInfo} columnNames={columnName}></TablePagination>
+    </Item>    
   );
 };
