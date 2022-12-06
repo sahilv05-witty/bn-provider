@@ -12,48 +12,46 @@ import Home from './pages/Home/Home';
 
 function App() {
   return (
-    <UserContextProvider>
-      <Router>
-        <Routes>
-          <Route element={<TermOfUse />} path='term-of-use' />
-          <Route
-            element={
-              <RequireAuth>
-                <PatientStatus />
-              </RequireAuth>
-            }
-            path='patients'
-          />
-          <Route
-            element={
-              <RequireAuth>
-                <AccountActivation />
-              </RequireAuth>
-            }
-            path='account-activation'
-          />
-          <Route
-            element={
-              <RequireAuth>
-                <CreateAdminUser />
-              </RequireAuth>
-            }
-            path='create-admin-user'
-          />
-          <Route
-            element={
-              <RequireAuth>
-                <CreateProviderUser />
-              </RequireAuth>
-            }
-            path='create-provider-user'
-          />
-          <Route element={<Login />} path='login' />
-          <Route element={<Home />} path='/' />
-          <Route element={<Login />} path='*' />
-        </Routes>
-      </Router>
-    </UserContextProvider>
+    <Router>
+      <Routes>
+        <Route element={<TermOfUse />} path='term-of-use' />
+        <Route
+          element={
+            <RequireAuth>
+              <PatientStatus />
+            </RequireAuth>
+          }
+          path='patients'
+        />
+        <Route
+          element={
+            <RequireAuth>
+              <AccountActivation />
+            </RequireAuth>
+          }
+          path='account-activation'
+        />
+        <Route
+          element={
+            <RequireAuth>
+              <CreateAdminUser />
+            </RequireAuth>
+          }
+          path='create-admin-user'
+        />
+        <Route
+          element={
+            <RequireAuth>
+              <CreateProviderUser />
+            </RequireAuth>
+          }
+          path='create-provider-user'
+        />
+        <Route element={<Login />} path='login' />
+        <Route element={<Home />} path='/' />
+        <Route element={<Login />} path='*' />
+      </Routes>
+    </Router>
   );
 }
 

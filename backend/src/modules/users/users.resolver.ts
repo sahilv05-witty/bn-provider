@@ -152,8 +152,18 @@ export class UsersResolver {
     };
   }
 
-  private _createToken({ email }: User): any {
-    const accessToken = this.jwtService.sign({ email });
+  private _createToken({
+    id,
+    email,
+    firstName,
+    lastName,
+    isProvider,
+    isActive,
+  }: User): any {
+    const accessToken = this.jwtService.sign({
+      sno: id,
+      user: { firstName, lastName, email, isActive, isProvider },
+    });
     return {
       accessToken,
     };

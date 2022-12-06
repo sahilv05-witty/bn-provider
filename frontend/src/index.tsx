@@ -1,8 +1,15 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCache,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'semantic-ui-css/semantic.min.css';
 import App from './App';
+import { UserContextProvider } from './context/UserContext';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 
@@ -10,22 +17,35 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const client = new ApolloClient({
+const httpLink = createHttpLink({
   uri: '/api',
+});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('authToken');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
-  // headers: {
-  //   authorization: localStorage.getItem('token') || '',
-  //   'client-name': 'Space Explorer [web]',
-  //   'client-version': '1.0.0',
-  // },
 });
 
 root.render(
-  <React.StrictMode>
+  <UserContextProvider>
     <ApolloProvider client={client}>
-      <App />
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
     </ApolloProvider>
-  </React.StrictMode>
+  </UserContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

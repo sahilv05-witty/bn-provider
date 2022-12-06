@@ -9,7 +9,9 @@ import {
   ProviderHeader,
 } from '../../controls/sharedComponents';
 import { useAuth } from '../../hooks/useAuth';
+import { useForm } from '../../hooks/useForm';
 import { mutationLoginUser } from '../../services';
+import loginUser from '../../services/mutations/loginUser';
 import './Login.scss';
 
 type LoginForm = {
@@ -51,56 +53,35 @@ const Login = () => {
     return <Navigate to={redirectTo} />;
   }
 
-  const [loginUserMutation] = useMutation(mutationLoginUser);
+  function loginUserCallback() {
+    loginUser();
+  }
+
+  const { onChange, onSubmit, values } = useForm(loginUserCallback, {
+    email: '',
+    password: '',
+  });
+
   const navigate = useNavigate();
 
-  const updateFieldValue = (fieldName: ActionTypesProps, value: string) => {
-    if (errorMessage !== '') {
-      setErrorMessage('');
-    }
+  const [loginUser, { loading }] = useMutation(mutationLoginUser, {
+    update(proxy, { data: { login: loginData } }) {
+      auth.login(loginData);
+      navigate('/');
+    },
+    onError({ graphQLErrors }) {
+      if (graphQLErrors && graphQLErrors.length > 0) {
+        const errorDetails = graphQLErrors[0];
 
-    dispatchFieldChange({
-      type: fieldName,
-      payload: value,
-    });
-  };
-
-  const handleLogin = async () => {
-    const { email, password } = user;
-
-    if (!email || !password) {
-      return;
-    }
-
-    try {
-      const result = await loginUserMutation({
-        variables: {
-          email,
-          password,
-        },
-      });
-
-      const userDetails = result.data.login;
-
-      if (userDetails && userDetails.email === user.email) {
-        auth.setUser(userDetails);
-        navigate(redirectTo, { replace: true });
-      }
-    } catch (error: any) {
-      const { errors, data } = error;
-
-      if (data === null && errors) {
-        const errorDetails = errors[0];
-
-        if (
-          errorDetails.message === 'User not found' ||
-          errorDetails.extensions.code === '404'
-        ) {
+        if (errorDetails.message === 'Unauthorized') {
           setErrorMessage(INVALID_CREDENTIALS);
         }
       }
-    }
-  };
+    },
+    variables: {
+      input: { ...values },
+    },
+  });
 
   return (
     <Item as='div' className='Login'>
@@ -125,26 +106,20 @@ const Login = () => {
               type='email'
               placeholder='WORK EMAIL'
               value={user.email}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              onChange={onChange}
             />
             <InputField
               name='password'
               type='password'
               placeholder='PASSWORD'
               value={user.password}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              onChange={onChange}
             />
             <InputButton
               text='CONTINUE'
               fluid
               size='massive'
-              onClick={handleLogin}
+              onClick={(e) => onSubmit(e)}
             />
             <Item as='a' className='link'>
               FORGOT PASSWORD
