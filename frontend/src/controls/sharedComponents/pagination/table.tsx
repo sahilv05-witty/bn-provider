@@ -1,7 +1,7 @@
 import { Item, Pagination, Table, PaginationProps } from "semantic-ui-react";
 import { useEffect, useState } from "react";
 import "./table.scss";
-import { InputButton, InputField } from "../../form";
+import { InputButton, InputField, InputSelect } from "../../form";
 // type TableColumn = {
 // 	name: string;
 // 	label: string;
@@ -56,6 +56,23 @@ export const TablePagination = ({
       onChange(1);
     }
   };
+  type DropdownOptionProps = {
+    key: string;
+    value: string;
+    text: string;
+  };
+  const pagesCounts = [
+    {
+      key: "12",
+      value: "12",
+      text: "12",
+    },
+    {
+      key: "36",
+      value: "36",
+      text: "36",
+    },
+  ] as DropdownOptionProps[];
   return (
     <Item as="div" className="Provider-Status-table">
       <Table singleLine striped>
@@ -108,7 +125,8 @@ export const TablePagination = ({
             </div>
           </Item>
           <div>
-            <InputButton text="Increment" onClick={perPageItemInc} />
+            {/* <InputButton text="Increment" onClick={perPageItemInc} /> */}
+            <InputSelect name="pagesCounts" options={pagesCounts} />
           </div>
         </Item>
       ) : (
