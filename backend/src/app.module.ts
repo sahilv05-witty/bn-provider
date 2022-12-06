@@ -1,6 +1,6 @@
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module, ValidationPipe } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -26,37 +26,37 @@ import { AppController } from './app.controller';
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'db.sqlite',
-      entities: [
-        User,
-        Role,
-        Provider,
-        Patient,
-        Notification,
-        Glossary,
-        GlossaryPatientStatus,
-        GlossaryUserTypeSetting,
-      ],
-      synchronize: true, // Till first release to QA this field value is going to be true
-    }),
-    // TypeOrmModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   useFactory: (config: ConfigService) => {
-    //     return {
-    //       type: 'postgres',
-    //       host: config.get<string>('HOST'),
-    //       port: config.get<number>('PORT'),
-    //       username: config.get<string>('USERNAME'),
-    //       password: config.get<string>('PASSWORD'),
-    //       database: config.get<string>('DATABASE'),
-    //       entities: [],
-    //       autoLoadEntities: true,
-    //       synchronize: true,
-    //     };
-    //   },
+    // TypeOrmModule.forRoot({
+    //   type: 'sqlite',
+    //   database: 'db.sqlite',
+    //   entities: [
+    //     User,
+    //     Role,
+    //     Provider,
+    //     Patient,
+    //     Notification,
+    //     Glossary,
+    //     GlossaryPatientStatus,
+    //     GlossaryUserTypeSetting,
+    //   ],
+    //   synchronize: true, // Till first release to QA this field value is going to be true
     // }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return {
+          type: 'postgres',
+          host: config.get<string>('HOST'),
+          port: config.get<number>('PORT'),
+          username: config.get<string>('USERNAME'),
+          password: config.get<string>('PASSWORD'),
+          database: config.get<string>('DATABASE'),
+          entities: [],
+          autoLoadEntities: true,
+          synchronize: true,
+        };
+      },
+    }),
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',

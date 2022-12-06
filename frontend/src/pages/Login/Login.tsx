@@ -34,7 +34,8 @@ const userReducer = (state = initialData, action: Action) => {
 const INVALID_CREDENTIALS = 'Invalid email or password.';
 const INVALID_CREDENTIALS_ACCOUNT_LOCKED =
   'Invalid password. Your account has been temporarily locked due to too many unsuccessful log in attempts. You can try again in 10 minutes.';
-
+const emailPattern = new RegExp("^[_a-zA-Z0-9!#$%&'*+-/=?^_`{|}~;]+(\\.[_a-zA-Z0-9!#$%&'*+-/=?^_`{|}~;]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{2,})$");
+const passwordPattern = new RegExp("^(?!.*\\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[~!@#$%^&*()_+])(?=.*?[0-9]).{8,}$");
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [user, dispatchFieldChange] = useReducer(userReducer, initialData);
@@ -58,25 +59,34 @@ const Login = () => {
     if (errorMessage !== '') {
       setErrorMessage('');
     }
-
-    dispatchFieldChange({
+dispatchFieldChange({
       type: fieldName,
       payload: value,
     });
   };
+  const [isEmailValid,updateEmail] = useState(false);
+  const [isPasswordValid,updatePasswordValid]= useState(false);
+  const isLoginFormValid = ():boolean=>{
+    let isValid = true;
+    const { email, password } = user;
+    if (!email || !password || !isEmailValid || !isPasswordValid) {        
+      isValid = false;
+      }
+    return isValid;
+  }
+  const [submitted,updateSubmitted] = useState(false);
+  
 
   const handleLogin = async () => {
-    const { email, password } = user;
-
-    if (!email || !password) {
+    updateSubmitted(true);
+    if(!isLoginFormValid()){
       return;
     }
-
     try {
       const result = await loginUserMutation({
         variables: {
-          email,
-          password,
+          email:user.email,
+          password:user.password,
         },
       });
 
@@ -88,7 +98,7 @@ const Login = () => {
       }
     } catch (error: any) {
       const { errors, data } = error;
-
+      setErrorMessage(INVALID_CREDENTIALS);
       if (data === null && errors) {
         const errorDetails = errors[0];
 
@@ -127,9 +137,22 @@ const Login = () => {
               value={user.email}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 const { name, value } = target;
+                updateEmail(emailPattern.test(value)); 
                 updateFieldValue(name as ActionTypesProps, value);
               }}
             />
+            {/* Error Part for Email Field */}
+            {submitted &&<div>
+              {!user.email && <span className='error'>
+                Email is Required.
+            </span>}
+            {user.email && !isEmailValid && <span className='error'>
+              Enter a valid email.
+            </span>
+
+            }
+            </div>
+              }
             <InputField
               name='password'
               type='password'
@@ -137,9 +160,23 @@ const Login = () => {
               value={user.password}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 const { name, value } = target;
+                updatePasswordValid(passwordPattern.test(value));
                 updateFieldValue(name as ActionTypesProps, value);
               }}
             />
+            {submitted &&<div>
+              {!user.password && <span className='error'>
+              Password is Required.
+            </span>}
+            {user.password && !isPasswordValid && <span className='error'>
+            Your password must be at least 8 characters long, must contain
+                at least one lower case letter, one upper case letter, one digit
+                and one special character.
+            </span>
+
+            }
+            </div>
+              }
             <InputButton
               text='CONTINUE'
               fluid
