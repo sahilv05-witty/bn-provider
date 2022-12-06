@@ -42,11 +42,11 @@ export class UsersService {
     return this.usersRepo.find({ where: { role: { id: roleId } } });
   }
 
-  findOne(id: number) {
-    if (!id) {
+  findOne(filter: any) {
+    if (!filter) {
       return null;
     }
-    return this.usersRepo.findOne({ where: { id } });
+    return this.usersRepo.findOne({ where: { ...filter } });
   }
 
   async update(id: number, args: Partial<User>) {

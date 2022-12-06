@@ -16,6 +16,7 @@ import { Role } from './modules/roles/role.entity';
 import { RolesModule } from './modules/roles/roles.module';
 import { User } from './modules/users/user.entity';
 import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './auth/auth.module';
 import { GlossaryPatientStatus } from './modules/glossaries/glossary-patient-status.entity';
 import { GlossaryUserTypeSetting } from './modules/glossaries/glossary-user-type-setting.entity';
 
@@ -69,6 +70,7 @@ import { GlossaryUserTypeSetting } from './modules/glossaries/glossary-user-type
     RolesModule,
     ProvidersModule,
     PatientsModule,
+    AuthModule,
     NotificationsModule,
   ],
   providers: [
