@@ -8,6 +8,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { SearchUserDto } from './dtos/search-user.dto';
 import { UpdateUserRoleDto } from './dtos/update-user-role.dto';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -42,11 +43,8 @@ export class UsersService {
     return this.usersRepo.find({ where: { role: { id: roleId } } });
   }
 
-  findOne(filter: any) {
-    if (!filter) {
-      return null;
-    }
-    return this.usersRepo.findOne({ where: { ...filter } });
+  findOne(id: number) {
+    return this.usersRepo.findOneBy({ id });
   }
 
   async update(id: number, args: Partial<User>) {
@@ -61,12 +59,23 @@ export class UsersService {
     return this.usersRepo.save(user);
   }
 
-  async activateUserAccount(user: User) {
-    user.isActive = true;
-    user.termsAcceptedAt = new Date();
-    user.updatedBy = `${user.lastName}, ${user.firstName}`;
+  async activateUserAccount(activeUserDto: ActiveUserDto) {
+    const userDetails = await this.findOne(activeUserDto.id);
 
-    return this.usersRepo.save(user);
+    if (!userDetails) {
+      throw new NotFoundException('User not found');
+    }
+
+    Object.assign(userDetails, activeUserDto);
+
+    const password = await bcrypt.hash(activeUserDto.password, 10);
+
+    userDetails.password = password;
+    userDetails.isActive = true;
+    userDetails.termsAcceptedAt = new Date();
+    userDetails.updatedBy = `${userDetails.lastName}, ${userDetails.firstName}`;
+
+    return this.usersRepo.save(userDetails);
   }
 
   async updateUserRole(
@@ -93,11 +102,17 @@ export class UsersService {
     return this.usersRepo.save(user);
   }
 
-  create(
+  async create(
     { firstName, lastName, email }: CreateUserDto,
     role: Role,
     currentUser: User,
   ) {
+    const existingUser = await this.usersRepo.findOneBy({ email });
+
+    if (existingUser) {
+      throw new Error('User already exists!');
+    }
+
     const isProvider = role.code.toLowerCase() == 'provider';
 
     const user = this.usersRepo.create({
@@ -117,7 +132,16 @@ export class UsersService {
     return this.usersRepo.remove(user);
   }
 
-  login(email: string, password: string) {
-    return this.usersRepo.findOne({ where: { email, password } });
+  async validateUser(email: string, password: string) {
+    const user = await this.usersRepo.findOneBy({ email });
+
+    const valid = await bcrypt.compare(password, user?.password || '');
+
+    if (user && valid) {
+      const { password, ...result } = user;
+      return result;
+    }
+
+    return null;
   }
 }

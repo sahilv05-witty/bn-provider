@@ -62,7 +62,7 @@ type RoleDto {
 }
 
 type UserDto {
-  id: Float!
+  id: Int!
   createdBy: String!
   createdAt: DateTime!
   updatedBy: String
@@ -112,6 +112,11 @@ type PatientDto {
   provider: String!
 }
 
+type LoginResponeDto {
+  accessToken: String!
+  user: UserDto!
+}
+
 type Query {
   glossary(id: Float!): GlossaryDto
   glossaries(search: SearchGlossaryDto): [GlossaryDto!]!
@@ -119,6 +124,7 @@ type Query {
   patientStatus(id: Float!): [GlossaryPatientStatusDto!]
   userTypeSettings: [GlossaryUserTypeSettingDto!]!
   userTypeSetting(id: Float!): [GlossaryUserTypeSettingDto!]
+  me: UserDto!
   user(id: Float!): UserDto
   users(searchUser: SearchUserDto): [UserDto!]!
   role(id: Float!): RoleDto
@@ -166,7 +172,7 @@ type Mutation {
   updateUserTypeSetting(userTypeSetting: UpdateGlossaryUserTypeSettingDto!): GlossaryUserTypeSettingDto!
   createUser(user: CreateUserDto!): UserDto!
   activeUser(user: ActiveUserDto!): UserDto!
-  login(email: String!, password: String!): UserDto!
+  login(loginUserInput: LoginUserInput!): LoginResponeDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
   createPatient(patient: CreatePatientDto!): PatientDto!
@@ -228,6 +234,11 @@ input CreateUserDto {
 
 input ActiveUserDto {
   id: Float!
+  password: String!
+}
+
+input LoginUserInput {
+  email: String!
   password: String!
 }
 

@@ -18,17 +18,22 @@ import { ConfigService } from '@nestjs/config';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
-const configService = new ConfigService();
+const jwtFactory = {
+  inject: [ConfigService],
+  useFactory: async (configService: ConfigService) => ({
+    signOptions: { expiresIn: configService.get('JWT_EXP_H') },
+    secret: configService.get('JWT_SECRET'),
+  }),
+};
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    PassportModule,
-    JwtModule.register({
-      secret: configService.get('SECRET'),
-      signOptions: { expiresIn: '3600s' },
-    }),
+    JwtModule.registerAsync(jwtFactory),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     forwardRef(() => RolesModule),
     forwardRef(() => ProvidersModule),
+    NotificationsModule,
   ],
   controllers: [UsersController],
   providers: [UsersService, UsersResolver, LocalStrategy, JwtStrategy],
