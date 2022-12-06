@@ -20,9 +20,9 @@ export class CurrentUserMiddleware implements NestMiddleware {
     //    const { userId } = req.session || { userId: 1 }; // need to read this value from the session or cookie or jwt
     const { userId } = { userId: 1 }; // need to read this value from the session or cookie or jwt
 
-    if (userId) {
-      const user = await this.usersService.findOne(userId);
-      req.currentUser = user;
+    if (userId && !req.currentUser) {
+      //const user = await this.usersService.findOne(userId);
+      //req.currentUser = user;
     }
 
     next();

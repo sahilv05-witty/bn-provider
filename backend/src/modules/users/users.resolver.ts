@@ -1,12 +1,19 @@
-import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { JwtService } from '@nestjs/jwt';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ProviderDto } from '../providers/dtos/provider.dto';
 import { Provider } from '../providers/provider.entity';
@@ -16,8 +23,12 @@ import { RolesService } from '../roles/roles.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { ActiveUserDto } from './dtos/active-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { LoginResponeDto } from './dtos/login-response.dto';
+import { LoginUserInput } from './dtos/login-user-input.dto';
 import { SearchUserDto } from './dtos/search-user.dto';
 import { UserDto } from './dtos/user.dto';
+import { GqlAuthGuard } from './guards/gql-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
@@ -27,7 +38,15 @@ export class UsersResolver {
     @Inject(UsersService) private usersService: UsersService,
     @Inject(RolesService) private rolesService: RolesService,
     @Inject(ProvidersService) private providersService: ProvidersService,
+    @Inject(JwtService) private jwtService: JwtService,
   ) {}
+
+  @Query((returns) => UserDto)
+  @UseGuards(JwtAuthGuard)
+  @Serialize(UserDto)
+  me(@Context() context) {
+    return context.req.user as User;
+  }
 
   @Query((returns) => UserDto, { nullable: true })
   @Serialize(UserDto)
@@ -36,6 +55,7 @@ export class UsersResolver {
   }
 
   @Query((returns) => [UserDto])
+  @UseGuards(JwtAuthGuard)
   @Serialize(UserDto)
   users(@Args('searchUser', { nullable: true }) searchUser?: SearchUserDto) {
     return this.usersService.findAll(searchUser);
@@ -61,10 +81,11 @@ export class UsersResolver {
   }
 
   @Mutation((returns) => UserDto)
+  @UseGuards(JwtAuthGuard)
   @Serialize(UserDto)
   async createUser(
     @Args('user') user: CreateUserDto,
-    @CurrentUser() currentUser: User,
+    @CurrentUser() currentLoggedInUser: User,
   ) {
     const role = await this.rolesService.findOne(user.roleId);
 
@@ -88,13 +109,17 @@ export class UsersResolver {
       );
     }
 
-    const userDetails = await this.usersService.create(user, role, currentUser);
+    const userDetails = await this.usersService.create(
+      user,
+      role,
+      currentLoggedInUser,
+    );
 
     if (provider && user.providerId && role.code.toLowerCase() === 'provider') {
       await this.providersService.linkUserAccountToProvider(
         provider.id,
         userDetails,
-        currentUser,
+        currentLoggedInUser,
       );
     }
 
@@ -104,35 +129,33 @@ export class UsersResolver {
   @Mutation((returns) => UserDto)
   @Serialize(UserDto)
   async activeUser(@Args('user') user: ActiveUserDto) {
-    const userDetails = await this.usersService.findOne(user.id);
-
-    if (!userDetails) {
-      throw new NotFoundException('User not found');
-    }
-
-    Object.assign(userDetails, user);
-
-    return this.usersService.activateUserAccount(userDetails);
+    return this.usersService.activateUserAccount(user);
   }
 
-  @Mutation((returns) => UserDto)
-  @Serialize(UserDto)
+  @Mutation((returns) => LoginResponeDto)
+  @UseGuards(GqlAuthGuard)
   async login(
-    @Args('email') email: string,
-    @Args('password') password: string,
+    @Args('loginUserInput') loginUserInput: LoginUserInput,
+    @Context() context,
   ) {
-    const userDetails = await this.usersService.login(email, password);
+    const user = context.user as User;
 
-    if (!userDetails) {
-      throw new NotFoundException('User not found');
-    }
-
-    if (!userDetails.isActive) {
+    if (!user.isActive) {
       throw new NotFoundException('User account is not active.');
     }
 
-    return this.usersService.update(userDetails.id, {
-      lastLoggedInAt: new Date(),
-    });
+    const token = this._createToken(user);
+
+    return {
+      ...token,
+      user,
+    };
+  }
+
+  private _createToken({ email }: User): any {
+    const accessToken = this.jwtService.sign({ email });
+    return {
+      accessToken,
+    };
   }
 }

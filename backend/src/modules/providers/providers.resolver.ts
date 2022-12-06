@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -10,6 +10,7 @@ import {
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { UserDto } from '../users/dtos/user.dto';
+import { LocalAuthGuard } from '../users/guards/local-auth.guard';
 import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { CreateProviderDto } from './dtos/create-provider.dto';

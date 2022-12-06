@@ -1,6 +1,5 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Expose, Transform } from 'class-transformer';
-import { IsOptional } from 'class-validator';
 import { ProviderDto } from 'src/modules/providers/dtos/provider.dto';
 import { RoleDto } from 'src/modules/roles/dtos/role.dto';
 
@@ -10,7 +9,7 @@ import { RoleDto } from 'src/modules/roles/dtos/role.dto';
 @ObjectType()
 export class UserDto {
   @Expose()
-  @Field()
+  @Field(() => Int)
   id: number;
 
   @Expose()

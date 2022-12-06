@@ -26,23 +26,24 @@ npm i -g @nestjs/cli
 Navigate to the backend folder of the application run the following command
 
 ```bash
-npm install
+$ npm install
 ```
 
 Navigate to the frontend folder of the application run the following command
 
 ```bash
-npm install
+$ npm install
+```
+
+Run the following command on the main folder
+
+```bash
+$ npm install
 ```
 
 ## Running the app
-To run the server, navigate to the backend folder and execute the following command
-```bash
-npm run start:dev
-```
-
-To run the app, navigate to the frontend folder and execute the following command
 
 ```bash
-npm run start
+# watch mode
+$ npm run start:dev
 ```

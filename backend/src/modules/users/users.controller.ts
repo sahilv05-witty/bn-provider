@@ -66,16 +66,7 @@ export class UsersController {
 
   @Patch('/:id/active')
   async activateUser(@Param('id') id: string, @Body() body: ActiveUserDto) {
-    console.log(id);
-    const user = await this.usersService.findOne(parseInt(id));
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    Object.assign(user, body);
-
-    return this.usersService.activateUserAccount(user);
+    return this.usersService.activateUserAccount(body);
   }
 
   @Post()
