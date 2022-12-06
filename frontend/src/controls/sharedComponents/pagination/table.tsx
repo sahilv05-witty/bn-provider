@@ -28,33 +28,28 @@ export const TablePagination = ({
   data,
   isPaginationRequired = true,
 }: TableProp) => {
+  const[totalPages,updateTotalPages] = useState(0);
   useEffect(() => {
-    getDataByPageNo(defaultActivePage);
+  // Total number of pages calculation
+    updateTotalPages(Math.ceil(totalCount / numberOfItemsShow));
+    getDataByPageNo(defaultActivePage,numberOfItemsShow);
   }, []);
-  let [itemPerPage, updateItemPerPage] = useState(numberOfItemsShow);
-  let totalPages = Math.ceil(totalCount / itemPerPage);
   const [currentPage, updateCurrentPage] = useState(defaultActivePage);
   const [pageinput, updatePageInput] = useState("");
   const [currentPageItems, updateCurrentPageItems] = useState(
     [] as { [k: string]: any }[]
   );
-  const getDataByPageNo = (pageNo: number) => {
+  const getDataByPageNo = (pageNo: number,perPageItem:number) => {
     updateCurrentPage(pageNo);
     updateCurrentPageItems(
-      data.slice((pageNo - 1) * itemPerPage, pageNo * itemPerPage)
+      data.slice((pageNo - 1) * perPageItem, pageNo * perPageItem)
     );
   };
-  const onChange = (pageNo: number, fieldValue = "") => {
+  const onPageChange = (pageNo: number, fieldValue = "",incrementedItemPerPage=numberOfItemsShow) => {
+    updateTotalPages(Math.ceil(totalCount / incrementedItemPerPage));
     if (!pageNo) pageNo = 1;
-    getDataByPageNo(pageNo);
+    getDataByPageNo(pageNo,incrementedItemPerPage);
     updatePageInput(fieldValue);
-  };
-  const perPageItemInc = () => {
-    if (itemPerPage <= data.length) {
-      updateItemPerPage(++itemPerPage);
-      totalPages = Math.ceil(totalCount / itemPerPage);
-      onChange(1);
-    }
   };
   type DropdownOptionProps = {
     key: string;
@@ -63,15 +58,25 @@ export const TablePagination = ({
   };
   const pagesCounts = [
     {
-      key: "12",
-      value: "12",
-      text: "12",
+      key: numberOfItemsShow,
+      value: numberOfItemsShow,
+      text: numberOfItemsShow,
     },
     {
-      key: "36",
-      value: "36",
-      text: "36",
+      key: "24",
+      value: "24",
+      text: "24",
     },
+    {
+      key: "48",
+      value: "48",
+      text: "48",
+    },
+    {
+      key: "96",
+      value: "96",
+      text: "96",
+    }
   ] as DropdownOptionProps[];
   return (
     <Item as="div" className="Provider-Status-table">
@@ -105,7 +110,7 @@ export const TablePagination = ({
               defaultActivePage={defaultActivePage}
               activePage={currentPage}
               onPageChange={(e, data) => {
-                onChange(+(data.activePage || 1));
+                onPageChange(+(data.activePage || 1));
               }}
               totalPages={totalPages}
             />
@@ -118,15 +123,18 @@ export const TablePagination = ({
                 value={pageinput}
                 placeholder="Page No"
                 onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                  let { name, value } = target;
-                  onChange(+value, value);
+                  let {value } = target;
+                  onPageChange(+value, value);
                 }}
               />
             </div>
           </Item>
+           
           <div>
-            {/* <InputButton text="Increment" onClick={perPageItemInc} /> */}
-            <InputSelect name="pagesCounts" options={pagesCounts} />
+            <InputSelect name="pagesCounts" defaultValue={numberOfItemsShow} onChange={(event,data) => {
+                const { value } = data;
+              onPageChange(1,"",+(value||numberOfItemsShow));
+              }} options={pagesCounts} />
           </div>
         </Item>
       ) : (

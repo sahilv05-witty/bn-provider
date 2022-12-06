@@ -19,6 +19,7 @@ interface InputSelectProps {
   fluid?: boolean;
   options: DropdownOptionProps[];
   error?: string;
+  defaultValue?:number
   onChange?: (
     event: React.SyntheticEvent<HTMLElement, Event>,
     data: DropdownProps
@@ -36,6 +37,7 @@ export const InputSelect = ({
   options,
   error,
   onChange,
+  defaultValue=12
 }: InputSelectProps) => {
   return (
     <Form.Field className={AddClass} inline={inline} required={required}>
@@ -44,6 +46,7 @@ export const InputSelect = ({
         <Dropdown
           name={name}
           placeholder={placeholder}
+          defaultValue={defaultValue}
           options={options}
           fluid={fluid}
           onChange={onChange}

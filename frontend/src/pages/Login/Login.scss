@@ -19,6 +19,10 @@
             color: $white !important;
             font-size: $fontSizeLarge !important;
         }
+        .error{
+            color: red;
+            font-size: medium;
+        }
         .link{
             display: block;
             text-align: center;
