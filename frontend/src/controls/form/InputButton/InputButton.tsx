@@ -4,6 +4,7 @@ import './InputButton.scss';
 interface InputButtonProps {
   text?: string;
   size?: any;
+  loading?: boolean;
   fluid?: any;
   inline?: any;
   AddClass?: string;
@@ -15,6 +16,7 @@ interface InputButtonProps {
 }
 
 export const InputButton = ({
+  loading,
   text,
   fluid,
   size,
@@ -32,6 +34,7 @@ export const InputButton = ({
       <Item as='div'>
         {requiredHintText ? <small>* indicates a required field</small> : ''}
         <Button
+          loading={loading}
           onClick={onClick}
           disabled={disabled}
           fluid={fluid}

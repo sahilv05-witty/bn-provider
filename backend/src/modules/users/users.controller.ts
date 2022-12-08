@@ -52,6 +52,7 @@ export class UsersController {
     await this.providersService.linkUserAccountToProvider(
       provider.id,
       user,
+      body.useSalutation || false,
       currentUser,
     );
 

@@ -4,6 +4,7 @@ import {
   NotFoundException,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   Args,
   Context,
@@ -14,14 +15,15 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
+import { plainToInstance } from 'class-transformer';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ProviderDto } from '../providers/dtos/provider.dto';
 import { Provider } from '../providers/provider.entity';
 import { ProvidersService } from '../providers/providers.service';
 import { RoleDto } from '../roles/dtos/role.dto';
 import { RolesService } from '../roles/roles.service';
-import { CurrentUser } from './decorators/current-user.decorator';
 import { ActiveUserDto } from './dtos/active-user.dto';
+import { CreateUserResponeDto } from './dtos/create-user-response.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { LoginResponeDto } from './dtos/login-response.dto';
 import { LoginUserInput } from './dtos/login-user-input.dto';
@@ -39,6 +41,7 @@ export class UsersResolver {
     @Inject(RolesService) private rolesService: RolesService,
     @Inject(ProvidersService) private providersService: ProvidersService,
     @Inject(JwtService) private jwtService: JwtService,
+    @Inject(ConfigService) private configService: ConfigService,
   ) {}
 
   @Query((returns) => UserDto)
@@ -80,17 +83,18 @@ export class UsersResolver {
     return result;
   }
 
-  @Mutation((returns) => UserDto)
+  @Mutation((returns) => CreateUserResponeDto)
   @UseGuards(JwtAuthGuard)
-  @Serialize(UserDto)
-  async createUser(
-    @Args('user') user: CreateUserDto,
-    @CurrentUser() currentLoggedInUser: User,
-  ) {
+  @Serialize(CreateUserResponeDto)
+  async createUser(@Args('user') user: CreateUserDto, @Context() context) {
     const role = await this.rolesService.findOne(user.roleId);
 
     if (!role) {
       throw new NotFoundException('Role not found.');
+    }
+
+    if (role.code.toLowerCase() === 'provider' && !user.providerId) {
+      throw new BadRequestException('Provider id is required');
     }
 
     let provider: Provider = null;
@@ -109,6 +113,7 @@ export class UsersResolver {
       );
     }
 
+    const currentLoggedInUser = context.req.user as User;
     const userDetails = await this.usersService.create(
       user,
       role,
@@ -119,16 +124,54 @@ export class UsersResolver {
       await this.providersService.linkUserAccountToProvider(
         provider.id,
         userDetails,
+        user.useSalutation || false,
         currentLoggedInUser,
       );
     }
 
-    return userDetails;
+    const { id, firstName, lastName, email, isActive, isProvider } =
+      userDetails;
+    const accessToken = this.jwtService.sign({
+      sno: id,
+      user: {
+        firstName,
+        lastName,
+        email,
+        isActive,
+        isActivationToken: true,
+        isProvider,
+        provider: provider?.name,
+        providerGroup: provider?.group,
+      },
+    });
+
+    const response = new CreateUserResponeDto();
+
+    response.activationToken = accessToken;
+    response.user = plainToInstance(UserDto, userDetails, {
+      excludeExtraneousValues: true,
+    });
+
+    return response;
   }
 
   @Mutation((returns) => UserDto)
   @Serialize(UserDto)
-  async activeUser(@Args('user') user: ActiveUserDto) {
+  async activateUser(@Args('user') user: ActiveUserDto) {
+    try {
+      const decodedToken = this.jwtService.verify(
+        user.activationToken,
+        this.configService.get('JWT_SECRET'),
+      );
+
+      if (decodedToken.sno !== user.id) {
+        throw new BadRequestException('Invalid User details.');
+      }
+    } catch (error) {
+      if (error instanceof BadRequestException) throw error;
+      throw new BadRequestException('Invalid Activation token.');
+    }
+
     return this.usersService.activateUserAccount(user);
   }
 

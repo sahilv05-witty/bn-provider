@@ -53,9 +53,15 @@ export class ProvidersService {
     return this.repo.save(provider);
   }
 
-  async linkUserAccountToProvider(id: number, user: User, updatedBy: User) {
+  async linkUserAccountToProvider(
+    id: number,
+    user: User,
+    useSalutation: boolean,
+    updatedBy: User,
+  ) {
     const provider = await this.findOne(id);
     provider.user = user;
+    provider.useSalutation = useSalutation;
     provider.updatedBy = `${updatedBy.lastName}, ${updatedBy.firstName}`;
     return this.repo.save(provider);
   }

@@ -13,4 +13,8 @@ export class ActiveUserDto {
   @IsString()
   @Field()
   password: string;
+
+  @IsString()
+  @Field()
+  activationToken: string;
 }

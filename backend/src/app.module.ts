@@ -1,6 +1,6 @@
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module, ValidationPipe } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -46,12 +46,21 @@ import { AppController } from './app.controller';
     //   useFactory: (config: ConfigService) => {
     //     return {
     //       type: 'postgres',
-    //       host: config.get<string>('HOST'),
-    //       port: config.get<number>('PORT'),
-    //       username: config.get<string>('USERNAME'),
-    //       password: config.get<string>('PASSWORD'),
-    //       database: config.get<string>('DATABASE'),
-    //       entities: [],
+    //       host: config.get<string>('DB_HOST'),
+    //       port: config.get<number>('DB_PORT'),
+    //       username: config.get<string>('DB_USERNAME'),
+    //       password: config.get<string>('DB_PASSWORD'),
+    //       database: config.get<string>('DB_NAME'),
+    //       entities: [
+    //         User,
+    //         Role,
+    //         Provider,
+    //         Patient,
+    //         Notification,
+    //         Glossary,
+    //         GlossaryPatientStatus,
+    //         GlossaryUserTypeSetting,
+    //       ],
     //       autoLoadEntities: true,
     //       synchronize: true,
     //     };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Item, Dropdown, DropdownProps } from 'semantic-ui-react';
 
-type DropdownOptionProps = {
+export type DropdownOptionProps = {
   key: string;
   value: string;
   text: string;
@@ -19,6 +19,7 @@ interface InputSelectProps {
   fluid?: boolean;
   options: DropdownOptionProps[];
   error?: string;
+  value?: string | number;
   onChange?: (
     event: React.SyntheticEvent<HTMLElement, Event>,
     data: DropdownProps
@@ -35,6 +36,7 @@ export const InputSelect = ({
   label,
   options,
   error,
+  value,
   onChange,
 }: InputSelectProps) => {
   return (
@@ -42,10 +44,16 @@ export const InputSelect = ({
       {inline ? <label>{label}</label> : ''}
       <Item as='div'>
         <Dropdown
+          search
+          scrolling
+          clearable
           name={name}
+          value={value}
           placeholder={placeholder}
           options={options}
           fluid={fluid}
+          selectOnNavigation={false}
+          selection
           onChange={onChange}
         />
         {error ? (

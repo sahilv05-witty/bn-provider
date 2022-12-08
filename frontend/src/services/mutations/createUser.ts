@@ -5,7 +5,9 @@ export default gql`
     $firstName: String!
     $lastName: String!
     $email: String!
-    $roleId: Float!
+    $roleId: Int!
+    $providerId: Int
+    $useSalutation: Boolean
   ) {
     createUser(
       user: {
@@ -13,28 +15,18 @@ export default gql`
         lastName: $lastName
         email: $email
         roleId: $roleId
+        providerId: $providerId
+        useSalutation: $useSalutation
       }
     ) {
-      id
-      createdBy
-      createdAt
-      updatedBy
-      updatedAt
-      firstName
-      lastName
-      email
-      isActive
-      termsAcceptedAt
-      lastLoggedInAt
-      role {
+      activationToken
+      user {
         id
-        name
-        code
-      }
-      provider {
-        id
-        name
-        group
+        firstName
+        lastName
+        email
+        isActive
+        isProvider
       }
     }
   }
