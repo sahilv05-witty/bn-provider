@@ -1,5 +1,11 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Field, InputType, Int } from '@nestjs/graphql';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 /**
  * CreateUserDto used with the create method POST endpoint to capture the input.
@@ -20,11 +26,16 @@ export class CreateUserDto {
   email: string;
 
   @IsNumber()
-  @Field()
+  @Field(() => Int)
   roleId: number;
 
   @IsNumber()
   @IsOptional()
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   providerId?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  @Field({ nullable: true })
+  useSalutation?: boolean;
 }

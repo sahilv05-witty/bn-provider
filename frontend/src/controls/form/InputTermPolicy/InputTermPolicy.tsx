@@ -23,8 +23,8 @@ export function InputTermPolicy({
             <span className='star'>*</span>
             <label>
               I agree to the
-              <a href='javascript:void(0)'> Terms of Use</a> and
-              <a href='javascript:void(0)'>Privacy Policy</a>.
+              <a> Terms of Use</a> and
+              <a>Privacy Policy</a>.
             </label>
           </>
         }

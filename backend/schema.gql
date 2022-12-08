@@ -112,6 +112,11 @@ type PatientDto {
   provider: String!
 }
 
+type CreateUserResponeDto {
+  activationToken: String!
+  user: UserDto!
+}
+
 type LoginResponeDto {
   accessToken: String!
   user: UserDto!
@@ -170,8 +175,8 @@ type Mutation {
   updatePatientStatus(patient: UpdatePatientDto!): PatientDto!
   createUserTypeSetting(userTypeSetting: CreateGlossaryUserTypeSettingDto!): GlossaryUserTypeSettingDto!
   updateUserTypeSetting(userTypeSetting: UpdateGlossaryUserTypeSettingDto!): GlossaryUserTypeSettingDto!
-  createUser(user: CreateUserDto!): UserDto!
-  activeUser(user: ActiveUserDto!): UserDto!
+  createUser(user: CreateUserDto!): CreateUserResponeDto!
+  activateUser(user: ActiveUserDto!): UserDto!
   login(loginUserInput: LoginUserInput!): LoginResponeDto!
   createRole(role: CreateRoleDto!): RoleDto!
   createProvider(provider: CreateProviderDto!): ProviderDto!
@@ -228,13 +233,15 @@ input CreateUserDto {
   firstName: String!
   lastName: String
   email: String!
-  roleId: Float!
-  providerId: Float
+  roleId: Int!
+  providerId: Int
+  useSalutation: Boolean
 }
 
 input ActiveUserDto {
   id: Float!
   password: String!
+  activationToken: String!
 }
 
 input LoginUserInput {

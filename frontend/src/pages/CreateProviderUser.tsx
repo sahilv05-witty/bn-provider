@@ -1,6 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { useMemo, useReducer, useState } from 'react';
-import { Container, Form, Item } from 'semantic-ui-react';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Container, Form, Header, Item } from 'semantic-ui-react';
+import errorIcon from '../assets/img/error-icon.svg';
 import {
   InputButton,
   InputCheckbox,
@@ -13,82 +15,94 @@ import {
   ProviderHeader,
   ProviderSubHeader,
 } from '../controls/sharedComponents';
-import { mutationCreateUser, queryProviders } from '../services';
+import { useAuth } from '../hooks/useAuth';
+import { useForm } from '../hooks/useForm';
+import { mutationCreateUser, queryProviders, queryRoles } from '../services';
+import { Provider, Role } from '../types';
 
 const doctorText =
   '“Dr.” will be used in the salutation of the activation email when this is yes. The user’s first name will be used when this is no.';
 const errorText =
   'First name can only contain letters, apostrophes, hyphens, and periods.';
 
-type UserForm = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  provider: number;
-};
-
-type ActionTypesProps = 'firstName' | 'lastName' | 'email' | 'provider';
-
-type Action = {
-  type: ActionTypesProps;
-  payload: string;
-};
-
-const initialData: UserForm = {} as UserForm;
-
-const userReducer = (state = initialData, action: Action) => {
-  return { ...state, [action.type]: action.payload };
-};
-
 const PageTitle = [
   { key: 'Providers', content: 'Providers', link: true },
   { key: 'Create New User', content: 'Create New User', active: true },
 ];
 
+type UserForm = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  provider: string;
+  useSalutation: string;
+};
+
 function CreateProviderUser() {
-  const [user, dispatchFormFieldChange] = useReducer(userReducer, initialData);
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const { data } = useQuery(queryProviders);
-  const [createUserMutation] = useMutation(mutationCreateUser);
+  function createProviderUserCallback() {
+    createUser();
+  }
 
-  const [value, setValue] = useState(true);
+  const { onChange, onSubmit, formState, setFormState } = useForm<UserForm>(
+    createProviderUserCallback,
+    {} as UserForm
+  );
 
-  let checkFun = () => {
-    setValue(!value);
-  };
+  const { data: rolesData } = useQuery(queryRoles);
+  const { data: providersData } = useQuery(queryProviders);
+
+  const [createUser, { loading }] = useMutation(mutationCreateUser, {
+    update(proxy, { data: { createUser: createUserData } }) {
+      if (
+        confirm(
+          'Provider account has been created successfully.   Would you like to activate account?'
+        )
+      ) {
+        navigate(`/account-activation/${createUserData.activationToken}`);
+      } else {
+        setFormState({
+          ...formState,
+          firstName: '',
+          lastName: '',
+          email: '',
+          provider: '',
+          useSalutation: '',
+        });
+      }
+    },
+    onError({ graphQLErrors }) {
+      if (graphQLErrors && graphQLErrors.length > 0) {
+        const errorDetails = graphQLErrors[0];
+
+        setErrorMessage(graphQLErrors.map((error) => error.message).join(', '));
+      }
+    },
+    variables: {
+      ...formState,
+      roleId: rolesData?.roles.find((role: Role) => role.code === 'provider')
+        .id,
+      providerId: parseInt(formState.provider),
+      useSalutation: Boolean(formState.useSalutation),
+    },
+  });
 
   const providers = useMemo(() => {
-    return data?.providers.map(({ id, name }: any) => {
+    return providersData?.providers.map(({ id, name }: Partial<Provider>) => {
       return {
         key: id,
         value: id,
         text: name,
       };
     });
-  }, [data]);
+  }, [providersData]);
 
-  const doctorGroup = data?.providers.find((provider: any) => {
-    return provider.id === parseInt(user.provider?.toString());
-  })?.group;
-
-  const updateFieldValue = (fieldName: ActionTypesProps, value: string) => {
-    dispatchFormFieldChange({
-      type: fieldName,
-      payload: value,
-    });
-  };
-
-  const handleSave = () => {
-    createUserMutation({
-      variables: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        roleId: 3,
-        providerId: user.provider,
-      },
-    });
-  };
+  const doctorGroup =
+    providersData?.providers.find((provider: Provider) => {
+      return provider.id === parseInt(formState.provider?.toString());
+    })?.group || '';
 
   return (
     <Item as='div' className='Provider-Form-Page'>
@@ -96,14 +110,26 @@ function CreateProviderUser() {
       <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
         <Item as='div' className='content'>
+          {/* ERROR  */}
+          {errorMessage && (
+            <Header
+              block
+              className='error'
+              image={errorIcon}
+              color='red'
+              content={errorMessage}
+            />
+          )}
           <Form>
             <InputCheckbox
               label='Doctor'
               inline
               toggle
               text={doctorText}
-              checked={value}
-              onChange={checkFun}
+              checked={formState.useSalutation === 'true' ? true : false}
+              onChange={(_, data) => {
+                onChange('useSalutation', data.checked?.toString() || 'false');
+              }}
             />
             <InputField
               name='firstName'
@@ -112,11 +138,8 @@ function CreateProviderUser() {
               placeholder='First Name'
               required
               error={errorText}
-              value={user.firstName}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              value={formState.firstName}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputField
               name='lastName'
@@ -124,11 +147,8 @@ function CreateProviderUser() {
               inline
               placeholder='Last Name'
               required
-              value={user.lastName}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              value={formState.lastName}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputField
               name='email'
@@ -137,11 +157,8 @@ function CreateProviderUser() {
               inline
               placeholder='Email Address'
               required
-              value={user.email}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              value={formState.email}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputSelect
               name='provider'
@@ -151,20 +168,20 @@ function CreateProviderUser() {
               placeholder='Select Provider'
               label='Provider'
               required
-              onChange={(e, data) => {
-                if (data.value) {
-                  updateFieldValue('provider', data.value.toString());
-                }
-              }}
+              value={parseInt(formState.provider)}
+              onChange={(e, { value }) =>
+                onChange('provider', value?.toString() || '')
+              }
             />
             <StringField inline label='Doctor Group' text={doctorGroup} />
             <InputButton
+              loading={loading}
               AddClass='mb-0 empty-label'
               text='Save'
               inline
               fluid
               requiredHintText
-              onClick={handleSave}
+              onClick={onSubmit}
             />
             <InputButton
               text='Cancel'

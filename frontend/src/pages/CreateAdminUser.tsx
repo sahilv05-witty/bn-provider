@@ -1,19 +1,17 @@
-import { useQuery, useMutation } from "@apollo/client";
-import { useMemo, useReducer } from "react";
-import { Form, Container, Item } from "semantic-ui-react";
-import { InputButton, InputField, InputSelect } from "../controls/form";
+import { useMutation, useQuery } from '@apollo/client';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Container, Form, Item } from 'semantic-ui-react';
+import { InputButton, InputField, InputSelect } from '../controls/form';
+import { DropdownOptionProps } from '../controls/form/InputSelect/InputSelect';
 import {
   ProviderFooter,
   ProviderHeader,
   ProviderSubHeader,
-} from "../controls/sharedComponents";
-import { mutationCreateUser, queryRoles } from "../services";
-
-interface Role {
-  id: string;
-  name: string;
-  code: string;
-}
+} from '../controls/sharedComponents';
+import { useForm } from '../hooks/useForm';
+import { mutationCreateUser, queryRoles } from '../services';
+import { Role } from '../types';
 
 type UserForm = {
   firstName: string;
@@ -22,144 +20,133 @@ type UserForm = {
   role: string;
 };
 
-type ActionTypesProps = "firstName" | "lastName" | "email" | "role" | "reset";
-
-type Action = {
-  type: ActionTypesProps;
-  payload: string;
-};
-
-const initialData: UserForm = {} as UserForm;
-
-const userReducer = (state = initialData, action: Action) => {
-  if (action.type === "reset") return { ...initialData };
-  return { ...state, [action.type]: action.payload };
-};
-
 const PageTitle = [
-  { key: "Administrators", content: "Administrators", link: true },
-  { key: "Create New User", content: "Create New User", active: true },
+  { key: 'Administrators', content: 'Administrators', link: true },
+  { key: 'Create New User', content: 'Create New User', active: true },
 ];
 
 function CreateAdminUser() {
-  const [user, dispatchFormFieldChange] = useReducer(userReducer, initialData);
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const { data } = useQuery(queryRoles);
-  const [createUserMutation] = useMutation(mutationCreateUser);
+  function createProviderUserCallback() {
+    createUser();
+  }
 
-  const handleSave = async () => {
-    const result = await createUserMutation({
-      variables: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        roleId: parseInt(user.role),
-      },
-    });
+  const { onChange, onSubmit, formState, setFormState } =
+    useForm<UserForm>(createProviderUserCallback, {} as UserForm);
 
-    if (result.data.createUser.email === user.email) {
-      // Replace alert with the Sematic Modal Popup
-      alert(
-        "Account has been created and triggered activation email to the user."
-      );
+  const { data: rolesData, loading: rolesLoading } = useQuery(queryRoles);
 
-      dispatchFormFieldChange({
-        type: "reset",
-        payload: "",
-      });
-    }
-  };
+  const [createUser, { loading }] = useMutation(mutationCreateUser, {
+    update(proxy, { data: { createUser: createUserData } }) {
+      const selectedRole = rolesData?.roles.find(
+        (role: Role) => role.id === parseInt(formState.role)
+      )?.name;
 
-  const updateFieldValue = (fieldName: ActionTypesProps, value: string) => {
-    dispatchFormFieldChange({
-      type: fieldName,
-      payload: value,
-    });
-  };
+      if (
+        confirm(
+          `${selectedRole} account has been created successfully.   Would you like to activate account?`
+        )
+      ) {
+        navigate(`/account-activation/${createUserData.activationToken}`);
+      } else {
+        setFormState({
+          ...formState,
+          firstName: '',
+          lastName: '',
+          email: '',
+          role: '',
+        });
+      }
+    },
+    onError({ graphQLErrors }) {
+      if (graphQLErrors && graphQLErrors.length > 0) {
+        const errorDetails = graphQLErrors[0];
 
-  const roles = useMemo(() => {
-    return data?.roles
-      .filter((role: Role) => role.code.toLowerCase() !== "provider")
-      .map(({ id, code, name }: any) => {
+        setErrorMessage(graphQLErrors.map((error) => error.message).join(', '));
+      }
+    },
+    variables: {
+      ...formState,
+      roleId: parseInt(formState.role),
+    },
+  });
+
+  const roles: DropdownOptionProps[] = useMemo(() => {
+    return rolesData?.roles
+      .filter((role: Role) => role.code.toLowerCase() !== 'provider')
+      .map(({ id, code, name }: Role) => {
         return {
           key: code,
           value: id,
           text: name,
         };
       });
-  }, [data]);
+  }, [rolesData]);
 
   return (
-    <Item as="div" className="Provider-Form-Page">
+    <Item as='div' className='Provider-Form-Page'>
       <ProviderHeader />
       <ProviderSubHeader PageTitle={PageTitle} />
       <Container fluid>
-        <Item as="div" className="content">
+        <Item as='div' className='content'>
           <Form>
             <InputField
-              name="firstName"
-              label="First Name"
+              name='firstName'
+              label='First Name'
               inline
-              placeholder="First Name"
+              placeholder='First Name'
               required
-              value={user.firstName}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              value={formState.firstName}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputField
-              name="lastName"
-              label="Last Name"
+              name='lastName'
+              label='Last Name'
               inline
-              placeholder="Last Name"
+              placeholder='Last Name'
               required
-              value={user.lastName}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              value={formState.lastName}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputField
-              name="email"
-              type="email"
-              label="Email"
+              name='email'
+              type='email'
+              label='Email'
               inline
-              placeholder="Email Address"
+              placeholder='Email Address'
               required
-              value={user.email}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = target;
-                updateFieldValue(name as ActionTypesProps, value);
-              }}
+              value={formState.email}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputSelect
-              name="role"
+              name='role'
               options={roles}
               inline
               fluid
-              placeholder="Select Role"
-              label="Role"
+              placeholder='Select Role'
+              label='Role'
               required
-              onChange={(e, data) => {
-                if (data.value) {
-                  updateFieldValue("role", data.value.toString());
-                }
-              }}
+              value={parseInt(formState.role)}
+              onChange={(_, { value }) =>
+                onChange('role', value?.toString() || '')
+              }
             />
             <InputButton
-              AddClass="mb-0 empty-label"
-              text="Save"
+              loading={loading}
+              AddClass='mb-0 empty-label'
+              text='Save'
               inline
               fluid
               requiredHintText
-              onClick={handleSave}
+              onClick={onSubmit}
             />
             <InputButton
-              text="Cancel"
+              text='Cancel'
               inline
               fluid
-              AddClass="btn-secondary empty-label mb-0"
+              AddClass='btn-secondary empty-label mb-0'
             />
           </Form>
         </Item>

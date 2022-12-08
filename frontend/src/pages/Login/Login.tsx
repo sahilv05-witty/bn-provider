@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { useReducer, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Container, Form, Header, Item } from 'semantic-ui-react';
 import errorIcon from '../../assets/img/error-icon.svg';
@@ -11,26 +11,11 @@ import {
 import { useAuth } from '../../hooks/useAuth';
 import { useForm } from '../../hooks/useForm';
 import { mutationLoginUser } from '../../services';
-import loginUser from '../../services/mutations/loginUser';
 import './Login.scss';
 
 type LoginForm = {
   email: string;
   password: string;
-};
-
-type ActionTypesProps = 'email' | 'password' | 'reset';
-
-type Action = {
-  type: ActionTypesProps;
-  payload: string;
-};
-
-const initialData: LoginForm = {} as LoginForm;
-
-const userReducer = (state = initialData, action: Action) => {
-  if (action.type === 'reset') return { ...initialData };
-  return { ...state, [action.type]: action.payload };
 };
 
 const INVALID_CREDENTIALS = 'Invalid email or password.';
@@ -39,7 +24,7 @@ const INVALID_CREDENTIALS_ACCOUNT_LOCKED =
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [user, dispatchFieldChange] = useReducer(userReducer, initialData);
+
   const location = useLocation();
 
   const auth = useAuth();
@@ -57,17 +42,17 @@ const Login = () => {
     loginUser();
   }
 
-  const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-    email: '',
-    password: '',
-  });
+  const { onChange, onSubmit, formState } = useForm<LoginForm>(
+    loginUserCallback,
+    {} as LoginForm
+  );
 
   const navigate = useNavigate();
 
   const [loginUser, { loading }] = useMutation(mutationLoginUser, {
     update(proxy, { data: { login: loginData } }) {
       auth.login(loginData);
-      navigate('/');
+      navigate(redirectTo);
     },
     onError({ graphQLErrors }) {
       if (graphQLErrors && graphQLErrors.length > 0) {
@@ -79,7 +64,7 @@ const Login = () => {
       }
     },
     variables: {
-      input: { ...values },
+      input: { ...formState },
     },
   });
 
@@ -105,17 +90,18 @@ const Login = () => {
               name='email'
               type='email'
               placeholder='WORK EMAIL'
-              value={user.email}
-              onChange={onChange}
+              value={formState.email}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputField
               name='password'
               type='password'
               placeholder='PASSWORD'
-              value={user.password}
-              onChange={onChange}
+              value={formState.password}
+              onChange={({ target: { name, value } }) => onChange(name, value)}
             />
             <InputButton
+              loading={loading}
               text='CONTINUE'
               fluid
               size='massive'

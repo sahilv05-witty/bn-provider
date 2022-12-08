@@ -30,4 +30,7 @@ export class Provider extends Base {
 
   @OneToMany(() => Patient, (patient) => patient.provider)
   patients: Patient[];
+
+  @Column({ default: false })
+  useSalutation: boolean;
 }
